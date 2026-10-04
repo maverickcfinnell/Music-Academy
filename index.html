@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Academy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: white;
+      min-height: 100vh;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      background: #080c18;
+      border-right: 1px solid #20283a;
+      padding: 24px 16px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 35px;
+      padding-left: 12px;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #7c8cff;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav button {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #aeb6c8;
+      padding: 13px 14px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav button:hover {
+      background: #151c2e;
+      color: white;
+    }
+
+    .nav button.active {
+      background: #202943;
+      color: white;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 72px;
+      border-bottom: 1px solid #20283a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+    }
+
+    .instrument {
+      background: #151c2e;
+      border: 1px solid #29334b;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-actions button {
+      background: #151c2e;
+      border: 1px solid #29334b;
+      color: #dce2ef;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .content {
+      padding: 32px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .welcome {
+      margin-bottom: 28px;
+    }
+
+    .welcome h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #8f9ab0;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: #11182a;
+      border: 1px solid #202a40;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .stat-label {
+      color: #8f9ab0;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    /* CONTINUE */
+    .continue {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .continue-main {
+      background: linear-gradient(135deg, #1b2540, #11182a);
+      border: 1px solid #293652;
+      border-radius: 16px;
+      padding: 26px;
+    }
+
+    .continue-main h2 {
+      margin-bottom: 8px;
+    }
+
+    .muted {
+      color: #8f9ab0;
+    }
+
+    .primary {
+      margin-top: 20px;
+      background: #6d7cff;
+      border: none;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 9px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-top: 22px;
+    }
+
+    .section h2 {
+      margin-bottom: 14px;
+      font-size: 20px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .quick {
+      background: #11182a;
+      border: 1px solid #202a40;
+      color: white;
+      padding: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: 0.2s;
+    }
+
+    .quick:hover {
+      transform: translateY(-2px);
+      border-color: #465377;
+    }
+
+    .quick-title {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .quick-sub {
+      color: #8f9ab0;
+      font-size: 12px;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .goal {
+      margin-bottom: 18px;
+    }
+
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #252e42;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #6d7cff;
+      border-radius: 10px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 190px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .continue {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .sidebar {
+        display: none;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">M<span>A</span></div>
+
+    <nav class="nav">
+      <button class="active">🏠 Home</button>
+      <button>📚 Learning Paths</button>
+      <button>🎵 Note Learner</button>
+      <button>🎯 Practice Room</button>
+      <button>🎼 My Library</button>
+      <button>⚔️ Challenges</button>
+      <button>🏆 Leaderboards</button>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button class="instrument">
+        🎷 Tenor Saxophone ▾
+      </button>
+
+      <div class="top-actions">
+        <button>🔍</button>
+        <button>⚙️</button>
+        <button>👤</button>
+      </div>
+
+    </header>
+
+    <div class="content">
+
+      <section class="welcome">
+        <h1>Welcome back, Maverick 👋</h1>
+        <p>Keep building your skills one session at a time.</p>
+      </section>
+
+      <section class="stats">
+
+        <div class="card">
+          <div class="stat-label">🔥 Current Streak</div>
+          <div class="stat-value">12 days</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">⭐ Level</div>
+          <div class="stat-value">Level 8</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">✨ XP</div>
+          <div class="stat-value">2,480 XP</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">🎷 Instrument</div>
+          <div class="stat-value">Tenor Sax</div>
+        </div>
+
+      </section>
+
+      <section class="continue">
+
+        <div class="continue-main">
+          <div class="stat-label">CONTINUE PRACTICING</div>
+          <h2>Concert Piece</h2>
+          <p class="muted">Measures 32–48 • 92 BPM</p>
+
+          <button class="primary">Continue →</button>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">RECOMMENDED FOR YOU</div>
+          <h2>Rhythm Review</h2>
+          <p class="muted">
+            You struggled with syncopated rhythms recently.
+          </p>
+
+          <button class="primary">Start Review</button>
+        </div>
+
+      </section>
+
+      <section class="section">
+
+        <h2>Quick Start</h2>
+
+        <div class="quick-grid">
+
+          <button class="quick">
+            <div class="quick-title">🎵 Note Learner</div>
+            <div class="quick-sub">Train note recognition</div>
+          </button>
+
+          <button class="quick">
+            <div class="quick-title">🎯 Practice Room</div>
+            <div class="quick-sub">Start a practice session</div>
+          </button>
+
+          <button class="quick">
+            <div class="quick-title">🎼 My Library</div>
+            <div class="quick-sub">Open your music</div>
+          </button>
+
+          <button class="quick">
+            <div class="quick-title">⚖️ Judge Mode</div>
+            <div class="quick-sub">Evaluate your playing</div>
+          </button>
+
+          <button class="quick">
+            <div class="quick-title">📅 Daily Lesson</div>
+            <div class="quick-sub">Keep your progress moving</div>
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="section bottom-grid">
+
+        <div class="card">
+
+          <h2>Today's Goals</h2>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Practice Time</span>
+              <span>18 / 30 min</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:60%"></div>
+            </div>
+          </div>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Daily Lesson</span>
+              <span>Complete</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:100%"></div>
+            </div>
+          </div>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Judge Mode</span>
+              <span>0 / 1</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:0%"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <h2>Progress</h2>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Note Reading</span>
+              <span>72%</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:72%"></div>
+            </div>
+          </div>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Rhythm</span>
+              <span>64%</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:64%"></div>
+            </div>
+          </div>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Technique</span>
+              <span>81%</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:81%"></div>
+            </div>
+          </div>
+
+          <div class="goal">
+            <div class="goal-header">
+              <span>Weekly Practice</span>
+              <span>3h 42m</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>
