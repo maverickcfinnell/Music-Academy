@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA — Note Learner</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07101f;
+    color: #f4f7fb;
+    min-height: 100vh;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 245px;
+    background: #050b16;
+    border-right: 1px solid #172235;
+    padding: 24px 14px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    padding: 0 14px 30px;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #6d8cff;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav a {
+    color: #9da8bb;
+    text-decoration: none;
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.nav a:hover {
+    background: #101a2b;
+    color: white;
+}
+
+.nav a.active {
+    background: #16233b;
+    color: white;
+}
+
+/* MAIN */
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    height: 72px;
+    border-bottom: 1px solid #172235;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.instrument {
+    background: #111c2e;
+    border: 1px solid #24334d;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.top-btn {
+    background: #111c2e;
+    border: 1px solid #24334d;
+    color: #dbe3f0;
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+}
+
+/* CONTENT */
+
+.content {
+    max-width: 1200px;
+    margin: auto;
+    padding: 38px;
+}
+
+.header {
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #8996aa;
+}
+
+/* MODES */
+
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.mode {
+    background: #0d1727;
+    border: 1px solid #1d2b42;
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.mode:hover {
+    border-color: #3b537d;
+    transform: translateY(-2px);
+}
+
+.mode.active {
+    border-color: #6d8cff;
+    background: #111f36;
+}
+
+.mode-icon {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.mode h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.mode p {
+    color: #7f8da3;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* PRACTICE PANEL */
+
+.practice {
+    background: #0d1727;
+    border: 1px solid #1d2b42;
+    border-radius: 16px;
+    padding: 28px;
+}
+
+.practice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.practice-header h2 {
+    font-size: 21px;
+}
+
+.settings {
+    display: flex;
+    gap: 10px;
+}
+
+select {
+    background: #111c2e;
+    color: white;
+    border: 1px solid #293b58;
+    padding: 9px 12px;
+    border-radius: 8px;
+}
+
+/* NOTE AREA */
+
+.note-area {
+    background: #07101f;
+    border: 1px solid #1b2a41;
+    border-radius: 14px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.note-label {
+    color: #77869e;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.note {
+    font-family: Georgia, serif;
+    font-size: 110px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.note-name {
+    font-size: 19px;
+    color: #8da0c0;
+}
+
+/* CHOICES */
+
+.choices {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.choice {
+    background: #111c2e;
+    color: white;
+    border: 1px solid #273955;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.choice:hover {
+    border-color: #6d8cff;
+    background: #16233b;
+}
+
+.result {
+    text-align: center;
+    margin-top: 18px;
+    min-height: 24px;
+    color: #8fa4c8;
+}
+
+.next {
+    display: block;
+    margin: 18px auto 0;
+    background: #6d8cff;
+    border: none;
+    color: white;
+    padding: 11px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* PROGRESS */
+
+.progress-section {
+    margin-top: 30px;
+}
+
+.progress-box {
+    background: #0d1727;
+    border: 1px solid #1d2b42;
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.progress-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.progress-row span {
+    color: #8997ac;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #182438;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 68%;
+    height: 100%;
+    background: #6d8cff;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+    .mode-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .content {
+        padding: 25px 18px;
+    }
+
+    .choices {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #172235;
+        padding: 12px;
+    }
+
+    .logo {
+        padding: 8px 10px 14px;
+    }
+
+    .nav {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .nav a {
+        white-space: nowrap;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .content {
+        padding: 22px 14px;
+    }
+
+    .mode-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+<span>MA</span>
+</div>
+
+<nav class="nav">
+
+<a href="index.html">🏠 Home</a>
+
+<a href="learning.html">📚 Learning Paths</a>
+
+<a href="notes.html" class="active">🎵 Note Learner</a>
+
+<a href="#">🎯 Practice Room</a>
+
+<a href="#">🎼 My Library</a>
+
+<a href="#">⚔️ Challenges</a>
+
+<a href="#">🏆 Leaderboards</a>
+
+</nav>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+
+<button class="instrument">
+🎷 Tenor Saxophone ▾
+</button>
+
+<div class="top-actions">
+
+<button class="top-btn">⌕</button>
+
+<button class="top-btn">⚙</button>
+
+<button class="top-btn">👤</button>
+
+</div>
+
+</header>
+
+<section class="content">
+
+<div class="header">
+
+<h1>Note Learner</h1>
+
+<p>Build faster note recognition and stronger reading skills.</p>
+
+</div>
+
+
+<div class="mode-grid">
+
+<div class="mode active">
+<div class="mode-icon">🎹</div>
+<h3>Fingering Practice</h3>
+<p>Choose the correct fingering for the displayed note.</p>
+</div>
+
+<div class="mode">
+<div class="mode-icon">🎤</div>
+<h3>Play the Note</h3>
+<p>Play the displayed note and let MA detect your pitch.</p>
+</div>
+
+<div class="mode">
+<div class="mode-icon">⚡</div>
+<h3>Sight Reading</h3>
+<p>Read random notes continuously as they appear.</p>
+</div>
+
+<div class="mode">
+<div class="mode-icon">🔤</div>
+<h3>Note → Name</h3>
+<p>Identify the name of the note shown on the staff.</p>
+</div>
+
+<div class="mode">
+<div class="mode-icon">🎼</div>
+<h3>Name → Note</h3>
+<p>Choose the correct written note from its name.</p>
+</div>
+
+<div class="mode">
+<div class="mode-icon">🧠</div>
+<h3>Flash Notes</h3>
+<p>Recognize notes quickly as the speed increases.</p>
+</div>
+
+</div>
+
+
+<div class="practice">
+
+<div class="practice-header">
+
+<h2>Fingering Practice</h2>
+
+<div class="settings">
+
+<select>
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+</select>
+
+<select>
+<option>Current Range</option>
+<option>Low Range</option>
+<option>Middle Range</option>
+<option>Full Range</option>
+</select>
+
+</div>
+
+</div>
+
+
+<div class="note-area">
+
+<div class="note-label">
+Identify this note
+</div>
+
+<div class="note">
+G
+</div>
+
+<div class="note-name">
+Concert G
+</div>
+
+</div>
+
+
+<div class="choices">
+
+<button class="choice">Fingering 1</button>
+
+<button class="choice">Fingering 2</button>
+
+<button class="choice">Fingering 3</button>
+
+<button class="choice">Fingering 4</button>
+
+</div>
+
+<div class="result">
+Choose the fingering you think is correct.
+</div>
+
+<button class="next">
+Next Note →
+</button>
+
+</div>
+
+
+<div class="progress-section">
+
+<h2 class="section-title">
+Today's Progress
+</h2>
+
+<div class="progress-box">
+
+<div class="progress-row">
+
+<strong>Note Recognition</strong>
+
+<span>68%</span>
+
+</div>
+
+<div class="progress-bar">
+
+<div class="progress-fill"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+</body>
+</html>
