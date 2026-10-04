@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA — Learning Paths</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07101f;
+    color: #f4f7fb;
+    min-height: 100vh;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 245px;
+    background: #050b16;
+    border-right: 1px solid #172235;
+    padding: 24px 14px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    padding: 0 14px 30px;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #6d8cff;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav a {
+    color: #9da8bb;
+    text-decoration: none;
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    background: #101a2b;
+    color: white;
+}
+
+.nav a.active {
+    background: #16233b;
+    color: white;
+}
+
+/* MAIN */
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    height: 72px;
+    border-bottom: 1px solid #172235;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.instrument {
+    background: #111c2e;
+    border: 1px solid #24334d;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.top-btn {
+    background: #111c2e;
+    border: 1px solid #24334d;
+    color: #dbe3f0;
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+/* CONTENT */
+
+.content {
+    max-width: 1200px;
+    margin: auto;
+    padding: 38px;
+}
+
+.header {
+    margin-bottom: 32px;
+}
+
+.header h1 {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #8996aa;
+    font-size: 16px;
+}
+
+/* RECOMMENDED */
+
+.recommended {
+    background: linear-gradient(135deg, #142544, #0d182b);
+    border: 1px solid #263b5c;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 32px;
+}
+
+.recommended-label {
+    color: #7e9cff;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 9px;
+}
+
+.recommended h2 {
+    font-size: 22px;
+    margin-bottom: 7px;
+}
+
+.recommended p {
+    color: #9eabc0;
+    margin-bottom: 18px;
+}
+
+.start-btn {
+    background: #6d8cff;
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.start-btn:hover {
+    background: #5b7df0;
+}
+
+/* PATHS */
+
+.section-title {
+    font-size: 21px;
+    margin-bottom: 16px;
+}
+
+.paths {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.path {
+    background: #0d1727;
+    border: 1px solid #1d2b42;
+    border-radius: 15px;
+    padding: 24px;
+    transition: 0.2s;
+}
+
+.path:hover {
+    border-color: #344d75;
+    transform: translateY(-2px);
+}
+
+.path-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.path-icon {
+    font-size: 28px;
+}
+
+.path-percent {
+    color: #8290a8;
+    font-size: 14px;
+}
+
+.path h3 {
+    font-size: 20px;
+    margin-bottom: 7px;
+}
+
+.path p {
+    color: #8794a9;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+.progress {
+    height: 7px;
+    background: #182438;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #6d8cff;
+    border-radius: 10px;
+}
+
+.lessons {
+    margin-top: 15px;
+    color: #75849c;
+    font-size: 13px;
+}
+
+/* SKILLS */
+
+.skills {
+    margin-top: 36px;
+}
+
+.skill-list {
+    background: #0d1727;
+    border: 1px solid #1d2b42;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.skill {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #19263a;
+}
+
+.skill:last-child {
+    border-bottom: none;
+}
+
+.skill-number {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #182640;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8ea3ca;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.skill-info {
+    flex: 1;
+}
+
+.skill-info strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.skill-info span {
+    color: #78869c;
+    font-size: 13px;
+}
+
+.status {
+    font-size: 13px;
+    color: #7890c4;
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .content {
+        padding: 25px 20px;
+    }
+
+    .paths {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 12px;
+        border-right: none;
+        border-bottom: 1px solid #172235;
+    }
+
+    .logo {
+        padding: 8px 10px 14px;
+    }
+
+    .nav {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .nav a {
+        white-space: nowrap;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .content {
+        padding: 24px 16px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span>MA</span>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">🏠 Home</a>
+            <a href="learning.html" class="active">📚 Learning Paths</a>
+            <a href="#">🎵 Note Learner</a>
+            <a href="#">🎯 Practice Room</a>
+            <a href="#">🎼 My Library</a>
+            <a href="#">⚔️ Challenges</a>
+            <a href="#">🏆 Leaderboards</a>
+        </nav>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button class="instrument">
+                🎷 Tenor Saxophone ▾
+            </button>
+
+            <div class="top-actions">
+                <button class="top-btn">⌕</button>
+                <button class="top-btn">⚙</button>
+                <button class="top-btn">👤</button>
+            </div>
+
+        </header>
+
+        <section class="content">
+
+            <div class="header">
+                <h1>Learning Paths</h1>
+                <p>Build your musical skills step by step.</p>
+            </div>
+
+            <div class="recommended">
+
+                <div class="recommended-label">
+                    Recommended Next Step
+                </div>
+
+                <h2>Rhythm — Syncopation Level 2</h2>
+
+                <p>
+                    Based on your recent practice, this is the next skill
+                    that will help you improve your rhythm accuracy.
+                </p>
+
+                <button class="start-btn">
+                    Start Lesson →
+                </button>
+
+            </div>
+
+            <h2 class="section-title">Your Learning Paths</h2>
+
+            <div class="paths">
+
+                <div class="path">
+
+                    <div class="path-top">
+                        <div class="path-icon">🎼</div>
+                        <div class="path-percent">72%</div>
+                    </div>
+
+                    <h3>Note Reading</h3>
+
+                    <p>
+                        Learn to recognize notes quickly and confidently
+                        across different ranges and clefs.
+                    </p>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:72%"></div>
+                    </div>
+
+                    <div class="lessons">
+                        18 of 25 lessons completed
+                    </div>
+
+                </div>
+
+                <div class="path">
+
+                    <div class="path-top">
+                        <div class="path-icon">🥁</div>
+                        <div class="path-percent">64%</div>
+                    </div>
+
+                    <h3>Rhythm</h3>
+
+                    <p>
+                        Build stronger timing through rhythms, rests,
+                        syncopation, and increasingly difficult patterns.
+                    </p>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:64%"></div>
+                    </div>
+
+                    <div class="lessons">
+                        16 of 25 lessons completed
+                    </div>
+
+                </div>
+
+                <div class="path">
+
+                    <div class="path-top">
+                        <div class="path-icon">👂</div>
+                        <div class="path-percent">41%</div>
+                    </div>
+
+                    <h3>Ear Training</h3>
+
+                    <p>
+                        Train your ears to recognize notes, intervals,
+                        melodies, chords, and musical patterns.
+                    </p>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:41%"></div>
+                    </div>
+
+                    <div class="lessons">
+                        10 of 25 lessons completed
+                    </div>
+
+                </div>
+
+                <div class="path">
+
+                    <div class="path-top">
+                        <div class="path-icon">🎺</div>
+                        <div class="path-percent">81%</div>
+                    </div>
+
+                    <h3>Technique</h3>
+
+                    <p>
+                        Improve fundamentals, scales, articulation,
+                        tone, control, and advanced technique.
+                    </p>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:81%"></div>
+                    </div>
+
+                    <div class="lessons">
+                        21 of 25 lessons completed
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="skills">
+
+                <h2 class="section-title">
+                    Note Reading Path
+                </h2>
+
+                <div class="skill-list">
+
+                    <div class="skill">
+                        <div class="skill-number">1</div>
+
+                        <div class="skill-info">
+                            <strong>Beginner Notes</strong>
+                            <span>Learn the basic notes on your instrument.</span>
+                        </div>
+
+                        <div class="status">✓ Complete</div>
+                    </div>
+
+                    <div class="skill">
+                        <div class="skill-number">2</div>
+
+                        <div class="skill-info">
+                            <strong>More Notes</strong>
+                            <span>Expand your range and recognition speed.</span>
+                        </div>
+
+                        <div class="status">✓ Complete</div>
+                    </div>
+
+                    <div class="skill">
+                        <div class="skill-number">3</div>
+
+                        <div class="skill-info">
+                            <strong>Accidentals</strong>
+                            <span>Recognize sharps, flats, and naturals.</span>
+                        </div>
+
+                        <div class="status">In Progress</div>
+                    </div>
+
+                    <div class="skill">
+                        <div class="skill-number">4</div>
+
+                        <div class="skill-info">
+                            <strong>Key Signatures</strong>
+                            <span>Read music in different keys.</span>
+                        </div>
+
+                        <div class="status">Locked</div>
+                    </div>
+
+                    <div class="skill">
+                        <div class="skill-number">5</div>
+
+                        <div class="skill-info">
+                            <strong>Advanced Reading</strong>
+                            <span>Handle more difficult written music.</span>
+                        </div>
+
+                        <div class="status">Locked</div>
+                    </div>
+
+                    <div class="skill">
+                        <div class="skill-number">6</div>
+
+                        <div class="skill-info">
+                            <strong>Sight Reading</strong>
+                            <span>Read unfamiliar music quickly and accurately.</span>
+                        </div>
+
+                        <div class="status">Locked</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
