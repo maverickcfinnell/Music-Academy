@@ -51,18 +51,30 @@
       gap: 8px;
     }
 
-    .nav button {
-      width: 100%;
-      border: none;
-      background: transparent;
-      color: #aeb6c8;
-      padding: 13px 14px;
-      border-radius: 10px;
-      text-align: left;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+    .nav a {
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #aeb6c8;
+  padding: 13px 14px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: #151c2e;
+  color: white;
+}
+
+.nav a.active {
+  background: #202943;
+  color: white;
+}
 
     .nav button:hover {
       background: #151c2e;
@@ -306,21 +318,29 @@
 
 <div class="app">
 
-  <aside class="sidebar">
-    <div class="logo">M<span>A</span></div>
+<aside class="sidebar">
 
-    <nav class="nav">
-      <button class="active">🏠 Home</button>
-<a href="learning.html" style="text-decoration: none; color: inherit;">
-    📚 Learning Paths
-</a>
-  <a href="notes.html" style="text-decoration: none; color: inherit;">🎵 Note Learner</a>
-      <a href="practice.html" style="text-decoration: none; color: inherit;">🎯 Practice Room</a>
-      <button>🎼 My Library</button>
-      <button>⚔️ Challenges</button>
-      <button>🏆 Leaderboards</button>
-    </nav>
-  </aside>
+  <div class="logo">M<span>A</span></div>
+
+  <nav class="nav">
+
+    <a href="index.html" class="active">🏠 Home</a>
+
+    <a href="learning.html">📚 Learning Paths</a>
+
+    <a href="notes.html">🎵 Note Learner</a>
+
+    <a href="practice.html">🎯 Practice Room</a>
+
+    <a href="#">🎼 My Library</a>
+
+    <a href="#">⚔️ Challenges</a>
+
+    <a href="#">🏆 Leaderboards</a>
+
+  </nav>
+
+</aside>
 
   <main class="main">
 
