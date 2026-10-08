@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +6,7 @@
 <title>My Library - Music Academy</title>
 
 <style>
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -155,14 +155,6 @@ body {
 
 /* SEARCH */
 
-searchInput.addEventListener("input", filterPieces);
-
-searchInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    filterPieces();
-  }
-});
-
 .search-row {
   display: flex;
   gap: 12px;
@@ -178,6 +170,10 @@ searchInput.addEventListener("keydown", (event) => {
   border-radius: 10px;
   outline: none;
   font-size: 14px;
+}
+
+.search::placeholder {
+  color: #65718a;
 }
 
 .search:focus {
@@ -444,9 +440,11 @@ searchInput.addEventListener("keydown", (event) => {
 /* MOBILE */
 
 @media (max-width: 1000px) {
+
   .pieces {
     grid-template-columns: repeat(2, 1fr);
   }
+
 }
 
 @media (max-width: 700px) {
@@ -474,15 +472,15 @@ searchInput.addEventListener("keydown", (event) => {
   .pieces {
     grid-template-columns: 1fr;
   }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="app">
-
-<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -491,25 +489,16 @@ searchInput.addEventListener("keydown", (event) => {
   <nav class="nav">
 
     <a href="index.html">🏠 Home</a>
-
     <a href="learning.html">📚 Learning Paths</a>
-
     <a href="notes.html">🎵 Note Learner</a>
-
     <a href="practice.html">🎯 Practice Room</a>
-
     <a href="library.html" class="active">🎼 My Library</a>
-
     <a href="#">⚔️ Challenges</a>
-
     <a href="#">🏆 Leaderboards</a>
 
   </nav>
 
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
@@ -527,10 +516,7 @@ searchInput.addEventListener("keydown", (event) => {
 
 </header>
 
-
 <div class="content">
-
-<!-- HEADER -->
 
 <section class="page-header">
 
@@ -545,9 +531,6 @@ searchInput.addEventListener("keydown", (event) => {
 
 </section>
 
-
-<!-- SEARCH -->
-
 <div class="search-row">
 
   <input
@@ -555,6 +538,7 @@ searchInput.addEventListener("keydown", (event) => {
     id="searchInput"
     type="text"
     placeholder="Search your music..."
+    autocomplete="off"
   >
 
   <button class="filter" id="filterButton">
@@ -562,9 +546,6 @@ searchInput.addEventListener("keydown", (event) => {
   </button>
 
 </div>
-
-
-<!-- FILTERS -->
 
 <div class="filter-panel" id="filterPanel">
 
@@ -584,9 +565,6 @@ searchInput.addEventListener("keydown", (event) => {
   </select>
 
 </div>
-
-
-<!-- TABS -->
 
 <div class="tabs">
 
@@ -612,186 +590,178 @@ searchInput.addEventListener("keydown", (event) => {
 
 </div>
 
-
 <h2 class="section-title" id="sectionTitle">
 Your Pieces
 </h2>
 
-
-<!-- PIECES -->
-
 <div class="pieces" id="pieces">
 
-
 <div class="piece"
-     data-name="concert piece"
-     data-category="school band"
-     data-difficulty="intermediate"
-     data-favorite="false"
-     data-recent="true"
-     data-imported="false">
+data-name="concert piece"
+data-category="school band"
+data-difficulty="intermediate"
+data-favorite="false"
+data-recent="true"
+data-imported="false">
 
-  <button class="favorite">☆</button>
+<button class="favorite">☆</button>
 
-  <div class="piece-icon">🎷</div>
+<div class="piece-icon">🎷</div>
 
-  <h3>Concert Piece</h3>
+<h3>Concert Piece</h3>
 
-  <p>Tenor Saxophone • School Band</p>
+<p>Tenor Saxophone • School Band</p>
 
-  <span class="difficulty">Intermediate</span>
+<span class="difficulty">Intermediate</span>
 
-  <div class="piece-actions">
-    <button class="play-button">▶ Play</button>
-    <button class="primary practice-button">Practice</button>
-  </div>
-
+<div class="piece-actions">
+<button class="play-button">▶ Play</button>
+<button class="primary practice-button">Practice</button>
 </div>
-
-
-<div class="piece"
-     data-name="take five"
-     data-category="jazz"
-     data-difficulty="advanced"
-     data-favorite="true"
-     data-recent="true"
-     data-imported="false">
-
-  <button class="favorite active">★</button>
-
-  <div class="piece-icon">🎵</div>
-
-  <h3>Take Five</h3>
-
-  <p>Tenor Saxophone • Jazz</p>
-
-  <span class="difficulty">Advanced</span>
-
-  <div class="piece-actions">
-    <button class="play-button">▶ Play</button>
-    <button class="primary practice-button">Practice</button>
-  </div>
 
 </div>
 
 
 <div class="piece"
-     data-name="warm up exercise"
-     data-category="technique"
-     data-difficulty="beginner"
-     data-favorite="false"
-     data-recent="false"
-     data-imported="false">
+data-name="take five"
+data-category="jazz"
+data-difficulty="advanced"
+data-favorite="true"
+data-recent="true"
+data-imported="false">
 
-  <button class="favorite">☆</button>
+<button class="favorite active">★</button>
 
-  <div class="piece-icon">🎼</div>
+<div class="piece-icon">🎵</div>
 
-  <h3>Warm Up Exercise</h3>
+<h3>Take Five</h3>
 
-  <p>Tenor Saxophone • Technique</p>
+<p>Tenor Saxophone • Jazz</p>
 
-  <span class="difficulty">Beginner</span>
+<span class="difficulty">Advanced</span>
 
-  <div class="piece-actions">
-    <button class="play-button">▶ Play</button>
-    <button class="primary practice-button">Practice</button>
-  </div>
+<div class="piece-actions">
+<button class="play-button">▶ Play</button>
+<button class="primary practice-button">Practice</button>
+</div>
 
 </div>
 
 
 <div class="piece"
-     data-name="jazz etude no 1"
-     data-category="jazz"
-     data-difficulty="intermediate"
-     data-favorite="false"
-     data-recent="false"
-     data-imported="true">
+data-name="warm up exercise"
+data-category="technique"
+data-difficulty="beginner"
+data-favorite="false"
+data-recent="false"
+data-imported="false">
 
-  <button class="favorite">☆</button>
+<button class="favorite">☆</button>
 
-  <div class="piece-icon">🎷</div>
+<div class="piece-icon">🎼</div>
 
-  <h3>Jazz Etude No. 1</h3>
+<h3>Warm Up Exercise</h3>
 
-  <p>Tenor Saxophone • Jazz</p>
+<p>Tenor Saxophone • Technique</p>
 
-  <span class="difficulty">Intermediate</span>
+<span class="difficulty">Beginner</span>
 
-  <div class="piece-actions">
-    <button class="play-button">▶ Play</button>
-    <button class="primary practice-button">Practice</button>
-  </div>
+<div class="piece-actions">
+<button class="play-button">▶ Play</button>
+<button class="primary practice-button">Practice</button>
+</div>
 
 </div>
 
 
 <div class="piece"
-     data-name="scale study"
-     data-category="technique"
-     data-difficulty="beginner"
-     data-favorite="false"
-     data-recent="false"
-     data-imported="false">
+data-name="jazz etude no 1"
+data-category="jazz"
+data-difficulty="intermediate"
+data-favorite="false"
+data-recent="false"
+data-imported="true">
 
-  <button class="favorite">☆</button>
+<button class="favorite">☆</button>
 
-  <div class="piece-icon">🎼</div>
+<div class="piece-icon">🎷</div>
 
-  <h3>Scale Study</h3>
+<h3>Jazz Etude No. 1</h3>
 
-  <p>Tenor Saxophone • Technique</p>
+<p>Tenor Saxophone • Jazz</p>
 
-  <span class="difficulty">Beginner</span>
+<span class="difficulty">Intermediate</span>
 
-  <div class="piece-actions">
-    <button class="play-button">▶ Play</button>
-    <button class="primary practice-button">Practice</button>
-  </div>
+<div class="piece-actions">
+<button class="play-button">▶ Play</button>
+<button class="primary practice-button">Practice</button>
+</div>
 
 </div>
 
 
 <div class="piece"
-     data-name="my favorite piece"
-     data-category="saved music"
-     data-difficulty="intermediate"
-     data-favorite="true"
-     data-recent="false"
-     data-imported="false">
+data-name="scale study"
+data-category="technique"
+data-difficulty="beginner"
+data-favorite="false"
+data-recent="false"
+data-imported="false">
 
-  <button class="favorite active">★</button>
+<button class="favorite">☆</button>
 
-  <div class="piece-icon">⭐</div>
+<div class="piece-icon">🎼</div>
 
-  <h3>My Favorite Piece</h3>
+<h3>Scale Study</h3>
 
-  <p>Tenor Saxophone • Saved Music</p>
+<p>Tenor Saxophone • Technique</p>
 
-  <span class="difficulty">Intermediate</span>
+<span class="difficulty">Beginner</span>
 
-  <div class="piece-actions">
-    <button class="play-button">▶ Play</button>
-    <button class="primary practice-button">Practice</button>
-  </div>
+<div class="piece-actions">
+<button class="play-button">▶ Play</button>
+<button class="primary practice-button">Practice</button>
+</div>
 
 </div>
 
 
+<div class="piece"
+data-name="my favorite piece"
+data-category="saved music"
+data-difficulty="intermediate"
+data-favorite="true"
+data-recent="false"
+data-imported="false">
+
+<button class="favorite active">★</button>
+
+<div class="piece-icon">⭐</div>
+
+<h3>My Favorite Piece</h3>
+
+<p>Tenor Saxophone • Saved Music</p>
+
+<span class="difficulty">Intermediate</span>
+
+<div class="piece-actions">
+<button class="play-button">▶ Play</button>
+<button class="primary practice-button">Practice</button>
 </div>
 
+</div>
+
+</div>
 
 <div class="empty" id="emptyState">
 
-  <h2>No music found</h2>
+<h2>No music found</h2>
 
-  <p>
-    Try changing your search, filters, or selected library section.
-  </p>
+<p>
+Try changing your search, filters, or selected library section.
+</p>
 
 </div>
-
 
 </div>
 
@@ -804,43 +774,43 @@ Your Pieces
 
 <div class="modal-overlay" id="modalOverlay">
 
-  <div class="modal">
+<div class="modal">
 
-    <h2>Add Music</h2>
+<h2>Add Music</h2>
 
-    <p>Choose how you want to add music to your MA library.</p>
+<p>Choose how you want to add music to your MA library.</p>
 
-    <div class="modal-options">
+<div class="modal-options">
 
-      <button class="modal-option">
-        <strong>➕ Create a Piece</strong>
-        <span>Enter the name, instrument, category, and difficulty.</span>
-      </button>
+<button class="modal-option">
+<strong>➕ Create a Piece</strong>
+<span>Enter the name, instrument, category, and difficulty.</span>
+</button>
 
-      <button class="modal-option">
-        <strong>📷 Import / Scan Sheet Music</strong>
-        <span>Take a photo or upload an image of your sheet music.</span>
-      </button>
+<button class="modal-option">
+<strong>📷 Import / Scan Sheet Music</strong>
+<span>Take a photo or upload an image of your sheet music.</span>
+</button>
 
-      <button class="modal-option">
-        <strong>📄 Upload Music File</strong>
-        <span>Eventually support PDF and other music formats.</span>
-      </button>
+<button class="modal-option">
+<strong>📄 Upload Music File</strong>
+<span>Eventually support PDF and other music formats.</span>
+</button>
 
-    </div>
+</div>
 
-    <button class="close-modal" id="closeModal">
-      Cancel
-    </button>
+<button class="close-modal" id="closeModal">
+Cancel
+</button>
 
-  </div>
+</div>
 
 </div>
 
 
 <script>
 
-/* SEARCH + FILTERS */
+/* ELEMENTS */
 
 const searchInput = document.getElementById("searchInput");
 const difficultyFilter = document.getElementById("difficultyFilter");
@@ -852,9 +822,11 @@ const sectionTitle = document.getElementById("sectionTitle");
 let currentTab = "all";
 
 
+/* FILTER PIECES */
+
 function filterPieces() {
 
-  const search = searchInput.value.toLowerCase();
+  const search = searchInput.value.trim().toLowerCase();
   const difficulty = difficultyFilter.value;
   const category = categoryFilter.value;
 
@@ -862,26 +834,42 @@ function filterPieces() {
 
   pieces.forEach(piece => {
 
-    const name = piece.dataset.name;
-    const pieceCategory = piece.dataset.category;
-    const pieceDifficulty = piece.dataset.difficulty;
-    const favorite = piece.dataset.favorite === "true";
-    const recent = piece.dataset.recent === "true";
-    const imported = piece.dataset.imported === "true";
+    const name = piece.dataset.name.toLowerCase();
+    const pieceCategory = piece.dataset.category.toLowerCase();
+    const pieceDifficulty = piece.dataset.difficulty.toLowerCase();
+
+    const description =
+      piece.querySelector("p").textContent.toLowerCase();
+
+    const favorite =
+      piece.dataset.favorite === "true";
+
+    const recent =
+      piece.dataset.recent === "true";
+
+    const imported =
+      piece.dataset.imported === "true";
+
 
     const matchesSearch =
       name.includes(search) ||
-      pieceCategory.includes(search);
+      pieceCategory.includes(search) ||
+      pieceDifficulty.includes(search) ||
+      description.includes(search);
+
 
     const matchesDifficulty =
       difficulty === "all" ||
       pieceDifficulty === difficulty;
 
+
     const matchesCategory =
       category === "all" ||
       pieceCategory === category;
 
+
     let matchesTab = true;
+
 
     if (currentTab === "favorites") {
       matchesTab = favorite;
@@ -895,9 +883,6 @@ function filterPieces() {
       matchesTab = imported;
     }
 
-    if (currentTab === "browse") {
-      matchesTab = true;
-    }
 
     const show =
       matchesSearch &&
@@ -905,13 +890,17 @@ function filterPieces() {
       matchesCategory &&
       matchesTab;
 
-    piece.style.display = show ? "block" : "none";
+
+    piece.style.display =
+      show ? "block" : "none";
+
 
     if (show) {
       visibleCount++;
     }
 
   });
+
 
   emptyState.style.display =
     visibleCount === 0 ? "block" : "none";
@@ -923,18 +912,38 @@ function filterPieces() {
 
 searchInput.addEventListener("input", filterPieces);
 
+searchInput.addEventListener("keydown", event => {
+
+  if (event.key === "Enter") {
+    filterPieces();
+    searchInput.blur();
+  }
+
+});
+
 
 /* FILTERS */
 
-difficultyFilter.addEventListener("change", filterPieces);
-categoryFilter.addEventListener("change", filterPieces);
+difficultyFilter.addEventListener(
+  "change",
+  filterPieces
+);
+
+categoryFilter.addEventListener(
+  "change",
+  filterPieces
+);
 
 
 /* FILTER PANEL */
 
-document.getElementById("filterButton").addEventListener("click", () => {
+document
+.getElementById("filterButton")
+.addEventListener("click", () => {
 
-  document.getElementById("filterPanel").classList.toggle("show");
+  document
+  .getElementById("filterPanel")
+  .classList.toggle("show");
 
 });
 
@@ -951,17 +960,24 @@ document.querySelectorAll(".tab").forEach(tab => {
 
     tab.classList.add("active");
 
-    currentTab = tab.dataset.tab;
+    currentTab =
+      tab.dataset.tab;
+
 
     const titles = {
+
       all: "Your Pieces",
       browse: "Browse Music",
       favorites: "Favorite Pieces",
       recent: "Recently Practiced",
       imported: "Imported / Scanned"
+
     };
 
-    sectionTitle.textContent = titles[currentTab];
+
+    sectionTitle.textContent =
+      titles[currentTab];
+
 
     filterPieces();
 
@@ -972,22 +988,84 @@ document.querySelectorAll(".tab").forEach(tab => {
 
 /* FAVORITES */
 
+const savedFavorites =
+  JSON.parse(
+    localStorage.getItem("maFavorites")
+  ) || [];
+
+
 document.querySelectorAll(".favorite").forEach(button => {
+
+  const piece =
+    button.closest(".piece");
+
+  const pieceName =
+    piece.dataset.name;
+
+
+  /* Restore saved favorite */
+
+  if (savedFavorites.includes(pieceName)) {
+
+    piece.dataset.favorite = "true";
+
+    button.classList.add("active");
+
+    button.textContent = "★";
+
+  }
+
 
   button.addEventListener("click", () => {
 
-    const piece = button.closest(".piece");
+    let favorites =
+      JSON.parse(
+        localStorage.getItem("maFavorites")
+      ) || [];
+
 
     const isFavorite =
       piece.dataset.favorite === "true";
 
-    piece.dataset.favorite =
-      isFavorite ? "false" : "true";
 
-    button.classList.toggle("active");
+    if (isFavorite) {
 
-    button.textContent =
-      isFavorite ? "☆" : "★";
+      piece.dataset.favorite = "false";
+
+      button.classList.remove("active");
+
+      button.textContent = "☆";
+
+
+      favorites =
+        favorites.filter(
+          name => name !== pieceName
+        );
+
+
+    } else {
+
+      piece.dataset.favorite = "true";
+
+      button.classList.add("active");
+
+      button.textContent = "★";
+
+
+      if (!favorites.includes(pieceName)) {
+
+        favorites.push(pieceName);
+
+      }
+
+    }
+
+
+    localStorage.setItem(
+      "maFavorites",
+      JSON.stringify(favorites)
+    );
+
 
     filterPieces();
 
@@ -996,17 +1074,22 @@ document.querySelectorAll(".favorite").forEach(button => {
 });
 
 
-/* PLAY BUTTON */
+/* PLAY */
 
 document.querySelectorAll(".play-button").forEach(button => {
 
   button.addEventListener("click", () => {
 
     const piece =
-      button.closest(".piece").querySelector("h3").textContent;
+      button
+      .closest(".piece")
+      .querySelector("h3")
+      .textContent;
+
 
     alert(
-      "▶ Playing " + piece +
+      "▶ Playing " +
+      piece +
       "\n\nFull sheet-music playback will be connected here."
     );
 
@@ -1015,13 +1098,14 @@ document.querySelectorAll(".play-button").forEach(button => {
 });
 
 
-/* PRACTICE BUTTON */
+/* PRACTICE */
 
 document.querySelectorAll(".practice-button").forEach(button => {
 
   button.addEventListener("click", () => {
 
-    window.location.href = "practice.html";
+    window.location.href =
+      "practice.html";
 
   });
 
@@ -1033,20 +1117,23 @@ document.querySelectorAll(".practice-button").forEach(button => {
 const modalOverlay =
   document.getElementById("modalOverlay");
 
-document.getElementById("addMusicButton")
-  .addEventListener("click", () => {
 
-    modalOverlay.classList.add("show");
+document
+.getElementById("addMusicButton")
+.addEventListener("click", () => {
 
-  });
+  modalOverlay.classList.add("show");
+
+});
 
 
-document.getElementById("closeModal")
-  .addEventListener("click", () => {
+document
+.getElementById("closeModal")
+.addEventListener("click", () => {
 
-    modalOverlay.classList.remove("show");
+  modalOverlay.classList.remove("show");
 
-  });
+});
 
 
 modalOverlay.addEventListener("click", event => {
@@ -1060,7 +1147,7 @@ modalOverlay.addEventListener("click", event => {
 });
 
 
-/* INITIAL */
+/* INITIALIZE */
 
 filterPieces();
 
@@ -1068,4 +1155,3 @@ filterPieces();
 
 </body>
 </html>
-```
