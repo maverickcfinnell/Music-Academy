@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Library - Music Academy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: white;
+      min-height: 100vh;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 240px;
+      background: #080c18;
+      border-right: 1px solid #20283a;
+      padding: 24px 16px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 35px;
+      padding-left: 12px;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #7c8cff;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav a {
+      display: block;
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #aeb6c8;
+      padding: 13px 14px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      background: #151c2e;
+      color: white;
+    }
+
+    .nav a.active {
+      background: #202943;
+      color: white;
+    }
+
+    /* MAIN */
+
+    .main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 72px;
+      border-bottom: 1px solid #20283a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+    }
+
+    .instrument {
+      background: #151c2e;
+      border: 1px solid #29334b;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-actions button {
+      background: #151c2e;
+      border: 1px solid #29334b;
+      color: #dce2ef;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .content {
+      padding: 32px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    /* HEADER */
+
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+    .page-header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      color: #8f9ab0;
+    }
+
+    /* SEARCH */
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .search {
+      flex: 1;
+      background: #11182a;
+      border: 1px solid #29334b;
+      color: white;
+      padding: 13px 16px;
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search:focus {
+      border-color: #6d7cff;
+    }
+
+    .filter {
+      background: #151c2e;
+      border: 1px solid #29334b;
+      color: white;
+      padding: 0 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* TABS */
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      background: transparent;
+      border: 1px solid #29334b;
+      color: #aeb6c8;
+      padding: 10px 16px;
+      border-radius: 9px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      background: #151c2e;
+      color: white;
+    }
+
+    .tab.active {
+      background: #202943;
+      color: white;
+      border-color: #394766;
+    }
+
+    /* PIECES */
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .pieces {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .piece {
+      background: #11182a;
+      border: 1px solid #202a40;
+      border-radius: 14px;
+      padding: 20px;
+      transition: 0.2s;
+    }
+
+    .piece:hover {
+      transform: translateY(-2px);
+      border-color: #465377;
+    }
+
+    .piece-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #202943;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .piece h3 {
+      margin-bottom: 6px;
+    }
+
+    .piece p {
+      color: #8f9ab0;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .difficulty {
+      display: inline-block;
+      font-size: 11px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      background: #18233a;
+      color: #aeb6c8;
+      margin-bottom: 16px;
+    }
+
+    .piece-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .piece-actions button {
+      flex: 1;
+      background: #151c2e;
+      border: 1px solid #29334b;
+      color: white;
+      padding: 9px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .piece-actions button:hover {
+      background: #202943;
+    }
+
+    .piece-actions .primary {
+      background: #6d7cff;
+      border-color: #6d7cff;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 1000px) {
+      .pieces {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .sidebar {
+        display: none;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .pieces {
+        grid-template-columns: 1fr;
+      }
+
+      .search-row {
+        flex-direction: column;
+      }
+
+      .filter {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+
+    <div class="logo">M<span>A</span></div>
+
+    <nav class="nav">
+
+      <a href="index.html">🏠 Home</a>
+
+      <a href="learning.html">📚 Learning Paths</a>
+
+      <a href="notes.html">🎵 Note Learner</a>
+
+      <a href="practice.html">🎯 Practice Room</a>
+
+      <a href="library.html" class="active">🎼 My Library</a>
+
+      <a href="#">⚔️ Challenges</a>
+
+      <a href="#">🏆 Leaderboards</a>
+
+    </nav>
+
+  </aside>
+
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button class="instrument">
+        🎷 Tenor Saxophone ▾
+      </button>
+
+      <div class="top-actions">
+        <button>🔍</button>
+        <button>⚙️</button>
+        <button>👤</button>
+      </div>
+
+    </header>
+
+
+    <div class="content">
+
+      <section class="page-header">
+        <h1>My Library 🎼</h1>
+        <p>Your music, pieces, and practice material all in one place.</p>
+      </section>
+
+
+      <div class="search-row">
+
+        <input
+          class="search"
+          type="text"
+          placeholder="Search your music..."
+        >
+
+        <button class="filter">
+          ⚙ Filters
+        </button>
+
+      </div>
+
+
+      <div class="tabs">
+
+        <button class="tab active">My Pieces</button>
+
+        <button class="tab">Browse Music</button>
+
+        <button class="tab">Favorites</button>
+
+        <button class="tab">Recently Practiced</button>
+
+        <button class="tab">Imported / Scanned</button>
+
+      </div>
+
+
+      <h2 class="section-title">Your Pieces</h2>
+
+
+      <div class="pieces">
+
+        <div class="piece">
+
+          <div class="piece-icon">🎷</div>
+
+          <h3>Concert Piece</h3>
+
+          <p>Tenor Saxophone • School Band</p>
+
+          <span class="difficulty">Intermediate</span>
+
+          <div class="piece-actions">
+            <button>▶ Play</button>
+            <button class="primary">Practice</button>
+          </div>
+
+        </div>
+
+
+        <div class="piece">
+
+          <div class="piece-icon">🎵</div>
+
+          <h3>Take Five</h3>
+
+          <p>Tenor Saxophone • Jazz</p>
+
+          <span class="difficulty">Advanced</span>
+
+          <div class="piece-actions">
+            <button>▶ Play</button>
+            <button class="primary">Practice</button>
+          </div>
+
+        </div>
+
+
+        <div class="piece">
+
+          <div class="piece-icon">🎼</div>
+
+          <h3>Warm Up Exercise</h3>
+
+          <p>Tenor Saxophone • Technique</p>
+
+          <span class="difficulty">Beginner</span>
+
+          <div class="piece-actions">
+            <button>▶ Play</button>
+            <button class="primary">Practice</button>
+          </div>
+
+        </div>
+
+
+        <div class="piece">
+
+          <div class="piece-icon">🎷</div>
+
+          <h3>Jazz Etude No. 1</h3>
+
+          <p>Tenor Saxophone • Jazz</p>
+
+          <span class="difficulty">Intermediate</span>
+
+          <div class="piece-actions">
+            <button>▶ Play</button>
+            <button class="primary">Practice</button>
+          </div>
+
+        </div>
+
+
+        <div class="piece">
+
+          <div class="piece-icon">🎼</div>
+
+          <h3>Scale Study</h3>
+
+          <p>Tenor Saxophone • Technique</p>
+
+          <span class="difficulty">Beginner</span>
+
+          <div class="piece-actions">
+            <button>▶ Play</button>
+            <button class="primary">Practice</button>
+          </div>
+
+        </div>
+
+
+        <div class="piece">
+
+          <div class="piece-icon">⭐</div>
+
+          <h3>My Favorite Piece</h3>
+
+          <p>Tenor Saxophone • Saved Music</p>
+
+          <span class="difficulty">Intermediate</span>
+
+          <div class="piece-actions">
+            <button>▶ Play</button>
+            <button class="primary">Practice</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>
