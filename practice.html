@@ -2038,6 +2038,7 @@ modalAction.addEventListener("click", function() {
 let audioContext = null;
 let metronomeInterval = null;
 let metronomeRunning = false;
+let metronomeButton = null;
 
 
 function metronomeClick() {
@@ -2050,18 +2051,30 @@ function metronomeClick() {
 
     }
 
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
     const oscillator =
         audioContext.createOscillator();
 
     const gain =
         audioContext.createGain();
 
+    oscillator.type = "square";
     oscillator.frequency.value = 880;
 
-    gain.gain.value = 0.07;
+    gain.gain.setValueAtTime(
+        0.07,
+        audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 0.05
+    );
 
     oscillator.connect(gain);
-
     gain.connect(audioContext.destination);
 
     oscillator.start();
@@ -2085,8 +2098,14 @@ function startMetronome() {
             ? Number(input.value)
             : Number(tempoSlider.value);
 
+    const safeBpm =
+        Math.min(
+            220,
+            Math.max(40, bpm)
+        );
+
     const intervalMs =
-        60000 / bpm;
+        60000 / safeBpm;
 
     metronomeRunning = true;
 
@@ -2098,17 +2117,53 @@ function startMetronome() {
             intervalMs
         );
 
+    if (metronomeButton) {
+
+        metronomeButton.textContent =
+            "Stop Metronome";
+
+        metronomeButton.style.background =
+            "#16233b";
+
+        metronomeButton.style.borderColor =
+            "#6d8cff";
+
+    }
+
 }
 
 
-function stopMetronome() {
+async function stopMetronome() {
 
     metronomeRunning = false;
 
     clearInterval(metronomeInterval);
 
-}
+    metronomeInterval = null;
 
+    if (
+        audioContext &&
+        audioContext.state === "running"
+    ) {
+
+        await audioContext.suspend();
+
+    }
+
+    if (metronomeButton) {
+
+        metronomeButton.textContent =
+            "Start Metronome";
+
+        metronomeButton.style.background =
+            "#111c2e";
+
+        metronomeButton.style.borderColor =
+            "#293b58";
+
+    }
+
+}
 
 /* =========================================
    JUDGE MODE
