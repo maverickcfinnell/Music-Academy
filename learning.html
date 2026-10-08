@@ -330,9 +330,22 @@ body {
 }
 
 @media (max-width: 650px) {
-    .app {
-        flex-direction: column;
+    .sidebar {
+        display: none;
     }
+
+    .content {
+        padding: 20px;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
     .sidebar {
         width: 100%;
