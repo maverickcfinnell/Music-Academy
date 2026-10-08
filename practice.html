@@ -12,11 +12,34 @@
     padding: 0;
 }
 
+:root {
+    --bg: #07101f;
+    --sidebar: #050b16;
+    --panel: #0d1727;
+    --panel2: #111c2e;
+    --border: #1d2b42;
+    --border2: #293b58;
+    --text: #f4f7fb;
+    --muted: #8996aa;
+    --blue: #6d8cff;
+    --blue2: #7e9cff;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #07101f;
-    color: #f4f7fb;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
 }
 
 .app {
@@ -28,7 +51,7 @@ body {
 
 .sidebar {
     width: 245px;
-    background: #050b16;
+    background: var(--sidebar);
     border-right: 1px solid #172235;
     padding: 24px 14px;
     flex-shrink: 0;
@@ -42,7 +65,7 @@ body {
 }
 
 .logo span {
-    color: #6d8cff;
+    color: var(--blue);
 }
 
 .nav {
@@ -57,6 +80,7 @@ body {
     padding: 13px 14px;
     border-radius: 10px;
     font-size: 15px;
+    transition: 0.2s;
 }
 
 .nav a:hover {
@@ -86,12 +110,13 @@ body {
 }
 
 .instrument {
-    background: #111c2e;
+    background: var(--panel2);
     border: 1px solid #24334d;
     color: white;
     padding: 10px 15px;
     border-radius: 9px;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .top-actions {
@@ -100,24 +125,25 @@ body {
 }
 
 .top-btn {
-    background: #111c2e;
+    background: var(--panel2);
     border: 1px solid #24334d;
     color: #dbe3f0;
     width: 40px;
     height: 40px;
     border-radius: 9px;
+    cursor: pointer;
 }
 
 /* CONTENT */
 
 .content {
-    max-width: 1200px;
+    max-width: 1250px;
     margin: auto;
     padding: 38px;
 }
 
 .header {
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
 .header h1 {
@@ -126,17 +152,79 @@ body {
 }
 
 .header p {
-    color: #8996aa;
+    color: var(--muted);
+}
+
+/* SELECTED PIECE */
+
+.selected-piece {
+    background: linear-gradient(135deg, #142544, #0d182b);
+    border: 1px solid #263b5c;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.piece-info {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    min-width: 0;
+}
+
+.piece-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 13px;
+    background: #1a2b49;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    flex-shrink: 0;
+}
+
+.piece-label {
+    color: var(--blue2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.piece-name {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.piece-meta {
+    color: #9aa8bc;
+    font-size: 14px;
+}
+
+.change-piece {
+    background: #111c2e;
+    border: 1px solid var(--border2);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 9px;
+    white-space: nowrap;
 }
 
 /* TIMER */
 
 .timer-card {
-    background: linear-gradient(135deg, #142544, #0d182b);
-    border: 1px solid #263b5c;
-    border-radius: 16px;
-    padding: 26px;
-    margin-bottom: 25px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -144,118 +232,311 @@ body {
 }
 
 .timer-label {
-    color: #7e9cff;
-    font-size: 13px;
+    color: var(--blue2);
+    font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .timer {
-    font-size: 42px;
+    font-size: 34px;
     font-weight: 800;
     letter-spacing: 2px;
 }
 
 .timer-status {
     color: #91a0b8;
-    margin-top: 5px;
+    margin-top: 4px;
+    font-size: 14px;
 }
 
 .timer-actions {
     display: flex;
-    gap: 10px;
+    gap: 9px;
 }
 
 .primary {
-    background: #6d8cff;
+    background: var(--blue);
     color: white;
     border: none;
-    padding: 12px 19px;
+    padding: 11px 17px;
     border-radius: 9px;
     font-weight: bold;
-    cursor: pointer;
 }
 
 .secondary {
-    background: #111c2e;
+    background: var(--panel2);
     color: white;
-    border: 1px solid #293b58;
-    padding: 12px 19px;
+    border: 1px solid var(--border2);
+    padding: 11px 17px;
     border-radius: 9px;
-    cursor: pointer;
 }
 
-/* GOAL */
+/* SCORE BAR */
 
-.goal {
-    background: #0d1727;
-    border: 1px solid #1d2b42;
-    border-radius: 15px;
-    padding: 22px;
-    margin-bottom: 28px;
-}
-
-.goal-title {
-    color: #7e9cff;
-    font-size: 13px;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-}
-
-.goal h2 {
-    font-size: 20px;
-    margin-bottom: 7px;
-}
-
-.goal p {
-    color: #8794a9;
-}
-
-/* PRACTICE GRID */
-
-.section-title {
-    font-size: 21px;
-    margin-bottom: 16px;
-}
-
-.practice-grid {
+.session-bar {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.session-stat {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.stat-label {
+    color: #7f8da3;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.stat-value {
+    font-size: 19px;
+    font-weight: 800;
+}
+
+/* SHEET MUSIC */
+
+.sheet-card {
+    background: #f5f2e9;
+    color: #141414;
+    border-radius: 16px;
+    padding: 30px;
+    min-height: 410px;
+    margin-bottom: 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+}
+
+.sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 15px;
     margin-bottom: 30px;
 }
 
-.card {
-    background: #0d1727;
-    border: 1px solid #1d2b42;
-    border-radius: 14px;
-    padding: 22px;
-    transition: 0.2s;
+.sheet-title h2 {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    margin-bottom: 5px;
 }
 
-.card:hover {
-    border-color: #3b537d;
-    transform: translateY(-2px);
+.sheet-title p {
+    color: #656565;
+    font-size: 13px;
 }
 
-.card-icon {
-    font-size: 27px;
-    margin-bottom: 12px;
+.sheet-controls {
+    display: flex;
+    gap: 7px;
 }
 
-.card h3 {
-    margin-bottom: 7px;
-    font-size: 18px;
+.sheet-control {
+    border: 1px solid #c9c5bb;
+    background: #ebe7dd;
+    color: #202020;
+    padding: 8px 11px;
+    border-radius: 7px;
 }
 
-.card p {
-    color: #7f8da3;
-    font-size: 14px;
-    line-height: 1.45;
+.music-line {
+    position: relative;
+    height: 145px;
+    margin: 20px 0;
+}
+
+.staff {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 47px;
+    height: 76px;
+    border-top: 2px solid #222;
+    border-bottom: 2px solid #222;
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 14px,
+            #222 14px,
+            #222 16px,
+            transparent 16px,
+            transparent 29px,
+            #222 29px,
+            #222 31px,
+            transparent 31px,
+            transparent 44px,
+            #222 44px,
+            #222 46px,
+            transparent 46px,
+            transparent 59px,
+            #222 59px,
+            #222 61px,
+            transparent 61px
+        );
+}
+
+.clef {
+    position: absolute;
+    left: 15px;
+    top: 31px;
+    font-family: Georgia, serif;
+    font-size: 75px;
+    z-index: 2;
+}
+
+.measure {
+    position: absolute;
+    top: 47px;
+    height: 76px;
+    width: 1px;
+    background: #222;
+}
+
+.m1 { left: 25%; }
+.m2 { left: 50%; }
+.m3 { left: 75%; }
+
+.note {
+    position: absolute;
+    width: 17px;
+    height: 12px;
+    background: #171717;
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    z-index: 3;
+}
+
+.note::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 34px;
+    background: #171717;
+    right: 1px;
+    bottom: 7px;
+}
+
+.n1 { left: 19%; top: 82px; }
+.n2 { left: 28%; top: 68px; }
+.n3 { left: 37%; top: 92px; }
+.n4 { left: 46%; top: 58px; }
+.n5 { left: 55%; top: 78px; }
+.n6 { left: 64%; top: 67px; }
+.n7 { left: 73%; top: 94px; }
+.n8 { left: 82%; top: 62px; }
+
+.playhead {
+    position: absolute;
+    top: 40px;
+    bottom: 12px;
+    width: 3px;
+    background: #6d8cff;
+    left: 17%;
+    border-radius: 4px;
+    z-index: 5;
+    transition: left 0.4s linear;
+}
+
+.sheet-footer {
+    display: flex;
+    justify-content: center;
+    color: #777;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+/* PLAYER */
+
+.player {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.player-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.player-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    background: var(--panel2);
+    color: white;
+    font-size: 17px;
+}
+
+.play-main {
+    width: 50px;
+    height: 50px;
+    background: var(--blue);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+}
+
+.tempo-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tempo-label {
+    color: #8996aa;
+    font-size: 13px;
+}
+
+.tempo-number {
+    font-weight: bold;
+    min-width: 45px;
+    text-align: center;
+}
+
+.tempo-slider {
+    width: 180px;
+    accent-color: var(--blue);
+}
+
+.progress-track {
+    height: 7px;
+    background: #1b2940;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--blue);
+    transition: width 0.15s linear;
+}
+
+/* SECTION */
+
+.section-title {
+    font-size: 21px;
+    margin-bottom: 15px;
 }
 
 /* TOOLS */
@@ -263,35 +544,143 @@ body {
 .tools {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 13px;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
 .tool {
-    background: #111c2e;
-    border: 1px solid #263852;
+    background: var(--panel2);
+    border: 1px solid var(--border2);
     color: white;
-    padding: 17px 12px;
-    border-radius: 10px;
+    padding: 18px 13px;
+    border-radius: 11px;
     cursor: pointer;
-    font-size: 14px;
+    text-align: left;
+    transition: 0.2s;
 }
 
 .tool:hover {
-    border-color: #6d8cff;
+    border-color: var(--blue);
     background: #16233b;
+    transform: translateY(-2px);
+}
+
+.tool-icon {
+    font-size: 23px;
+    margin-bottom: 9px;
+}
+
+.tool-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.tool-description {
+    color: #7f8da3;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+/* JUDGE */
+
+.judge-card {
+    background: linear-gradient(135deg, #101d32, #0d1727);
+    border: 1px solid #263852;
+    border-radius: 15px;
+    padding: 23px;
+    margin-bottom: 25px;
+}
+
+.judge-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+}
+
+.judge-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.judge-icon {
+    width: 46px;
+    height: 46px;
+    background: #1a2b49;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.judge-title h2 {
+    font-size: 19px;
+    margin-bottom: 4px;
+}
+
+.judge-title p {
+    color: #8492a7;
+    font-size: 13px;
+}
+
+.judge-start {
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-weight: bold;
+}
+
+.judge-results {
+    display: none;
+    margin-top: 20px;
+    border-top: 1px solid #263852;
+    padding-top: 20px;
+}
+
+.judge-results.show {
+    display: block;
+}
+
+.judge-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.judge-stat {
+    background: #0a1424;
+    border: 1px solid #1d2b42;
+    border-radius: 10px;
+    padding: 13px;
+    text-align: center;
+}
+
+.judge-stat strong {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.judge-stat span {
+    color: #7f8da3;
+    font-size: 11px;
 }
 
 /* WEEKLY */
 
 .weekly {
-    margin-top: 32px;
+    margin-top: 5px;
 }
 
 .week-card {
-    background: #0d1727;
-    border: 1px solid #1d2b42;
+    background: var(--panel);
+    border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 22px;
+    padding: 20px;
 }
 
 .week-row {
@@ -315,22 +704,100 @@ body {
 .fill {
     width: 74%;
     height: 100%;
-    background: #6d8cff;
+    background: var(--blue);
+}
+
+/* MODAL */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.68);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 470px;
+    background: #0b1525;
+    border: 1px solid #293b58;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+}
+
+.modal h2 {
+    margin-bottom: 7px;
+}
+
+.modal p {
+    color: #8996aa;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.modal-close {
+    float: right;
+    background: transparent;
+    border: none;
+    color: #9da8bb;
+    font-size: 22px;
+}
+
+.modal-row {
+    margin-bottom: 16px;
+}
+
+.modal-row label {
+    display: block;
+    color: #9aa8bc;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.modal-row input,
+.modal-row select {
+    width: 100%;
+    padding: 11px;
+    background: #111c2e;
+    border: 1px solid #293b58;
+    color: white;
+    border-radius: 8px;
+    outline: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 20px;
 }
 
 /* MOBILE */
 
-@media (max-width: 900px) {
-    .practice-grid {
+@media (max-width: 1000px) {
+    .tools {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .tools {
+    .judge-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .session-bar {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
     .app {
         flex-direction: column;
     }
@@ -363,16 +830,66 @@ body {
         padding: 24px 15px;
     }
 
+    .selected-piece {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
     .timer-card {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .practice-grid {
+    .sheet-card {
+        padding: 18px;
+        overflow: hidden;
+    }
+
+    .sheet-header {
+        flex-direction: column;
+    }
+
+    .player-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tempo-box {
+        width: 100%;
+    }
+
+    .tempo-slider {
+        flex: 1;
+    }
+
+    .judge-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .judge-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .tools {
         grid-template-columns: 1fr;
     }
 
-    .tools {
+    .session-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .timer-actions {
+        width: 100%;
+    }
+
+    .timer-actions button {
+        flex: 1;
+    }
+
+    .judge-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
@@ -385,27 +902,19 @@ body {
 
 <aside class="sidebar">
 
-<div class="logo">
-<span>MA</span>
-</div>
+    <div class="logo">
+        <span>MA</span>
+    </div>
 
-<nav class="nav">
-
-<a href="index.html">🏠 Home</a>
-
-<a href="learning.html">📚 Learning Paths</a>
-
-<a href="notes.html">🎵 Note Learner</a>
-
-<a href="practice.html" class="active">🎯 Practice Room</a>
-
-<a href="library.html">🎼 My Library</a>
-
-<a href="#">⚔️ Challenges</a>
-
-<a href="#">🏆 Leaderboards</a>
-
-</nav>
+    <nav class="nav">
+        <a href="index.html">🏠 Home</a>
+        <a href="learning.html">📚 Learning Paths</a>
+        <a href="notes.html">🎵 Note Learner</a>
+        <a href="practice.html" class="active">🎯 Practice Room</a>
+        <a href="library.html">🎼 My Library</a>
+        <a href="#">⚔️ Challenges</a>
+        <a href="#">🏆 Leaderboards</a>
+    </nav>
 
 </aside>
 
@@ -414,181 +923,460 @@ body {
 
 <header class="topbar">
 
-<button class="instrument">
-🎷 Tenor Saxophone ▾
-</button>
+    <button class="instrument" id="instrumentButton">
+        🎷 Tenor Saxophone ▾
+    </button>
 
-<div class="top-actions">
-<button class="top-btn">⌕</button>
-<button class="top-btn">⚙</button>
-<button class="top-btn">👤</button>
-</div>
+    <div class="top-actions">
+        <button class="top-btn" title="Search">⌕</button>
+        <button class="top-btn" title="Settings">⚙</button>
+        <button class="top-btn" title="Profile">👤</button>
+    </div>
 
 </header>
 
 
 <section class="content">
 
-<div class="header">
-
-<h1>Practice Room</h1>
-
-<p>Turn your practice time into measurable progress.</p>
-
-</div>
+    <div class="header">
+        <h1>Practice Room</h1>
+        <p>Turn your practice time into measurable progress.</p>
+    </div>
 
 
-<!-- TIMER -->
+    <!-- SELECTED PIECE -->
 
-<div class="timer-card">
+    <div class="selected-piece">
 
-<div>
+        <div class="piece-info">
 
-<div class="timer-label">
-Active Practice Time
-</div>
+            <div class="piece-icon">
+                🎼
+            </div>
 
-<div class="timer" id="timer">
-00:00
-</div>
+            <div>
+                <div class="piece-label">
+                    Currently Practicing
+                </div>
 
-<div class="timer-status" id="status">
-Ready to practice
-</div>
+                <div class="piece-name" id="pieceName">
+                    No Piece Selected
+                </div>
 
-</div>
+                <div class="piece-meta" id="pieceMeta">
+                    Choose a piece from My Library to begin practicing.
+                </div>
+            </div>
 
-<div class="timer-actions">
+        </div>
 
-<button class="primary" id="startButton">
-Start Practice
-</button>
+        <button class="change-piece" id="changePiece">
+            Choose Piece
+        </button>
 
-<button class="secondary" id="resetButton">
-Reset
-</button>
-
-</div>
-
-</div>
+    </div>
 
 
-<!-- GOAL -->
+    <!-- TIMER -->
 
-<div class="goal">
+    <div class="timer-card">
 
-<div class="goal-title">
-Current Goal
-</div>
+        <div>
 
-<h2>Get Concert Piece to 120 BPM</h2>
+            <div class="timer-label">
+                Active Practice Time
+            </div>
 
-<p>
-Current tempo: 92 BPM · Target: 120 BPM · Increase gradually by 5 BPM.
-</p>
+            <div class="timer" id="timer">
+                00:00
+            </div>
 
-</div>
+            <div class="timer-status" id="status">
+                Ready to practice
+            </div>
 
+        </div>
 
-<!-- PRACTICE -->
+        <div class="timer-actions">
 
-<h2 class="section-title">
-Choose What to Practice
-</h2>
+            <button class="primary" id="startButton">
+                Start Practice
+            </button>
 
-<div class="practice-grid">
+            <button class="secondary" id="resetButton">
+                Reset
+            </button>
 
-<div class="card">
-<div class="card-icon">🎼</div>
-<h3>Library Piece</h3>
-<p>Practice a piece saved in your personal music library.</p>
-</div>
+        </div>
 
-<div class="card">
-<div class="card-icon">📖</div>
-<h3>Learning Path</h3>
-<p>Work on a skill from Note Reading, Rhythm, Ear Training, or Technique.</p>
-</div>
-
-<div class="card">
-<div class="card-icon">⚔️</div>
-<h3>Challenge</h3>
-<p>Practice toward one of your current daily or weekly challenges.</p>
-</div>
-
-</div>
+    </div>
 
 
-<!-- TOOLS -->
+    <!-- SESSION STATS -->
 
-<h2 class="section-title">
-Practice Tools
-</h2>
+    <div class="session-bar">
 
-<div class="tools">
+        <div class="session-stat">
+            <div class="stat-label">Current Tempo</div>
+            <div class="stat-value" id="statTempo">92 BPM</div>
+        </div>
 
-<button class="tool">
-🎛️ Tuner
-</button>
+        <div class="session-stat">
+            <div class="stat-label">Target Tempo</div>
+            <div class="stat-value">120 BPM</div>
+        </div>
 
-<button class="tool">
-🥁 Metronome
-</button>
+        <div class="session-stat">
+            <div class="stat-label">Session Score</div>
+            <div class="stat-value" id="sessionScore">—</div>
+        </div>
 
-<button class="tool">
-🔁 Loop Section
-</button>
+        <div class="session-stat">
+            <div class="stat-label">Best Score</div>
+            <div class="stat-value">—</div>
+        </div>
 
-<button class="tool">
-📈 Tempo Builder
-</button>
-
-<button class="tool">
-⚖️ Judge Mode
-</button>
-
-<button class="tool">
-🧠 Smart Practice
-</button>
-
-<button class="tool">
-🎙️ Quick Record
-</button>
-
-<button class="tool">
-🥁 Rhythm Trainer
-</button>
-
-</div>
+    </div>
 
 
-<!-- WEEKLY -->
+    <!-- SHEET MUSIC -->
 
-<div class="weekly">
+    <div class="sheet-card">
 
-<h2 class="section-title">
-Weekly Practice
-</h2>
+        <div class="sheet-header">
 
-<div class="week-card">
+            <div class="sheet-title">
+                <h2 id="sheetTitle">Practice Score</h2>
+                <p id="sheetSubtitle">
+                    Sheet music will appear here when a piece is selected.
+                </p>
+            </div>
 
-<div class="week-row">
+            <div class="sheet-controls">
+                <button class="sheet-control" id="zoomOut">−</button>
+                <button class="sheet-control" id="zoomIn">+</button>
+                <button class="sheet-control" id="fullscreenSheet">⛶</button>
+            </div>
 
-<strong>3h 42m / 5h</strong>
+        </div>
 
-<span>74%</span>
 
-</div>
+        <div class="music-line" id="musicLine">
 
-<div class="bar">
+            <div class="staff"></div>
 
-<div class="fill"></div>
+            <div class="clef">𝄞</div>
 
-</div>
+            <div class="measure m1"></div>
+            <div class="measure m2"></div>
+            <div class="measure m3"></div>
 
-</div>
+            <div class="note n1"></div>
+            <div class="note n2"></div>
+            <div class="note n3"></div>
+            <div class="note n4"></div>
+            <div class="note n5"></div>
+            <div class="note n6"></div>
+            <div class="note n7"></div>
+            <div class="note n8"></div>
 
-</div>
+            <div class="playhead" id="playhead"></div>
+
+        </div>
+
+        <div class="sheet-footer">
+            Practice preview · Actual imported notation will replace this workspace
+        </div>
+
+    </div>
+
+
+    <!-- PLAYER -->
+
+    <div class="player">
+
+        <div class="player-top">
+
+            <div class="player-buttons">
+
+                <button class="player-btn" id="backButton">
+                    ◀
+                </button>
+
+                <button class="play-main" id="playButton">
+                    ▶
+                </button>
+
+                <button class="player-btn" id="forwardButton">
+                    ▶
+                </button>
+
+                <button class="player-btn" id="loopButton">
+                    🔁
+                </button>
+
+            </div>
+
+
+            <div class="tempo-box">
+
+                <span class="tempo-label">
+                    Tempo
+                </span>
+
+                <input
+                    type="range"
+                    min="40"
+                    max="220"
+                    value="92"
+                    class="tempo-slider"
+                    id="tempoSlider"
+                >
+
+                <span class="tempo-number" id="tempoNumber">
+                    92
+                </span>
+
+                <span class="tempo-label">
+                    BPM
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+    </div>
+
+
+    <!-- PRACTICE TOOLS -->
+
+    <h2 class="section-title">
+        Practice Tools
+    </h2>
+
+    <div class="tools">
+
+        <button class="tool" data-tool="tuner">
+
+            <div class="tool-icon">🎛️</div>
+
+            <div class="tool-name">
+                Tuner
+            </div>
+
+            <div class="tool-description">
+                Tune your instrument before playing.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="metronome">
+
+            <div class="tool-icon">🥁</div>
+
+            <div class="tool-name">
+                Metronome
+            </div>
+
+            <div class="tool-description">
+                Keep a steady beat while practicing.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="loop">
+
+            <div class="tool-icon">🔁</div>
+
+            <div class="tool-name">
+                Loop Section
+            </div>
+
+            <div class="tool-description">
+                Repeat a difficult section.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="tempo">
+
+            <div class="tool-icon">📈</div>
+
+            <div class="tool-name">
+                Tempo Builder
+            </div>
+
+            <div class="tool-description">
+                Gradually increase your playing speed.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="judge">
+
+            <div class="tool-icon">⚖️</div>
+
+            <div class="tool-name">
+                Judge Mode
+            </div>
+
+            <div class="tool-description">
+                Analyze your playing and identify weaknesses.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="smart">
+
+            <div class="tool-icon">🧠</div>
+
+            <div class="tool-name">
+                Smart Practice
+            </div>
+
+            <div class="tool-description">
+                Get recommendations based on your performance.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="record">
+
+            <div class="tool-icon">🎙️</div>
+
+            <div class="tool-name">
+                Quick Record
+            </div>
+
+            <div class="tool-description">
+                Record a practice take for review.
+            </div>
+
+        </button>
+
+
+        <button class="tool" data-tool="rhythm">
+
+            <div class="tool-icon">🥁</div>
+
+            <div class="tool-name">
+                Rhythm Trainer
+            </div>
+
+            <div class="tool-description">
+                Practice timing and rhythmic accuracy.
+            </div>
+
+        </button>
+
+    </div>
+
+
+    <!-- JUDGE MODE -->
+
+    <div class="judge-card">
+
+        <div class="judge-top">
+
+            <div class="judge-title">
+
+                <div class="judge-icon">
+                    ⚖️
+                </div>
+
+                <div>
+                    <h2>Judge Mode</h2>
+
+                    <p>
+                        Your future performance analysis will score five areas of your playing.
+                    </p>
+                </div>
+
+            </div>
+
+            <button class="judge-start" id="judgeButton">
+                Start Judge Mode
+            </button>
+
+        </div>
+
+
+        <div class="judge-results" id="judgeResults">
+
+            <div class="judge-grid">
+
+                <div class="judge-stat">
+                    <strong>—</strong>
+                    <span>Pitch</span>
+                </div>
+
+                <div class="judge-stat">
+                    <strong>—</strong>
+                    <span>Rhythm</span>
+                </div>
+
+                <div class="judge-stat">
+                    <strong>—</strong>
+                    <span>Tempo</span>
+                </div>
+
+                <div class="judge-stat">
+                    <strong>—</strong>
+                    <span>Accuracy</span>
+                </div>
+
+                <div class="judge-stat">
+                    <strong>—</strong>
+                    <span>Consistency</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WEEKLY -->
+
+    <div class="weekly">
+
+        <h2 class="section-title">
+            Weekly Practice
+        </h2>
+
+        <div class="week-card">
+
+            <div class="week-row">
+
+                <strong>
+                    3h 42m / 5h
+                </strong>
+
+                <span>
+                    74%
+                </span>
+
+            </div>
+
+            <div class="bar">
+                <div class="fill"></div>
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
@@ -597,7 +1385,109 @@ Weekly Practice
 </div>
 
 
+<!-- TOOL MODAL -->
+
+<div class="modal-overlay" id="toolModal">
+
+    <div class="modal">
+
+        <button class="modal-close" id="closeModal">
+            ×
+        </button>
+
+        <h2 id="modalTitle">
+            Practice Tool
+        </h2>
+
+        <p id="modalDescription">
+            Practice tool information.
+        </p>
+
+        <div class="modal-row" id="modalContent"></div>
+
+        <div class="modal-actions">
+
+            <button class="secondary" id="modalCancel">
+                Close
+            </button>
+
+            <button class="primary" id="modalAction">
+                Activate
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
+
+/* =========================================
+   SELECTED LIBRARY PIECE
+========================================= */
+
+const pieceName = document.getElementById("pieceName");
+const pieceMeta = document.getElementById("pieceMeta");
+const sheetTitle = document.getElementById("sheetTitle");
+const sheetSubtitle = document.getElementById("sheetSubtitle");
+
+let selectedPiece = null;
+
+try {
+    const savedPiece = localStorage.getItem("maPracticePiece");
+
+    if (savedPiece) {
+        selectedPiece = JSON.parse(savedPiece);
+    }
+} catch (error) {
+    console.log("Could not load practice piece.");
+}
+
+
+if (selectedPiece) {
+
+    pieceName.textContent =
+        selectedPiece.name || "Untitled Piece";
+
+    const instrument =
+        selectedPiece.instrument || "Tenor Saxophone";
+
+    const difficulty =
+        selectedPiece.difficulty || "Intermediate";
+
+    const category =
+        selectedPiece.category || "Music";
+
+    pieceMeta.textContent =
+        `${instrument} · ${difficulty} · ${category}`;
+
+    sheetTitle.textContent =
+        selectedPiece.name || "Practice Score";
+
+    sheetSubtitle.textContent =
+        `${instrument} · ${difficulty}`;
+
+}
+
+
+/* =========================================
+   CHOOSE PIECE
+========================================= */
+
+document
+    .getElementById("changePiece")
+    .addEventListener("click", function() {
+
+        window.location.href = "library.html";
+
+    });
+
+
+/* =========================================
+   PRACTICE TIMER
+========================================= */
 
 let seconds = 0;
 let running = false;
@@ -608,16 +1498,22 @@ const startButton = document.getElementById("startButton");
 const resetButton = document.getElementById("resetButton");
 const status = document.getElementById("status");
 
+
 function updateTimer() {
 
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const secs =
+        seconds % 60;
 
     timer.textContent =
         String(minutes).padStart(2, "0") +
         ":" +
         String(secs).padStart(2, "0");
+
 }
+
 
 startButton.addEventListener("click", function() {
 
@@ -625,12 +1521,16 @@ startButton.addEventListener("click", function() {
 
         running = true;
 
-        startButton.textContent = "Pause Practice";
-        status.textContent = "Practice session active";
+        startButton.textContent =
+            "Pause Practice";
+
+        status.textContent =
+            "Practice session active";
 
         interval = setInterval(function() {
 
             seconds++;
+
             updateTimer();
 
         }, 1000);
@@ -639,10 +1539,14 @@ startButton.addEventListener("click", function() {
 
         running = false;
 
-        startButton.textContent = "Resume Practice";
-        status.textContent = "Practice paused";
+        startButton.textContent =
+            "Resume Practice";
+
+        status.textContent =
+            "Practice paused";
 
         clearInterval(interval);
+
     }
 
 });
@@ -658,8 +1562,11 @@ resetButton.addEventListener("click", function() {
 
     updateTimer();
 
-    startButton.textContent = "Start Practice";
-    status.textContent = "Ready to practice";
+    startButton.textContent =
+        "Start Practice";
+
+    status.textContent =
+        "Ready to practice";
 
 });
 
@@ -672,14 +1579,610 @@ document.addEventListener("visibilitychange", function() {
 
         clearInterval(interval);
 
-        startButton.textContent = "Resume Practice";
-        status.textContent = "Practice paused — you left MA";
+        startButton.textContent =
+            "Resume Practice";
+
+        status.textContent =
+            "Practice paused — you left MA";
 
     }
 
 });
 
+
 updateTimer();
+
+
+/* =========================================
+   TEMPO
+========================================= */
+
+const tempoSlider =
+    document.getElementById("tempoSlider");
+
+const tempoNumber =
+    document.getElementById("tempoNumber");
+
+const statTempo =
+    document.getElementById("statTempo");
+
+
+tempoSlider.addEventListener("input", function() {
+
+    const tempo =
+        Number(this.value);
+
+    tempoNumber.textContent =
+        tempo;
+
+    statTempo.textContent =
+        tempo + " BPM";
+
+});
+
+
+/* =========================================
+   SCORE PLAYER
+========================================= */
+
+let playing = false;
+let progress = 0;
+let playerInterval = null;
+
+const playButton =
+    document.getElementById("playButton");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const playhead =
+    document.getElementById("playhead");
+
+
+function stopPlayer() {
+
+    playing = false;
+
+    clearInterval(playerInterval);
+
+    playButton.textContent = "▶";
+
+}
+
+
+function startPlayer() {
+
+    playing = true;
+
+    playButton.textContent = "Ⅱ";
+
+    clearInterval(playerInterval);
+
+    playerInterval = setInterval(function() {
+
+        const tempo =
+            Number(tempoSlider.value);
+
+        const speed =
+            Math.max(35, 150 - tempo * 0.35);
+
+        progress += 1;
+
+        if (progress > 100) {
+
+            progress = 0;
+
+            if (!loopEnabled) {
+                stopPlayer();
+            }
+
+        }
+
+        progressFill.style.width =
+            progress + "%";
+
+        playhead.style.left =
+            (17 + progress * 0.66) + "%";
+
+    }, speed);
+
+}
+
+
+playButton.addEventListener("click", function() {
+
+    if (playing) {
+
+        stopPlayer();
+
+    } else {
+
+        startPlayer();
+
+    }
+
+});
+
+
+/* =========================================
+   LOOP
+========================================= */
+
+let loopEnabled = false;
+
+const loopButton =
+    document.getElementById("loopButton");
+
+loopButton.addEventListener("click", function() {
+
+    loopEnabled = !loopEnabled;
+
+    if (loopEnabled) {
+
+        loopButton.style.borderColor =
+            "#6d8cff";
+
+        loopButton.style.background =
+            "#16233b";
+
+    } else {
+
+        loopButton.style.borderColor =
+            "#293b58";
+
+        loopButton.style.background =
+            "#111c2e";
+
+    }
+
+});
+
+
+document
+    .querySelector('[data-tool="loop"]')
+    .addEventListener("click", function() {
+
+        loopButton.click();
+
+    });
+
+
+/* =========================================
+   PLAYER SKIP BUTTONS
+========================================= */
+
+document
+    .getElementById("backButton")
+    .addEventListener("click", function() {
+
+        progress =
+            Math.max(0, progress - 10);
+
+        progressFill.style.width =
+            progress + "%";
+
+    });
+
+
+document
+    .getElementById("forwardButton")
+    .addEventListener("click", function() {
+
+        progress =
+            Math.min(100, progress + 10);
+
+        progressFill.style.width =
+            progress + "%";
+
+    });
+
+
+/* =========================================
+   SHEET ZOOM
+========================================= */
+
+let sheetScale = 1;
+
+const musicLine =
+    document.getElementById("musicLine");
+
+
+document
+    .getElementById("zoomIn")
+    .addEventListener("click", function() {
+
+        sheetScale =
+            Math.min(1.35, sheetScale + 0.1);
+
+        musicLine.style.transform =
+            `scale(${sheetScale})`;
+
+        musicLine.style.transformOrigin =
+            "center";
+
+    });
+
+
+document
+    .getElementById("zoomOut")
+    .addEventListener("click", function() {
+
+        sheetScale =
+            Math.max(0.8, sheetScale - 0.1);
+
+        musicLine.style.transform =
+            `scale(${sheetScale})`;
+
+        musicLine.style.transformOrigin =
+            "center";
+
+    });
+
+
+document
+    .getElementById("fullscreenSheet")
+    .addEventListener("click", function() {
+
+        const sheet =
+            document.querySelector(".sheet-card");
+
+        if (sheet.requestFullscreen) {
+            sheet.requestFullscreen();
+        }
+
+    });
+
+
+/* =========================================
+   TOOL MODAL
+========================================= */
+
+const toolModal =
+    document.getElementById("toolModal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalDescription =
+    document.getElementById("modalDescription");
+
+const modalContent =
+    document.getElementById("modalContent");
+
+const modalAction =
+    document.getElementById("modalAction");
+
+
+const toolData = {
+
+    tuner: {
+        title: "🎛️ Tuner",
+        description:
+            "The tuner will use your microphone to detect the note you are playing and show whether you are sharp, flat, or in tune.",
+        action:
+            "Open Tuner"
+    },
+
+    metronome: {
+        title: "🥁 Metronome",
+        description:
+            "Set your BPM and practice with a steady click.",
+        action:
+            "Start Metronome"
+    },
+
+    tempo: {
+        title: "📈 Tempo Builder",
+        description:
+            "Start below your target tempo and gradually increase speed as your accuracy improves.",
+        action:
+            "Start Builder"
+    },
+
+    judge: {
+        title: "⚖️ Judge Mode",
+        description:
+            "Judge Mode will eventually listen to your playing and grade pitch, rhythm, tempo, accuracy, and consistency.",
+        action:
+            "Prepare Judge Mode"
+    },
+
+    smart: {
+        title: "🧠 Smart Practice",
+        description:
+            "MA will use your practice history and Judge Mode results to recommend what you should work on next.",
+        action:
+            "View Recommendations"
+    },
+
+    record: {
+        title: "🎙️ Quick Record",
+        description:
+            "Record yourself playing and listen back to your performance.",
+        action:
+            "Prepare Recording"
+    },
+
+    rhythm: {
+        title: "🥁 Rhythm Trainer",
+        description:
+            "Practice rhythms and improve your timing accuracy.",
+        action:
+            "Start Trainer"
+    }
+
+};
+
+
+document
+    .querySelectorAll(".tool")
+    .forEach(function(button) {
+
+        button.addEventListener("click", function() {
+
+            const tool =
+                this.dataset.tool;
+
+            if (tool === "loop") {
+                return;
+            }
+
+            const data =
+                toolData[tool];
+
+            if (!data) return;
+
+            modalTitle.textContent =
+                data.title;
+
+            modalDescription.textContent =
+                data.description;
+
+            modalAction.textContent =
+                data.action;
+
+            modalContent.innerHTML = "";
+
+            if (tool === "metronome") {
+
+                modalContent.innerHTML = `
+                    <label style="color:#9aa8bc;font-size:12px;display:block;margin-bottom:7px;">
+                        BPM
+                    </label>
+
+                    <input
+                        id="metronomeBpm"
+                        type="number"
+                        min="40"
+                        max="220"
+                        value="${tempoSlider.value}"
+                        style="
+                            width:100%;
+                            padding:11px;
+                            background:#111c2e;
+                            border:1px solid #293b58;
+                            color:white;
+                            border-radius:8px;
+                        "
+                    >
+                `;
+
+            }
+
+            toolModal.classList.add("show");
+
+        });
+
+    });
+
+
+/* =========================================
+   MODAL CLOSE
+========================================= */
+
+function closeModal() {
+
+    toolModal.classList.remove("show");
+
+}
+
+
+document
+    .getElementById("closeModal")
+    .addEventListener("click", closeModal);
+
+
+document
+    .getElementById("modalCancel")
+    .addEventListener("click", closeModal);
+
+
+toolModal.addEventListener("click", function(event) {
+
+    if (event.target === toolModal) {
+        closeModal();
+    }
+
+});
+
+
+/* =========================================
+   MODAL ACTION
+========================================= */
+
+modalAction.addEventListener("click", function() {
+
+    const title =
+        modalTitle.textContent;
+
+    if (title.includes("Metronome")) {
+
+        startMetronome();
+
+        closeModal();
+
+    } else {
+
+        modalDescription.textContent =
+            "This tool is ready for the next MA development stage.";
+
+    }
+
+});
+
+
+/* =========================================
+   SIMPLE METRONOME
+========================================= */
+
+let audioContext = null;
+let metronomeInterval = null;
+let metronomeRunning = false;
+
+
+function metronomeClick() {
+
+    if (!audioContext) {
+
+        audioContext =
+            new (window.AudioContext ||
+            window.webkitAudioContext)();
+
+    }
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    oscillator.frequency.value = 880;
+
+    gain.gain.value = 0.07;
+
+    oscillator.connect(gain);
+
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime + 0.05
+    );
+
+}
+
+
+function startMetronome() {
+
+    stopMetronome();
+
+    const input =
+        document.getElementById("metronomeBpm");
+
+    const bpm =
+        input
+            ? Number(input.value)
+            : Number(tempoSlider.value);
+
+    const intervalMs =
+        60000 / bpm;
+
+    metronomeRunning = true;
+
+    metronomeClick();
+
+    metronomeInterval =
+        setInterval(
+            metronomeClick,
+            intervalMs
+        );
+
+}
+
+
+function stopMetronome() {
+
+    metronomeRunning = false;
+
+    clearInterval(metronomeInterval);
+
+}
+
+
+/* =========================================
+   JUDGE MODE
+========================================= */
+
+const judgeButton =
+    document.getElementById("judgeButton");
+
+const judgeResults =
+    document.getElementById("judgeResults");
+
+
+judgeButton.addEventListener("click", function() {
+
+    if (!judgeResults.classList.contains("show")) {
+
+        judgeResults.classList.add("show");
+
+        judgeButton.textContent =
+            "Judge Mode Ready";
+
+        status.textContent =
+            "Judge Mode prepared — microphone analysis will be connected next.";
+
+    } else {
+
+        judgeResults.classList.remove("show");
+
+        judgeButton.textContent =
+            "Start Judge Mode";
+
+    }
+
+});
+
+
+/* =========================================
+   KEYBOARD CONTROLS
+========================================= */
+
+document.addEventListener("keydown", function(event) {
+
+    if (
+        event.code === "Space" &&
+        event.target.tagName !== "INPUT"
+    ) {
+
+        event.preventDefault();
+
+        playButton.click();
+
+    }
+
+    if (event.code === "Escape") {
+
+        closeModal();
+
+    }
+
+});
+
+
+/* =========================================
+   STOP AUDIO WHEN LEAVING PAGE
+========================================= */
+
+window.addEventListener("beforeunload", function() {
+
+    clearInterval(interval);
+    clearInterval(playerInterval);
+    clearInterval(metronomeInterval);
+
+});
+
 
 </script>
 
