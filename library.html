@@ -373,6 +373,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  z-index: 1000;
 }
 
 .modal-overlay.show {
@@ -424,6 +425,74 @@ body {
 .modal-option span {
   color: #8f9ab0;
   font-size: 13px;
+}
+
+/* CREATE FORM */
+
+.create-form {
+  display: none;
+}
+
+.create-form.show {
+  display: block;
+}
+
+.create-form label {
+  display: block;
+  color: #c8cfdd;
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.create-form input,
+.create-form select {
+  width: 100%;
+  background: #151c2e;
+  border: 1px solid #29334b;
+  color: white;
+  padding: 12px;
+  border-radius: 9px;
+  outline: none;
+  font-size: 14px;
+}
+
+.create-form input:focus,
+.create-form select:focus {
+  border-color: #6d7cff;
+}
+
+.create-form select option {
+  background: #151c2e;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancel-create {
+  background: transparent;
+  border: 1px solid #29334b;
+  color: #aeb6c8;
+}
+
+.submit-create {
+  background: #6d7cff;
+  border: 1px solid #6d7cff;
+  color: white;
 }
 
 .close-modal {
@@ -774,15 +843,17 @@ Try changing your search, filters, or selected library section.
 
 <div class="modal-overlay" id="modalOverlay">
 
-<div class="modal">
+<div class="modal" id="addMusicModal">
 
-<h2>Add Music</h2>
+<h2 id="modalTitle">Add Music</h2>
 
-<p>Choose how you want to add music to your MA library.</p>
+<p id="modalDescription">
+Choose how you want to add music to your MA library.
+</p>
 
-<div class="modal-options">
+<div class="modal-options" id="modalOptions">
 
-<button class="modal-option">
+<button class="modal-option" id="createPieceButton">
 <strong>➕ Create a Piece</strong>
 <span>Enter the name, instrument, category, and difficulty.</span>
 </button>
@@ -799,6 +870,120 @@ Try changing your search, filters, or selected library section.
 
 </div>
 
+
+<!-- CREATE PIECE FORM -->
+
+<form class="create-form" id="createForm">
+
+<div class="form-group">
+
+<label for="pieceName">
+Piece Name
+</label>
+
+<input
+  type="text"
+  id="pieceName"
+  placeholder="Example: Autumn Leaves"
+  required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="pieceInstrument">
+Instrument
+</label>
+
+<input
+  type="text"
+  id="pieceInstrument"
+  placeholder="Example: Tenor Saxophone"
+  value="Tenor Saxophone"
+  required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="pieceCategory">
+Category
+</label>
+
+<select id="pieceCategory" required>
+
+<option value="school band">
+School Band
+</option>
+
+<option value="jazz">
+Jazz
+</option>
+
+<option value="technique">
+Technique
+</option>
+
+<option value="saved music">
+Saved Music
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="pieceDifficulty">
+Difficulty
+</label>
+
+<select id="pieceDifficulty" required>
+
+<option value="beginner">
+Beginner
+</option>
+
+<option value="intermediate" selected>
+Intermediate
+</option>
+
+<option value="advanced">
+Advanced
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  type="button"
+  class="cancel-create"
+  id="cancelCreate"
+>
+Cancel
+</button>
+
+<button
+  type="submit"
+  class="submit-create"
+>
+Add to Library
+</button>
+
+</div>
+
+</form>
+
+
 <button class="close-modal" id="closeModal">
 Cancel
 </button>
@@ -812,12 +997,41 @@ Cancel
 
 /* ELEMENTS */
 
-const searchInput = document.getElementById("searchInput");
-const difficultyFilter = document.getElementById("difficultyFilter");
-const categoryFilter = document.getElementById("categoryFilter");
-const pieces = document.querySelectorAll(".piece");
-const emptyState = document.getElementById("emptyState");
-const sectionTitle = document.getElementById("sectionTitle");
+const searchInput =
+  document.getElementById("searchInput");
+
+const difficultyFilter =
+  document.getElementById("difficultyFilter");
+
+const categoryFilter =
+  document.getElementById("categoryFilter");
+
+const piecesContainer =
+  document.getElementById("pieces");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+const sectionTitle =
+  document.getElementById("sectionTitle");
+
+const modalOverlay =
+  document.getElementById("modalOverlay");
+
+const modalTitle =
+  document.getElementById("modalTitle");
+
+const modalDescription =
+  document.getElementById("modalDescription");
+
+const modalOptions =
+  document.getElementById("modalOptions");
+
+const createForm =
+  document.getElementById("createForm");
+
+const closeModal =
+  document.getElementById("closeModal");
 
 let currentTab = "all";
 
@@ -826,20 +1040,35 @@ let currentTab = "all";
 
 function filterPieces() {
 
-  const search = searchInput.value.trim().toLowerCase();
-  const difficulty = difficultyFilter.value;
-  const category = categoryFilter.value;
+  const search =
+    searchInput.value.trim().toLowerCase();
+
+  const difficulty =
+    difficultyFilter.value;
+
+  const category =
+    categoryFilter.value;
+
+  const pieces =
+    document.querySelectorAll(".piece");
 
   let visibleCount = 0;
 
   pieces.forEach(piece => {
 
-    const name = piece.dataset.name.toLowerCase();
-    const pieceCategory = piece.dataset.category.toLowerCase();
-    const pieceDifficulty = piece.dataset.difficulty.toLowerCase();
+    const name =
+      piece.dataset.name.toLowerCase();
+
+    const pieceCategory =
+      piece.dataset.category.toLowerCase();
+
+    const pieceDifficulty =
+      piece.dataset.difficulty.toLowerCase();
 
     const description =
-      piece.querySelector("p").textContent.toLowerCase();
+      piece.querySelector("p")
+      .textContent
+      .toLowerCase();
 
     const favorite =
       piece.dataset.favorite === "true";
@@ -910,16 +1139,25 @@ function filterPieces() {
 
 /* SEARCH */
 
-searchInput.addEventListener("input", filterPieces);
+searchInput.addEventListener(
+  "input",
+  filterPieces
+);
 
-searchInput.addEventListener("keydown", event => {
+searchInput.addEventListener(
+  "keydown",
+  event => {
 
-  if (event.key === "Enter") {
-    filterPieces();
-    searchInput.blur();
+    if (event.key === "Enter") {
+
+      filterPieces();
+
+      searchInput.blur();
+
+    }
+
   }
-
-});
+);
 
 
 /* FILTERS */
@@ -950,15 +1188,23 @@ document
 
 /* TABS */
 
-document.querySelectorAll(".tab").forEach(tab => {
+document
+.querySelectorAll(".tab")
+.forEach(tab => {
 
   tab.addEventListener("click", () => {
 
-    document.querySelectorAll(".tab").forEach(t => {
+    document
+    .querySelectorAll(".tab")
+    .forEach(t => {
+
       t.classList.remove("active");
+
     });
 
+
     tab.classList.add("active");
+
 
     currentTab =
       tab.dataset.tab;
@@ -967,9 +1213,13 @@ document.querySelectorAll(".tab").forEach(tab => {
     const titles = {
 
       all: "Your Pieces",
+
       browse: "Browse Music",
+
       favorites: "Favorite Pieces",
+
       recent: "Recently Practiced",
+
       imported: "Imported / Scanned"
 
     };
@@ -988,13 +1238,7 @@ document.querySelectorAll(".tab").forEach(tab => {
 
 /* FAVORITES */
 
-const savedFavorites =
-  JSON.parse(
-    localStorage.getItem("maFavorites")
-  ) || [];
-
-
-document.querySelectorAll(".favorite").forEach(button => {
+function setupFavoriteButton(button) {
 
   const piece =
     button.closest(".piece");
@@ -1003,151 +1247,657 @@ document.querySelectorAll(".favorite").forEach(button => {
     piece.dataset.name;
 
 
-  /* Restore saved favorite */
+  const savedFavorites =
+    JSON.parse(
+      localStorage.getItem("maFavorites")
+    ) || [];
 
-  if (savedFavorites.includes(pieceName)) {
 
-    piece.dataset.favorite = "true";
+  if (
+    savedFavorites.includes(pieceName)
+  ) {
+
+    piece.dataset.favorite =
+      "true";
 
     button.classList.add("active");
 
-    button.textContent = "★";
+    button.textContent =
+      "★";
 
   }
 
 
-  button.addEventListener("click", () => {
+  button.addEventListener(
+    "click",
+    () => {
 
-    let favorites =
-      JSON.parse(
-        localStorage.getItem("maFavorites")
-      ) || [];
-
-
-    const isFavorite =
-      piece.dataset.favorite === "true";
+      let favorites =
+        JSON.parse(
+          localStorage.getItem("maFavorites")
+        ) || [];
 
 
-    if (isFavorite) {
-
-      piece.dataset.favorite = "false";
-
-      button.classList.remove("active");
-
-      button.textContent = "☆";
+      const isFavorite =
+        piece.dataset.favorite === "true";
 
 
-      favorites =
-        favorites.filter(
-          name => name !== pieceName
+      if (isFavorite) {
+
+        piece.dataset.favorite =
+          "false";
+
+        button.classList.remove(
+          "active"
         );
 
-
-    } else {
-
-      piece.dataset.favorite = "true";
-
-      button.classList.add("active");
-
-      button.textContent = "★";
+        button.textContent =
+          "☆";
 
 
-      if (!favorites.includes(pieceName)) {
-
-        favorites.push(pieceName);
+        favorites =
+          favorites.filter(
+            name => name !== pieceName
+          );
 
       }
 
+      else {
+
+        piece.dataset.favorite =
+          "true";
+
+        button.classList.add(
+          "active"
+        );
+
+        button.textContent =
+          "★";
+
+
+        if (
+          !favorites.includes(
+            pieceName
+          )
+        ) {
+
+          favorites.push(
+            pieceName
+          );
+
+        }
+
+      }
+
+
+      localStorage.setItem(
+        "maFavorites",
+        JSON.stringify(favorites)
+      );
+
+
+      filterPieces();
+
     }
+  );
+
+}
 
 
-    localStorage.setItem(
-      "maFavorites",
-      JSON.stringify(favorites)
-    );
-
-
-    filterPieces();
-
-  });
-
-});
+document
+.querySelectorAll(".favorite")
+.forEach(setupFavoriteButton);
 
 
 /* PLAY */
 
-document.querySelectorAll(".play-button").forEach(button => {
+function setupPlayButton(button) {
 
-  button.addEventListener("click", () => {
+  button.addEventListener(
+    "click",
+    () => {
 
-    const piece =
-      button
-      .closest(".piece")
-      .querySelector("h3")
-      .textContent;
+      const piece =
+        button
+        .closest(".piece")
+        .querySelector("h3")
+        .textContent;
 
 
-    alert(
-      "▶ Playing " +
-      piece +
-      "\n\nFull sheet-music playback will be connected here."
-    );
+      alert(
+        "▶ Playing " +
+        piece +
+        "\n\nFull sheet-music playback will be connected here."
+      );
 
-  });
+    }
+  );
 
-});
+}
+
+
+document
+.querySelectorAll(".play-button")
+.forEach(setupPlayButton);
 
 
 /* PRACTICE */
 
-document.querySelectorAll(".practice-button").forEach(button => {
+function setupPracticeButton(button) {
 
-  button.addEventListener("click", () => {
+  button.addEventListener(
+    "click",
+    () => {
 
-    window.location.href =
-      "practice.html";
+      window.location.href =
+        "practice.html";
 
-  });
+    }
+  );
 
-});
+}
 
 
-/* ADD MUSIC MODAL */
+document
+.querySelectorAll(".practice-button")
+.forEach(setupPracticeButton);
 
-const modalOverlay =
-  document.getElementById("modalOverlay");
 
+/* CREATE PIECE */
+
+document
+.getElementById("createPieceButton")
+.addEventListener(
+  "click",
+  () => {
+
+    modalOptions.style.display =
+      "none";
+
+    createForm.classList.add(
+      "show"
+    );
+
+    modalTitle.textContent =
+      "Create a Piece";
+
+    modalDescription.textContent =
+      "Add your own music to your MA library.";
+
+    closeModal.style.display =
+      "none";
+
+  }
+);
+
+
+/* CANCEL CREATE */
+
+document
+.getElementById("cancelCreate")
+.addEventListener(
+  "click",
+  () => {
+
+    resetModal();
+
+  }
+);
+
+
+/* ADD PIECE */
+
+createForm.addEventListener(
+  "submit",
+  event => {
+
+    event.preventDefault();
+
+
+    const name =
+      document
+      .getElementById("pieceName")
+      .value
+      .trim();
+
+    const instrument =
+      document
+      .getElementById("pieceInstrument")
+      .value
+      .trim();
+
+    const category =
+      document
+      .getElementById("pieceCategory")
+      .value;
+
+    const difficulty =
+      document
+      .getElementById("pieceDifficulty")
+      .value;
+
+
+    if (!name || !instrument) {
+      return;
+    }
+
+
+    /* Create piece object */
+
+    const newPiece = {
+
+      name: name,
+
+      instrument: instrument,
+
+      category: category,
+
+      difficulty: difficulty,
+
+      favorite: false,
+
+      recent: false,
+
+      imported: false
+
+    };
+
+
+    /* Save to browser */
+
+    const savedPieces =
+      JSON.parse(
+        localStorage.getItem("maPieces")
+      ) || [];
+
+
+    savedPieces.push(
+      newPiece
+    );
+
+
+    localStorage.setItem(
+      "maPieces",
+      JSON.stringify(
+        savedPieces
+      )
+    );
+
+
+    /* Add card */
+
+    createPieceCard(
+      newPiece
+    );
+
+
+    /* Close modal */
+
+    resetModal();
+
+
+    /* Make sure My Pieces is selected */
+
+    currentTab = "all";
+
+    document
+    .querySelectorAll(".tab")
+    .forEach(tab => {
+
+      tab.classList.remove(
+        "active"
+      );
+
+    });
+
+
+    document
+    .querySelector(
+      '.tab[data-tab="all"]'
+    )
+    .classList.add(
+      "active"
+    );
+
+
+    sectionTitle.textContent =
+      "Your Pieces";
+
+
+    filterPieces();
+
+
+    /* Reset search */
+
+    searchInput.value = "";
+
+    difficultyFilter.value =
+      "all";
+
+    categoryFilter.value =
+      "all";
+
+
+    filterPieces();
+
+  }
+);
+
+
+/* CREATE PIECE CARD */
+
+function createPieceCard(pieceData) {
+
+  const piece =
+    document.createElement("div");
+
+  piece.className =
+    "piece";
+
+
+  piece.dataset.name =
+    pieceData.name.toLowerCase();
+
+  piece.dataset.category =
+    pieceData.category.toLowerCase();
+
+  piece.dataset.difficulty =
+    pieceData.difficulty.toLowerCase();
+
+  piece.dataset.favorite =
+    pieceData.favorite
+      ? "true"
+      : "false";
+
+  piece.dataset.recent =
+    pieceData.recent
+      ? "true"
+      : "false";
+
+  piece.dataset.imported =
+    pieceData.imported
+      ? "true"
+      : "false";
+
+
+  let icon = "🎼";
+
+  if (
+    pieceData.category ===
+    "jazz"
+  ) {
+    icon = "🎵";
+  }
+
+  if (
+    pieceData.category ===
+    "school band"
+  ) {
+    icon = "🎷";
+  }
+
+  if (
+    pieceData.category ===
+    "saved music"
+  ) {
+    icon = "⭐";
+  }
+
+
+  const favoriteSymbol =
+    pieceData.favorite
+      ? "★"
+      : "☆";
+
+
+  piece.innerHTML = `
+
+    <button class="favorite ${
+      pieceData.favorite
+        ? "active"
+        : ""
+    }">
+      ${favoriteSymbol}
+    </button>
+
+    <div class="piece-icon">
+      ${icon}
+    </div>
+
+    <h3>
+      ${escapeHTML(pieceData.name)}
+    </h3>
+
+    <p>
+      ${escapeHTML(pieceData.instrument)}
+      •
+      ${escapeHTML(
+        formatCategory(
+          pieceData.category
+        )
+      )}
+    </p>
+
+    <span class="difficulty">
+      ${formatDifficulty(
+        pieceData.difficulty
+      )}
+    </span>
+
+    <div class="piece-actions">
+
+      <button class="play-button">
+        ▶ Play
+      </button>
+
+      <button class="primary practice-button">
+        Practice
+      </button>
+
+    </div>
+
+  `;
+
+
+  piecesContainer.appendChild(
+    piece
+  );
+
+
+  setupFavoriteButton(
+    piece.querySelector(".favorite")
+  );
+
+
+  setupPlayButton(
+    piece.querySelector(".play-button")
+  );
+
+
+  setupPracticeButton(
+    piece.querySelector(".practice-button")
+  );
+
+}
+
+
+/* LOAD SAVED PIECES */
+
+function loadSavedPieces() {
+
+  const savedPieces =
+    JSON.parse(
+      localStorage.getItem("maPieces")
+    ) || [];
+
+
+  savedPieces.forEach(
+    pieceData => {
+
+      createPieceCard(
+        pieceData
+      );
+
+    }
+  );
+
+}
+
+
+/* FORMAT CATEGORY */
+
+function formatCategory(category) {
+
+  const categories = {
+
+    "school band":
+      "School Band",
+
+    jazz:
+      "Jazz",
+
+    technique:
+      "Technique",
+
+    "saved music":
+      "Saved Music"
+
+  };
+
+
+  return (
+    categories[category] ||
+    category
+  );
+
+}
+
+
+/* FORMAT DIFFICULTY */
+
+function formatDifficulty(
+  difficulty
+) {
+
+  return (
+    difficulty.charAt(0)
+    .toUpperCase() +
+    difficulty.slice(1)
+  );
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+
+/* RESET MODAL */
+
+function resetModal() {
+
+  createForm.reset();
+
+  document
+  .getElementById("pieceInstrument")
+  .value =
+    "Tenor Saxophone";
+
+  document
+  .getElementById("pieceDifficulty")
+  .value =
+    "intermediate";
+
+
+  modalOptions.style.display =
+    "grid";
+
+  createForm.classList.remove(
+    "show"
+  );
+
+
+  modalTitle.textContent =
+    "Add Music";
+
+  modalDescription.textContent =
+    "Choose how you want to add music to your MA library.";
+
+
+  closeModal.style.display =
+    "block";
+
+
+  modalOverlay.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* OPEN ADD MUSIC */
 
 document
 .getElementById("addMusicButton")
-.addEventListener("click", () => {
+.addEventListener(
+  "click",
+  () => {
 
-  modalOverlay.classList.add("show");
+    resetModal();
 
-});
-
-
-document
-.getElementById("closeModal")
-.addEventListener("click", () => {
-
-  modalOverlay.classList.remove("show");
-
-});
-
-
-modalOverlay.addEventListener("click", event => {
-
-  if (event.target === modalOverlay) {
-
-    modalOverlay.classList.remove("show");
+    modalOverlay.classList.add(
+      "show"
+    );
 
   }
+);
 
-});
+
+/* CLOSE MODAL */
+
+closeModal.addEventListener(
+  "click",
+  () => {
+
+    resetModal();
+
+  }
+);
 
 
-/* INITIALIZE */
+/* CLICK OUTSIDE MODAL */
+
+modalOverlay.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      modalOverlay
+    ) {
+
+      resetModal();
+
+    }
+
+  }
+);
+
+
+/* LOAD EVERYTHING */
+
+loadSavedPieces();
 
 filterPieces();
 
