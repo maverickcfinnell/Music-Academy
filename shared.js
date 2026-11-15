@@ -20,7 +20,9 @@
         "library.html": "library",
         "challenges.html": "challenges",
         "leaderboard.html": "leaderboard",
-        "studio.html": "studio"
+        "studio.html": "studio",
+        "profile.html": "profile",
+        "edit-profile.html": "edit-profile"
     }[filename] || "home";
 
     // Keep the legacy pages' sidebar identical to the newer app.css layout.
@@ -131,6 +133,7 @@
     document.getElementById("sharedSearch")?.addEventListener("click", () => {
         window.location.href = "library.html";
     });
+    document.getElementById("sharedProfile")?.addEventListener("click", () => { window.location.href = "profile.html"; });
 
 
     if (!document.getElementById("ma-settings-styles")) {
