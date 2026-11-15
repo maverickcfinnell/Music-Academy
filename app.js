@@ -83,22 +83,24 @@
             <header class="topbar">
                 <label class="instrument-label" for="instrument">Instrument</label>
                 <select class="instrument-select" id="instrument" aria-label="Choose instrument">
-                    <option>Tenor Saxophone</option>
-                    <option>Alto Saxophone</option>
-                    <option>Soprano Saxophone</option>
-                    <option>Baritone Saxophone</option>
-                    <option>Clarinet</option>
-                    <option>Flute</option>
-                    <option>Trumpet</option>
-                    <option>Trombone</option>
-                    <option>Violin</option>
-                    <option>Viola</option>
-                    <option>Cello</option>
-                    <option>Piano</option>
-                    <option>Guitar</option>
-                    <option>Bass Guitar</option>
-                    <option>Voice</option>
-                    <option>Other</option>
+                    <option value="Tenor Saxophone">🎷 Tenor Saxophone</option>
+                    <option value="Alto Saxophone">🎷 Alto Saxophone</option>
+                    <option value="Soprano Saxophone">🎷 Soprano Saxophone</option>
+                    <option value="Baritone Saxophone">🎷 Baritone Saxophone</option>
+                    <option value="Clarinet">🎵 Clarinet</option>
+                    <option value="Flute">🪈 Flute</option>
+                    <option value="Trumpet">🎺 Trumpet</option>
+                    <option value="Trombone">🎺 Trombone</option>
+                    <option value="French Horn">📯 French Horn</option>
+                    <option value="Tuba">🎺 Tuba</option>
+                    <option value="Violin">🎻 Violin</option>
+                    <option value="Viola">🎻 Viola</option>
+                    <option value="Cello">🎻 Cello</option>
+                    <option value="Double Bass">🎻 Double Bass</option>
+                    <option value="Piano">🎹 Piano</option>
+                    <option value="Guitar">🎸 Guitar</option>
+                    <option value="Bass Guitar">🎸 Bass Guitar</option>
+                    <option value="Voice">🎤 Voice</option>
                 </select>
 
                 <div class="top-actions">
@@ -599,6 +601,7 @@
         const existing = document.getElementById("appSettingsOverlay");
         if (existing) { existing.classList.add("open"); return; }
         const currentInstrument = localStorage.getItem("ma_instrument") || "Tenor Saxophone";
+        const instrumentIcons = {"Tenor Saxophone":"🎷","Alto Saxophone":"🎷","Soprano Saxophone":"🎷","Baritone Saxophone":"🎷","Clarinet":"🎵","Flute":"🪈","Trumpet":"🎺","Trombone":"🎺","French Horn":"📯","Tuba":"🎺","Violin":"🎻","Viola":"🎻","Cello":"🎻","Double Bass":"🎻","Piano":"🎹","Guitar":"🎸","Bass Guitar":"🎸","Voice":"🎤"};
         const instruments = Array.from(document.querySelectorAll("#instrument option"))
             .map(option => option.value || option.textContent.trim());
         const read = (key, fallback) => localStorage.getItem("ma_" + key) ?? fallback;
@@ -630,7 +633,7 @@
                     <section class="ma-settings-group">
                         <h3>Practice Preferences</h3>
                         <label class="ma-setting-field">Default instrument
-                            <select id="appDefaultInstrument">${instruments.map(name => `<option ${name === currentInstrument ? "selected" : ""}>${name}</option>`).join("")}</select>
+                            <select id="appDefaultInstrument">${instruments.map(name => `<option value="${name}" ${name === currentInstrument ? "selected" : ""}>${instrumentIcons[name] || "🎵"} ${name}</option>`).join("")}</select>
                             <span>Sets the instrument selected when you open Music Academy.</span>
                         </label>
                         <label class="ma-setting-field">Daily practice goal
