@@ -914,6 +914,40 @@
         document.head.appendChild(css);
 
         css.textContent += `
+
+          /* Unified notation workspace: one continuous white editor surface */
+          .studio-editor-canvas{background:#fff;color:#172235;border:1px solid #d5dce6;border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.16);display:grid;gap:0}
+          .studio-editor-canvas .studio-documentbar,.studio-editor-canvas .studio-settings,.studio-editor-canvas .studio-ribbon,.studio-editor-canvas .studio-parts-panel,.studio-editor-canvas .studio-score-area{background:#fff!important;color:#172235!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+          .studio-editor-canvas .studio-documentbar{padding:18px 22px;border-bottom:1px solid #e3e8ef!important}
+          .studio-editor-canvas .studio-doc-title small,.studio-editor-canvas .studio-settings label,.studio-editor-canvas .ribbon-group>span,.studio-editor-canvas .ribbon-dynamic{color:#64748b!important}
+          .studio-editor-canvas .studio-settings{padding:17px 22px;border-bottom:1px solid #e3e8ef!important}
+          .studio-editor-canvas .studio-settings input,.studio-editor-canvas .studio-settings select,.studio-editor-canvas .ribbon-dynamic select{background:#f8fafc!important;color:#172235!important;border:1px solid #cbd5e1!important}
+          .studio-editor-canvas .studio-ribbon{padding:14px 20px;border-bottom:1px solid #e3e8ef!important}
+          .studio-editor-canvas .ribbon-group{border-color:#e2e8f0}
+          .studio-editor-canvas .ribbon-buttons button{background:#f8fafc!important;color:#253449!important;border:1px solid #cbd5e1!important}
+          .studio-editor-canvas .ribbon-buttons button.active{background:#e8efff!important;color:#244b9b!important;border-color:#8aa8e8!important}
+          .studio-editor-canvas .studio-workspace{grid-template-columns:205px minmax(0,1fr);gap:0}
+          .studio-editor-canvas .studio-parts-panel{border-right:1px solid #e3e8ef!important;padding:18px 14px}
+          .studio-editor-canvas .parts-panel-head{border-color:#e3e8ef}
+          .studio-editor-canvas .parts-panel-head button,.studio-editor-canvas .studio-part-item{background:#f8fafc!important;color:#253449!important;border:1px solid #d8e0ea!important}
+          .studio-editor-canvas .studio-part-item strong{color:#253449}
+          .studio-editor-canvas .parts-panel-foot{border-color:#e3e8ef;color:#64748b}
+          .studio-editor-canvas .studio-score-area{padding:18px 20px}
+          .studio-editor-canvas .score-area-head{color:#172235}
+          .studio-editor-canvas .score-area-head span{color:#64748b}
+          .studio-editor-canvas .score-area-footer{color:#64748b}
+          .studio-editor-canvas .score-status{color:#64748b}
+          .studio-editor-canvas .studio-doc-actions button{background:#f8fafc!important;color:#26364b!important;border-color:#cbd5e1!important}
+          .studio-editor-canvas .studio-doc-actions button:hover{background:#e8efff!important;border-color:#8aa8e8!important}
+          .studio-editor-canvas .add-measure-btn{background:#edf3ff!important;color:#244b9b!important;border-color:#b7c9ed!important}
+          .studio-editor-canvas .score-scroll{border:1px solid #d7dee8!important;max-height:calc(100vh - 410px)}
+          .studio-editor-canvas .score-paper{background:#fff!important}
+          .studio-editor-canvas .score-app{color:#172235}
+          .studio-app .studio-editor-canvas{margin-bottom:2px}
+          .score-app:fullscreen .studio-editor-canvas{min-height:calc(100vh - 100px)}
+          .score-app:fullscreen .studio-editor-canvas .score-scroll{max-height:calc(100vh - 430px)}
+          @media(max-width:760px){.studio-editor-canvas .studio-workspace{grid-template-columns:1fr}.studio-editor-canvas .studio-parts-panel{border-right:0!important;border-bottom:1px solid #e3e8ef!important}.studio-editor-canvas .studio-settings{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
           .score-app{gap:16px;max-width:1600px;margin:0 auto}
           .studio-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:4px 0 10px}
           .studio-heading h1{font-size:30px;letter-spacing:-.7px;margin:0 0 5px}
@@ -983,6 +1017,7 @@
               <div><div class="eyebrow">COMPOSITION WORKSPACE</div><h1>Composition Studio</h1><p class="score-muted">Write, arrange, and shape music for your ensemble.</p></div>
               <div class="studio-heading-actions"><button class="secondary" id="scoreNew">＋ New score</button><button class="btn" id="scoreSave">Save composition</button></div>
             </header>
+            <div class="studio-editor-canvas">
             <section class="studio-documentbar"><div class="studio-doc-title"><span class="studio-doc-icon">♫</span><div><strong id="studioDocLabel">Untitled Composition</strong><small>Conductor score</small></div></div><div class="studio-doc-actions"><button id="scoreFullscreen" class="score-fullscreen-btn">⛶ Full screen</button><button id="scorePrint">Print</button><button id="scoreXml">Export MusicXML</button></div></section>
             <section class="studio-settings">
               <label>Title<input id="scoreTitle" value="\${esc(score.title)}" maxlength="90"></label>
@@ -1001,6 +1036,7 @@
             <div class="studio-workspace">
               <aside class="studio-parts-panel"><div class="parts-panel-head"><div><strong>Instruments</strong><small>Score parts</small></div><button id="scoreAddPart" title="Add instrument">＋</button></div><div id="scorePartList" class="studio-part-list"></div><div class="parts-panel-foot"><span class="parts-dot"></span> All parts synchronized</div></aside>
               <section class="studio-score-area"><div class="score-area-head"><div><strong>Full score</strong><span id="scoreMeasureCount">4 measures</span></div><button class="add-measure-btn" id="scoreAddBar">＋ Add measure</button></div><div class="score-scroll"><div id="scorePaper" class="score-paper"></div></div><div class="score-area-footer"><span id="scoreStatus" class="score-status">Ready. Select a note tool, then click a staff.</span><span>Tip: scroll horizontally to see more measures</span></div></section>
+            </div>
             </div>
             <section class="score-panel score-saved-panel"><div class="saved-head"><strong>Saved compositions</strong><p class="score-muted">Stored on this device</p></div><div id="scoreSaved" class="score-saved"></div></section>
             <div class="studio-playbar"><div><strong>Playback</strong><span>Hear all instrument parts together</span></div><div><button id="scorePlay" class="btn">▶ Play score</button><button id="scoreStop" class="secondary">■ Stop</button></div></div>
