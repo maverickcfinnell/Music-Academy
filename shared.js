@@ -122,12 +122,106 @@
             </select>
 
             <div class="top-actions">
-                <button class="top-btn" id="sharedSearch" type="button" title="Open My Library" aria-label="Open My Library">🔍</button>
+                <button class="top-btn" id="sharedSearch" type="button" title="Search Music Academy" aria-label="Search Music Academy">🔍</button>
                 <button class="top-btn" id="sharedSettings" type="button" title="Settings" aria-label="Settings">⚙️</button>
                 <a class="top-btn" id="sharedProfile" href="profile.html" title="Profile" aria-label="Profile" style="text-decoration:none"><svg class="profile-avatar-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" style="color:#dbe3f0!important"><circle cx="12" cy="12" r="10" stroke="#dbe3f0" stroke-width="1.6"/><circle cx="12" cy="9" r="3.1" fill="#dbe3f0"/><path d="M5.8 18.1c.9-2.7 3.1-4.2 6.2-4.2s5.3 1.5 6.2 4.2" fill="#dbe3f0"/></svg></a>
             </div>
         `;
     }
+
+
+    // Music Academy global search: find features and jump directly to their page.
+    const maSearchItems = [
+        {title:"Home",detail:"Dashboard and your music activity",url:"home.html",keywords:"dashboard overview progress xp welcome"},
+        {title:"Learning Paths",detail:"Lessons, courses, skills, and learning progress",url:"learning.html",keywords:"learn lesson course path beginner intermediate advanced scales theory technique"},
+        {title:"Note Learner",detail:"Practice identifying notes and reading music",url:"notes.html",keywords:"notes note reading treble bass clef pitch identify flashcards"},
+        {title:"Practice Room",detail:"Practice tools, timer, metronome, and tuner",url:"practice.html",keywords:"practice session timer metronome tuner tempo routine"},
+        {title:"My Library",detail:"Your saved music, sheet music, and pieces",url:"library.html",keywords:"library music sheet music saved pieces browse favorites imported scanned"},
+        {title:"Search music: Take Five",detail:"Find this piece in My Library",url:"library.html?search=Take%20Five",keywords:"take five jazz paul desmond"},
+        {title:"Search music: Concert Piece",detail:"Find this piece in My Library",url:"library.html?search=Concert%20Piece",keywords:"concert piece classical"},
+        {title:"Search music: Warm Up Exercise",detail:"Find this piece in My Library",url:"library.html?search=Warm%20Up%20Exercise",keywords:"warm up exercise scales"},
+        {title:"Challenges",detail:"Practice challenges and goals",url:"challenges.html",keywords:"challenge goals tasks daily weekly"},
+        {title:"Leaderboards",detail:"Rankings and musician standings",url:"leaderboard.html",keywords:"leaderboard rankings scores xp competition"},
+        {title:"Composition Studio",detail:"Create and save your own compositions",url:"studio.html",keywords:"compose composition create write music melody notes grid"},
+        {title:"My Profile",detail:"Your instruments, statistics, and achievements",url:"profile.html",keywords:"profile account musician instruments statistics achievements bio"},
+        {title:"Edit Profile",detail:"Change your name, bio, and instruments",url:"edit-profile.html",keywords:"edit profile name bio instrument"},
+        {title:"Settings",detail:"Appearance, accent color, and practice preferences",url:"#settings",keywords:"settings theme appearance color accent orange purple green blue preferences sound notifications"}
+    ];
+    const maSearchStyle = document.createElement("style");
+    maSearchStyle.id = "ma-global-search-style";
+    maSearchStyle.textContent = `
+        .ma-global-search-overlay{position:fixed;inset:0;z-index:12000;display:none;align-items:flex-start;justify-content:center;padding:12vh 18px 24px;background:rgba(2,7,17,.78);backdrop-filter:blur(6px)}
+        .ma-global-search-overlay.open{display:flex}
+        .ma-global-search-panel{width:min(620px,100%);max-height:76vh;overflow:hidden;background:var(--panel,#101c30);color:#edf3fc;border:1px solid var(--line,#263957);border-radius:16px;box-shadow:0 25px 80px rgba(0,0,0,.5);font-family:Arial,Helvetica,sans-serif}
+        .ma-global-search-input-wrap{display:flex;align-items:center;gap:12px;padding:17px 19px;border-bottom:1px solid var(--line,#263957)}
+        .ma-global-search-input-wrap span{font-size:20px}
+        .ma-global-search-input{flex:1;min-width:0;border:0!important;outline:0!important;background:transparent!important;color:inherit!important;font:16px Arial,sans-serif!important;padding:7px 0!important;box-shadow:none!important}
+        .ma-global-search-hint{font-size:11px;color:#8493aa;white-space:nowrap}
+        .ma-global-search-results{padding:9px;max-height:calc(76vh - 75px);overflow:auto}
+        .ma-global-search-result{display:flex;width:100%;flex-direction:column;gap:4px;padding:12px 13px;text-align:left;border:1px solid transparent;border-radius:9px;background:transparent;color:inherit;cursor:pointer}
+        .ma-global-search-result:hover,.ma-global-search-result:focus{outline:0;background:var(--ma-accent-soft,var(--blue2,#16233b));border-color:var(--line,#263957)}
+        .ma-global-search-result strong{font-size:14px}
+        .ma-global-search-result small{font-size:12px;color:#91a0b7}
+        .ma-global-search-empty{padding:24px 15px;text-align:center;color:#91a0b7;font-size:13px}
+        @media(max-width:520px){.ma-global-search-overlay{padding:8vh 10px 16px}.ma-global-search-hint{display:none}}
+    `;
+    document.head.appendChild(maSearchStyle);
+    const maSearchOverlay = document.createElement("div");
+    maSearchOverlay.className = "ma-global-search-overlay";
+    maSearchOverlay.innerHTML = '<section class="ma-global-search-panel" role="dialog" aria-modal="true" aria-label="Search Music Academy"><div class="ma-global-search-input-wrap"><span aria-hidden="true">🔍</span><input class="ma-global-search-input" type="search" placeholder="Search anywhere in Music Academy..." autocomplete="off" aria-label="Search anywhere in Music Academy"><span class="ma-global-search-hint">ESC to close</span></div><div class="ma-global-search-results" role="listbox"></div></section>';
+    document.body.appendChild(maSearchOverlay);
+    const maSearchInput = maSearchOverlay.querySelector(".ma-global-search-input");
+    const maSearchResults = maSearchOverlay.querySelector(".ma-global-search-results");
+    const renderMaSearchResults = () => {
+        const query = maSearchInput.value.trim().toLowerCase();
+        const matches = maSearchItems.filter(item => !query || (item.title+" "+item.detail+" "+item.keywords).toLowerCase().includes(query)).slice(0,10);
+        maSearchResults.innerHTML = "";
+        if (!matches.length) {
+            const empty = document.createElement("div");
+            empty.className = "ma-global-search-empty";
+            empty.textContent = "No matches found. Try another search.";
+            maSearchResults.appendChild(empty);
+            return;
+        }
+        matches.forEach(item => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "ma-global-search-result";
+            button.setAttribute("role","option");
+            const title = document.createElement("strong");
+            title.textContent = item.title;
+            const detail = document.createElement("small");
+            detail.textContent = item.detail;
+            button.append(title,detail);
+            button.addEventListener("click", () => {
+                if (item.url === "#settings") {
+                    maSearchOverlay.classList.remove("open");
+                    document.querySelector(".ma-settings-overlay")?.classList.add("open");
+                } else {
+                    window.location.href = item.url;
+                }
+            });
+            maSearchResults.appendChild(button);
+        });
+    };
+    const openMaGlobalSearch = () => {
+        maSearchOverlay.classList.add("open");
+        maSearchInput.value = "";
+        renderMaSearchResults();
+        window.setTimeout(() => maSearchInput.focus(), 0);
+    };
+    maSearchInput.addEventListener("input", renderMaSearchResults);
+    maSearchInput.addEventListener("keydown", event => {
+        if (event.key === "Escape") maSearchOverlay.classList.remove("open");
+        if (event.key === "Enter") maSearchResults.querySelector(".ma-global-search-result")?.click();
+    });
+    maSearchOverlay.addEventListener("click", event => {
+        if (event.target === maSearchOverlay) maSearchOverlay.classList.remove("open");
+    });
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") maSearchOverlay.classList.remove("open");
+    });
+
 
     const instrumentSelect = document.getElementById("sharedInstrument");
 
@@ -138,9 +232,7 @@
         });
     }
 
-    document.getElementById("sharedSearch")?.addEventListener("click", () => {
-        window.location.href = "library.html";
-    });
+    document.getElementById("sharedSearch")?.addEventListener("click", openMaGlobalSearch);
 
 
     if (!document.getElementById("ma-settings-styles")) {
