@@ -71,7 +71,7 @@
             <div class="nav-label">Community &amp; Create</div>
             <nav class="nav">
                 ${pages.slice(5).map((item) => `
-                    <a class="${page === item[0] ? "active" : ""}" href="${item[3]}">
+                    <a class="nav-link ${page === item[0] ? "active" : ""}" href="${item[3]}">
                         <span class="nav-icon">${item[1]}</span>
                         ${item[2]}
                     </a>
@@ -81,7 +81,8 @@
 
         <main class="main">
             <header class="topbar">
-                <select id="instrument" aria-label="Choose instrument">
+                <label class="instrument-label" for="instrument">Instrument</label>
+                <select class="instrument-select" id="instrument" aria-label="Choose instrument">
                     <option>Tenor Saxophone</option>
                     <option>Alto Saxophone</option>
                     <option>Soprano Saxophone</option>
@@ -101,9 +102,9 @@
                 </select>
 
                 <div class="top-actions">
-                    <button class="top-btn" id="search" type="button">⌕ Search</button>
-                    <button class="top-btn" id="settings" type="button">⚙ Settings</button>
-                    <button class="top-btn" id="profile" type="button">◉ Profile</button>
+                    <button class="top-btn" id="search" type="button" title="Open My Library" aria-label="Open My Library">⌕</button>
+                    <button class="top-btn" id="settings" type="button" title="Settings" aria-label="Settings">⚙</button>
+                    <button class="top-btn" id="profile" type="button" title="Profile" aria-label="Profile">◉</button>
                 </div>
             </header>
 
