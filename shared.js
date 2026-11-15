@@ -1,14 +1,14 @@
 /* Music Academy shared navigation and preferences. */
 (() => {
     const pages = [
-        ["home", "⌂", "Home", "home.html"],
-        ["learning", "▤", "Learning Paths", "learning.html"],
-        ["notes", "♫", "Note Learner", "notes.html"],
-        ["practice", "◉", "Practice Room", "practice.html"],
-        ["library", "▧", "My Library", "library.html"],
+        ["home", "🏠", "Home", "home.html"],
+        ["learning", "📚", "Learning Paths", "learning.html"],
+        ["notes", "🎵", "Note Learner", "notes.html"],
+        ["practice", "🎷", "Practice Room", "practice.html"],
+        ["library", "🎼", "My Library", "library.html"],
         ["challenges", "⚡", "Challenges", "challenges.html"],
-        ["leaderboard", "♜", "Leaderboards", "leaderboard.html"],
-        ["studio", "✎", "Composition Studio", "studio.html"]
+        ["leaderboard", "🏆", "Leaderboards", "leaderboard.html"],
+        ["studio", "🎹", "Composition Studio", "studio.html"]
     ];
 
     const filename = window.location.pathname.split("/").pop() || "home.html";
