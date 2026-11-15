@@ -114,7 +114,7 @@
             <div class="top-actions">
                 <button class="top-btn" id="sharedSearch" type="button" title="Open My Library" aria-label="Open My Library">⌕</button>
                 <button class="top-btn" id="sharedSettings" type="button" title="Settings" aria-label="Settings">⚙</button>
-                <button class="top-btn" id="sharedProfile" type="button" title="Profile" aria-label="Profile"><svg class="profile-avatar-icon" style="display:block!important;visibility:visible!important;opacity:1!important;width:22px;height:22px;flex:0 0 22px" viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9" r="3.1" fill="currentColor"/><path d="M5.8 18.1c.9-2.7 3.1-4.2 6.2-4.2s5.3 1.5 6.2 4.2" fill="currentColor"/></svg></button>
+                <button class="top-btn" id="sharedProfile" type="button" title="Profile" aria-label="Profile"><span aria-hidden="true" style="display:inline-block!important;visibility:visible!important;opacity:1!important;font-family:Arial,sans-serif!important;font-size:21px!important;line-height:1!important">👤</span></button>
             </div>
         `;
     }
