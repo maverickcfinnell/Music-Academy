@@ -179,20 +179,48 @@
 
 
     // Apply the saved accent throughout the interface.
-    const applyAccent = (accent) => {
-        const palettes = {
-            blue: ["#6d8cff", "#16233b"],
-            purple: ["#b18cff", "#302044"],
-            green: ["#54c995", "#153b32"],
-            orange: ["#ff9b52", "#472b1b"]
+    const palettes = {
+            blue:   {accent:"#6d8cff", soft:"#16233b", bg:"#080f20", side:"#060c18", panel:"#101c30", panel2:"#14233a", line:"#263957", top:"#0b1425"},
+            purple: {accent:"#b18cff", soft:"#302044", bg:"#120d1d", side:"#0b0814", panel:"#1b1428", panel2:"#241a35", line:"#3a2b50", top:"#160f22"},
+            green:  {accent:"#54c995", soft:"#153b32", bg:"#081711", side:"#050e0a", panel:"#10241b", panel2:"#173126", line:"#244536", top:"#0b1c13"},
+            orange: {accent:"#ff9b52", soft:"#472b1b", bg:"#190f09", side:"#0d0805", panel:"#25170f", panel2:"#332014", line:"#4a3020", top:"#1e120b"}
         };
         const colors = palettes[accent] || palettes.blue;
         const root = document.documentElement;
         root.dataset.maAccent = accent || "blue";
-        root.style.setProperty("--blue", colors[0]);
-        root.style.setProperty("--blue2", colors[1]);
-        root.style.setProperty("--ma-accent", colors[0]);
-        root.style.setProperty("--ma-accent-soft", colors[1]);
+        root.style.setProperty("--blue", colors.accent);
+        root.style.setProperty("--blue2", colors.soft);
+        root.style.setProperty("--ma-accent", colors.accent);
+        root.style.setProperty("--ma-accent-soft", colors.soft);
+        root.style.setProperty("--bg", colors.bg);
+        root.style.setProperty("--side", colors.side);
+        root.style.setProperty("--panel", colors.panel);
+        root.style.setProperty("--panel2", colors.panel2);
+        root.style.setProperty("--line", colors.line);
+        root.style.setProperty("--ma-topbar", colors.top);
+        let themeStyle = document.getElementById("maAccentTheme");
+        if (!themeStyle) {
+            themeStyle = document.createElement("style");
+            themeStyle.id = "maAccentTheme";
+            document.head.appendChild(themeStyle);
+        }
+        themeStyle.textContent = `
+            body { background:var(--bg)!important; }
+            .sidebar { background:var(--side)!important; border-color:var(--line)!important; }
+            .sidebar .logo { color:var(--blue)!important; }
+            .sidebar .nav a.active,.sidebar .nav a:hover { background:var(--blue2)!important; }
+            .topbar { background:var(--ma-topbar)!important; border-color:var(--line)!important; }
+            .card { background:var(--panel)!important; border-color:var(--line)!important; }
+            .item { background:var(--bg)!important; border-color:var(--line)!important; }
+            .tile,.pill { background:var(--blue2)!important; }
+            .progress { background:var(--blue2)!important; }
+            .cell { background:var(--panel2)!important; border-color:var(--line)!important; }
+            .topbar select,.top-btn,.secondary,.field { background:var(--panel2)!important; border-color:var(--line)!important; }
+            .btn,.progress span,.cell.on { background:var(--blue)!important; }
+            .eyebrow,.field:focus { color:var(--blue)!important; }
+            .tabs .tab.active { border-color:var(--blue)!important; }
+            .ma-settings-panel { background:var(--panel)!important; border-color:var(--line)!important; }
+        `;
     };
     applyAccent(localStorage.getItem("ma_accent") || "blue");
 
