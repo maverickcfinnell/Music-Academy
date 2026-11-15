@@ -104,7 +104,7 @@
                 <div class="top-actions">
                     <button class="top-btn" id="search" type="button" title="Open My Library" aria-label="Open My Library">🔍</button>
                     <button class="top-btn" id="settings" type="button" title="Settings" aria-label="Settings">⚙️</button>
-                    <button class="top-btn" id="profile" type="button" title="Profile" aria-label="Profile"><svg class="profile-avatar-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9" r="3.1" fill="currentColor"/><path d="M5.8 18.1c.9-2.7 3.1-4.2 6.2-4.2s5.3 1.5 6.2 4.2" fill="currentColor"/></svg></button>
+                    <a class="top-btn" id="profile" href="profile.html" title="Profile" aria-label="Profile" style="text-decoration:none"><svg class="profile-avatar-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9" r="3.1" fill="currentColor"/><path d="M5.8 18.1c.9-2.7 3.1-4.2 6.2-4.2s5.3 1.5 6.2 4.2" fill="currentColor"/></svg></a>
                 </div>
             </header>
 
@@ -160,7 +160,6 @@
     $("#search").addEventListener("click", () => {
         window.location.href = "library.html";
     });
-    $("#profile")?.addEventListener("click", () => { window.location.href = "profile.html"; });
 
 
 
