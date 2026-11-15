@@ -274,6 +274,114 @@
             .eyebrow,.field:focus { color:var(--blue)!important; }
             .tabs .tab.active { border-color:var(--blue)!important; }
             .ma-settings-panel { background:var(--panel)!important; border-color:var(--line)!important; }
+
+            /* Legacy page components: map their old hard-coded colors to the active palette. */
+            body[data-page="learning"] .path,
+            body[data-page="learning"] .skill-list,
+            body[data-page="notes"] .mode,
+            body[data-page="notes"] .practice,
+            body[data-page="notes"] .progress-box,
+            body[data-page="library"] .filter-panel,
+            body[data-page="library"] .piece,
+            body[data-page="library"] .modal,
+            body[data-page="practice"] .timer-card,
+            body[data-page="practice"] .session-stat,
+            body[data-page="practice"] .player,
+            body[data-page="practice"] .week-card,
+            body[data-page="practice"] .modal {
+                background:var(--panel)!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page="learning"] .progress,
+            body[data-page="notes"] .progress-bar,
+            body[data-page="library"] .piece-meta span,
+            body[data-page="library"] .play-button,
+            body[data-page="practice"] .progress-track,
+            body[data-page="practice"] .judge-stat,
+            body[data-page="practice"] .bar,
+            body[data-page="practice"] .tool {
+                background:var(--panel2)!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page="learning"] .recommended,
+            body[data-page="practice"] .selected-piece,
+            body[data-page="practice"] .judge-card {
+                background:var(--ma-accent-soft)!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page="learning"] .instrument,
+            body[data-page="learning"] .top-actions button,
+            body[data-page="notes"] .instrument,
+            body[data-page="notes"] .top-btn,
+            body[data-page="notes"] select,
+            body[data-page="notes"] .choice,
+            body[data-page="library"] .instrument,
+            body[data-page="library"] .search-box input,
+            body[data-page="library"] .filter-button,
+            body[data-page="library"] .filter-group select,
+            body[data-page="library"] .form-group input,
+            body[data-page="library"] .form-group select,
+            body[data-page="practice"] .instrument,
+            body[data-page="practice"] .top-btn,
+            body[data-page="practice"] .change-piece,
+            body[data-page="practice"] .secondary,
+            body[data-page="practice"] .modal-row input,
+            body[data-page="practice"] .modal-row select {
+                background:var(--panel2)!important;
+                border-color:var(--line)!important;
+                color:inherit;
+            }
+            body[data-page="learning"] .nav a.active,
+            body[data-page="learning"] .nav a:hover,
+            body[data-page="notes"] .nav a.active,
+            body[data-page="notes"] .nav a:hover,
+            body[data-page="library"] .nav-link.active,
+            body[data-page="library"] .nav-link:hover {
+                background:var(--blue2)!important;
+            }
+            body[data-page="learning"] .start-btn,
+            body[data-page="learning"] .progress-bar,
+            body[data-page="notes"] .next,
+            body[data-page="notes"] .progress-fill,
+            body[data-page="library"] .add-button,
+            body[data-page="library"] .practice-button,
+            body[data-page="library"] .submit-create,
+            body[data-page="practice"] .primary,
+            body[data-page="practice"] .play-main,
+            body[data-page="practice"] .playhead,
+            body[data-page="practice"] .progress-fill,
+            body[data-page="practice"] .judge-start,
+            body[data-page="practice"] .fill {
+                background:var(--blue)!important;
+                border-color:var(--blue)!important;
+                color:#fff!important;
+            }
+            body[data-page="learning"] .start-btn:hover,
+            body[data-page="library"] .add-button:hover,
+            body[data-page="library"] .practice-button:hover,
+            body[data-page="library"] .submit-create:hover {
+                filter:brightness(1.08);
+            }
+            body[data-page="learning"] .skill-number,
+            body[data-page="notes"] .mode.active,
+            body[data-page="notes"] .choice:hover,
+            body[data-page="library"] .piece-meta span,
+            body[data-page="library"] .modal-option,
+            body[data-page="practice"] .piece-icon,
+            body[data-page="practice"] .tool:hover,
+            body[data-page="practice"] .judge-icon {
+                background:var(--blue2)!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page="learning"] .progress-bar,
+            body[data-page="notes"] .progress-fill,
+            body[data-page="practice"] .progress-fill,
+            body[data-page="practice"] .fill { background:var(--blue)!important; }
+            body[data-page="library"] .topbar { background:var(--ma-topbar)!important; border-color:var(--line)!important; }
+            body[data-page="library"] .modal-option:hover,
+            body[data-page="library"] .filter-button:hover { background:var(--blue2)!important; }
+            body[data-page="notes"] .note-area { background:var(--bg)!important; border-color:var(--line)!important; }
+
         `;
     };
     applyAccent(localStorage.getItem("ma_accent") || "blue");
