@@ -394,6 +394,83 @@
             body[data-page="practice"] .progress-fill,
             body[data-page="practice"] .fill { background:var(--blue)!important; }
 
+
+            /* Consistent accent coverage for every page-specific component. */
+            body[data-page] .logo,
+            body[data-page] .recommended-label,
+            body[data-page] .piece-label,
+            body[data-page] .section-accent,
+            body[data-page] .accent-text { color:var(--blue)!important; }
+            body[data-page] .primary,
+            body[data-page] .start-btn,
+            body[data-page] .next,
+            body[data-page] .add-button,
+            body[data-page] .practice-button,
+            body[data-page] .submit-create,
+            body[data-page] .play-main,
+            body[data-page] .judge-start,
+            body[data-page] .progress-bar,
+            body[data-page] .progress-fill,
+            body[data-page] .playhead,
+            body[data-page] .fill,
+            body[data-page] .skill-number,
+            body[data-page] .piece-icon,
+            body[data-page] .judge-icon {
+                background:var(--blue)!important;
+                border-color:var(--blue)!important;
+                color:#fff!important;
+            }
+            body[data-page] .recommended,
+            body[data-page] .selected-piece,
+            body[data-page] .judge-card,
+            body[data-page] .mode.active,
+            body[data-page] .choice.active,
+            body[data-page] .choice:hover,
+            body[data-page] .filter-button.active,
+            body[data-page] .tool.active {
+                background:var(--ma-accent-soft)!important;
+                border-color:var(--blue)!important;
+            }
+            body[data-page] .path,
+            body[data-page] .skill-list,
+            body[data-page] .filter-panel,
+            body[data-page] .piece,
+            body[data-page] .timer-card,
+            body[data-page] .session-stat,
+            body[data-page] .player,
+            body[data-page] .week-card,
+            body[data-page] .progress-box,
+            body[data-page] .mode,
+            body[data-page] .practice,
+            body[data-page] .judge-stat,
+            body[data-page] .stat-card,
+            body[data-page] .challenge-card,
+            body[data-page] .leaderboard-card,
+            body[data-page] .studio-card {
+                background:var(--panel)!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page] .progress,
+            body[data-page] .progress-track,
+            body[data-page] .tool,
+            body[data-page] .piece-meta span,
+            body[data-page] .modal-option,
+            body[data-page] .filter-button,
+            body[data-page] .secondary,
+            body[data-page] .top-btn,
+            body[data-page] .instrument,
+            body[data-page] input,
+            body[data-page] select,
+            body[data-page] textarea {
+                border-color:var(--line)!important;
+            }
+            body[data-page] .tab.active,
+            body[data-page] .tabs .tab.active { border-color:var(--blue)!important; }
+            body[data-page] .nav a.active,
+            body[data-page] .nav-link.active,
+            body[data-page] .nav a:hover,
+            body[data-page] .nav-link:hover { background:var(--blue2)!important; }
+
         `;
     };
     applyAccent(localStorage.getItem("ma_accent") || "blue");
