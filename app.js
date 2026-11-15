@@ -1036,18 +1036,18 @@
             <div class="studio-editor-canvas">
             <section class="studio-documentbar"><div class="studio-doc-title"><span class="studio-doc-icon">♫</span><div><strong id="studioDocLabel">Untitled Composition</strong><small>Conductor score</small></div></div><div class="studio-doc-actions"><button id="scoreFullscreen" class="score-fullscreen-btn">⛶ Full screen</button><button id="scorePrint">Print</button><button id="scoreXml">Export MusicXML</button></div></section>
             <section class="studio-settings">
-              <label>Title<input id="scoreTitle" value="\${esc(score.title)}" maxlength="90"></label>
-              <label>Composer<input id="scoreComposer" value="\${esc(score.composer)}"></label>
+              <label>Title<input id="scoreTitle" value="${esc(score.title)}" maxlength="90"></label>
+              <label>Composer<input id="scoreComposer" value="${esc(score.composer)}"></label>
               <label>Tempo <span class="unit-field"><input id="scoreTempo" type="number" min="30" max="240" value="100"><small>BPM</small></span></label>
               <label>Time signature<select id="scoreTime"><option>4/4</option><option>3/4</option><option>2/4</option><option>6/8</option><option>5/4</option><option>7/8</option></select></label>
-              <label>Key signature<select id="scoreKey">\${["C","G","D","A","E","B","F#","F","Bb","Eb","Ab","Db"].map(x=>'<option>'+x+'</option>').join("")}</select></label>
+              <label>Key signature<select id="scoreKey">${["C","G","D","A","E","B","F#","F","Bb","Eb","Ab","Db"].map(x=>'<option>'+x+'</option>').join("")}</select></label>
             </section>
             <div class="studio-ribbon">
-              <div class="ribbon-group"><span>ENTRY</span><div class="ribbon-buttons">\${["note","rest"].map(t=>'<button data-tool="'+t+'" class="'+(t==="note"?"active":"")+'">'+(t==="note"?"♪ Note":"𝄽 Rest")+'</button>').join("")}</div></div>
-              <div class="ribbon-group"><span>DURATION</span><div class="ribbon-buttons">\${[[16,"𝅝","Whole"],[8,"𝅗𝅥","Half"],[4,"♩","Quarter"],[2,"♪","Eighth"],[1,"𝅘𝅥𝅯","16th"]].map(a=>'<button data-dur="'+a[0]+'" title="'+a[2]+'" class="'+(a[0]===4?"active":"")+'">'+a[1]+'</button>').join("")}</div></div>
+              <div class="ribbon-group"><span>ENTRY</span><div class="ribbon-buttons">${["note","rest"].map(t=>'<button data-tool="'+t+'" class="'+(t==="note"?"active":"")+'">'+(t==="note"?"♪ Note":"𝄽 Rest")+'</button>').join("")}</div></div>
+              <div class="ribbon-group"><span>DURATION</span><div class="ribbon-buttons">${[[16,"𝅝","Whole"],[8,"𝅗𝅥","Half"],[4,"♩","Quarter"],[2,"♪","Eighth"],[1,"𝅘𝅥𝅯","16th"]].map(a=>'<button data-dur="'+a[0]+'" title="'+a[2]+'" class="'+(a[0]===4?"active":"")+'">'+a[1]+'</button>').join("")}</div></div>
               <div class="ribbon-group"><span>ACCIDENTALS</span><div class="ribbon-buttons"><button data-acc="">♮</button><button data-acc="sharp">♯</button><button data-acc="flat">♭</button></div></div>
-              <div class="ribbon-group"><span>ARTICULATION &amp; EXPRESSION</span><div class="ribbon-buttons">\${["dynamic","accent","staccato","tenuto","tie","slur","crescendo","diminuendo"].map(t=>'<button data-tool="'+t+'">'+({dynamic:"Dynamics",accent:"Accent",staccato:"Staccato",tenuto:"Tenuto",tie:"Tie",slur:"Slur",crescendo:"Cresc.",diminuendo:"Dim."})[t]+'</button>').join("")}</div></div>
-              <label class="ribbon-dynamic">Dynamic<select id="scoreDyn">\${["pp","p","mp","mf","f","ff","sfz"].map(x=>'<option>'+x+'</option>').join("")}</select></label>
+              <div class="ribbon-group"><span>ARTICULATION &amp; EXPRESSION</span><div class="ribbon-buttons">${["dynamic","accent","staccato","tenuto","tie","slur","crescendo","diminuendo"].map(t=>'<button data-tool="'+t+'">'+({dynamic:"Dynamics",accent:"Accent",staccato:"Staccato",tenuto:"Tenuto",tie:"Tie",slur:"Slur",crescendo:"Cresc.",diminuendo:"Dim."})[t]+'</button>').join("")}</div></div>
+              <label class="ribbon-dynamic">Dynamic<select id="scoreDyn">${["pp","p","mp","mf","f","ff","sfz"].map(x=>'<option>'+x+'</option>').join("")}</select></label>
             </div>
             <div class="studio-workspace">
               <aside class="studio-parts-panel"><div class="parts-panel-head"><div><strong>Instruments</strong><small>Score parts</small></div><button id="scoreAddPart" title="Add instrument">＋</button></div><div id="scorePartList" class="studio-part-list"></div><div class="parts-panel-foot"><span class="parts-dot"></span> All parts synchronized</div></aside>
