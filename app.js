@@ -43,7 +43,7 @@
         leaderboard: [
             "Celebrate progress",
             "Leaderboards",
-            "A local preview of the MA points system."
+            "A local preview of the Music Academy points system."
         ],
         studio: [
             "Create something original",
@@ -120,7 +120,7 @@
                 <div id="view"></div>
 
                 <p class="footer">
-                    MA prototype · Progress is stored locally in this browser.
+                    Music Academy prototype · Progress is stored locally in this browser.
                     Real accounts, cloud sync, subscriptions, and shared leaderboards
                     require a secure backend.
                 </p>
@@ -165,7 +165,7 @@
     });
 
     $("#settings").addEventListener("click", () => {
-        toast("Settings will expand as MA features are connected.");
+        toast("Settings will expand as Music Academy features are connected.");
     });
 
     // Home dashboard.
