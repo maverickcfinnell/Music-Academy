@@ -1105,7 +1105,7 @@
                       if(n.kind==="expression")return '<text x="'+x+'" y="66" font-size="20" font-family="serif" font-style="italic" fill="#172235">'+esc(n.text)+'</text>';
                       return noteSvg(n,mi);
                     }).join("");
-                    return '<div class="score-bar" data-p="'+pi+'" data-m="'+mi+'" data-first="'+(mi===0?'1':'0')+'" style="width:'+width+'px;flex-basis:'+width+'px"><svg class="score-svg" viewBox="0 0 '+width+' 260" preserveAspectRatio="none">'+staff+'<line x1="1" y1="90" x2="1" y2="170" stroke="#172235" stroke-width="2"/>'+signature+symbols+'</svg></div>';
+                    return '<div class="score-bar" data-p="'+pi+'" data-m="'+mi+'" data-first="'+(mi===0?'1':'0')+'" style="width:'+width+'px;flex-basis:'+width+'px"><svg class="score-svg" viewBox="0 0 '+width+' 260" preserveAspectRatio="none">'+staff+(mi===0?'<line x1="1" y1="90" x2="1" y2="170" stroke="#172235" stroke-width="2"/>':"")+signature+symbols+'</svg></div>';
                   }).join("")+'</div></div>'
             ).join("");
         };
