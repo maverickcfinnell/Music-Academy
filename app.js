@@ -194,6 +194,15 @@
             .ma-setting-field input[type=range]{display:block;width:100%;margin-top:13px;accent-color:#6598e8}
             .ma-settings-content{padding:8px 26px}
             @media(max-width:520px){.ma-settings-overlay{padding:8px}.ma-settings-panel{max-height:96vh}.ma-settings-header{padding:19px}.ma-settings-content{padding:8px 19px}.ma-settings-footer{padding:16px 19px}}
+
+            :root[data-ma-accent] .sidebar .logo{color:var(--blue)!important}
+            :root[data-ma-accent] .sidebar .nav a.active,:root[data-ma-accent] .sidebar .nav a:hover{background:var(--blue2)!important}
+            :root[data-ma-accent] .btn,:root[data-ma-accent] .ma-settings-save{background:var(--blue)!important}
+            :root[data-ma-accent] .eyebrow{color:var(--blue)!important}
+            :root[data-ma-accent] .progress span{background:var(--blue)!important}
+            :root[data-ma-accent] .tabs .tab.active{border-color:var(--blue)!important}
+            :root[data-ma-accent] .cell.on{background:var(--blue)!important}
+            :root[data-ma-accent] .ma-setting-toggle input,:root[data-ma-accent] .ma-setting-field input[type=range]{accent-color:var(--blue)!important}
 `;
         document.head.appendChild(settingsStyle);
     }
