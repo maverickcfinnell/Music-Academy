@@ -132,9 +132,95 @@
         window.location.href = "library.html";
     });
 
-    document.getElementById("sharedSettings")?.addEventListener("click", () => {
-        window.alert("Music Academy settings will be available here.");
-    });
+
+    if (!document.getElementById("ma-settings-styles")) {
+        const settingsStyle = document.createElement("style");
+        settingsStyle.id = "ma-settings-styles";
+        settingsStyle.textContent = `
+            .ma-settings-overlay{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(1,6,15,.76);backdrop-filter:blur(5px)}
+            .ma-settings-overlay.open{display:flex}
+            .ma-settings-panel{width:min(520px,100%);max-height:90vh;overflow:auto;background:#0b1424;color:#e8eef8;border:1px solid #263852;border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,.48);font-family:Arial,Helvetica,sans-serif}
+            .ma-settings-header{display:flex;justify-content:space-between;align-items:flex-start;padding:25px 26px 20px;border-bottom:1px solid #20304a}
+            .ma-settings-header h2{font-size:25px;margin:5px 0 0}
+            .ma-settings-eyebrow{font-size:10px;letter-spacing:1.5px;color:#8da4c4;font-weight:700}
+            .ma-settings-close{border:0;background:#17243a;color:#dce6f5;border-radius:8px;width:34px;height:34px;font-size:23px;cursor:pointer}
+            .ma-settings-content{padding:8px 26px}
+            .ma-setting-field{display:block;padding:17px 0;font-size:14px;font-weight:700;border-bottom:1px solid #1d2b41}
+            .ma-setting-field select,.ma-goal-input input{display:block;width:100%;height:42px;margin-top:9px;padding:0 12px;background:#101e32;color:#edf3fc;border:1px solid #30445f;border-radius:8px;font:14px Arial}
+            .ma-setting-field span,.ma-setting-toggle span{display:block;margin-top:6px;color:#91a2ba;font-size:12px;font-weight:400}
+            .ma-goal-input{display:flex;align-items:center;gap:10px}.ma-goal-input input{width:105px}.ma-goal-input span{margin:0}
+            .ma-setting-toggle{display:flex;justify-content:space-between;align-items:center;padding:17px 0;border-bottom:1px solid #1d2b41;font-size:14px}
+            .ma-setting-toggle input{width:18px;height:18px;accent-color:#6598e8}
+            .ma-settings-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 26px 24px}
+            .ma-settings-footer span{font-size:12px;color:#91c6a4}
+            .ma-settings-save{border:0;border-radius:8px;padding:11px 18px;background:#3978d4;color:white;font-weight:700;cursor:pointer}
+            .ma-reduce-motion *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+        `;
+        document.head.appendChild(settingsStyle);
+    }
+
+    // Functional settings shared across Music Academy pages.
+    const openSettings = () => {
+        if (document.getElementById("sharedSettingsOverlay")) {
+            document.getElementById("sharedSettingsOverlay").classList.add("open");
+            return;
+        }
+        const currentInstrument = localStorage.getItem("ma_instrument") || "Tenor Saxophone";
+        const instruments = Array.from(document.querySelectorAll("#sharedInstrument option"))
+            .map(option => option.value || option.textContent.trim());
+        const goal = Number(localStorage.getItem("ma_daily_goal") || 20);
+        const sound = localStorage.getItem("ma_sound_effects") !== "false";
+        const reduced = localStorage.getItem("ma_reduce_motion") === "true";
+        const overlay = document.createElement("div");
+        overlay.id = "sharedSettingsOverlay";
+        overlay.className = "ma-settings-overlay";
+        overlay.innerHTML = `
+            <section class="ma-settings-panel" role="dialog" aria-modal="true" aria-labelledby="sharedSettingsTitle">
+                <header class="ma-settings-header">
+                    <div><div class="ma-settings-eyebrow">PERSONALIZE YOUR EXPERIENCE</div><h2 id="sharedSettingsTitle">Settings</h2></div>
+                    <button type="button" class="ma-settings-close" aria-label="Close settings">×</button>
+                </header>
+                <div class="ma-settings-content">
+                    <label class="ma-setting-field">Default instrument
+                        <select id="sharedDefaultInstrument">${instruments.map(name => `<option ${name === currentInstrument ? "selected" : ""}>${name}</option>`).join("")}</select>
+                        <span>Used as your selected instrument throughout Music Academy.</span>
+                    </label>
+                    <label class="ma-setting-field">Daily practice goal
+                        <div class="ma-goal-input"><input id="sharedDailyGoal" type="number" min="5" max="240" step="5" value="${goal}"><span>minutes per day</span></div>
+                        <span>Choose a realistic goal you want to work toward.</span>
+                    </label>
+                    <div class="ma-setting-toggle"><div><strong>Sound effects</strong><span>Allow interface sounds when supported.</span></div><input id="sharedSoundEffects" type="checkbox" ${sound ? "checked" : ""}></div>
+                    <div class="ma-setting-toggle"><div><strong>Reduce motion</strong><span>Limit animations and visual movement.</span></div><input id="sharedReduceMotion" type="checkbox" ${reduced ? "checked" : ""}></div>
+                </div>
+                <footer class="ma-settings-footer"><span id="sharedSettingsStatus" role="status"></span><button type="button" class="ma-settings-save">Save settings</button></footer>
+            </section>`;
+        document.body.appendChild(overlay);
+        const close = () => overlay.remove();
+        overlay.querySelector(".ma-settings-close").addEventListener("click", close);
+        overlay.addEventListener("click", event => { if (event.target === overlay) close(); });
+        document.addEventListener("keydown", function onEscape(event) {
+            if (event.key === "Escape" && document.getElementById("sharedSettingsOverlay")) {
+                close();
+                document.removeEventListener("keydown", onEscape);
+            }
+        });
+        overlay.querySelector(".ma-settings-save").addEventListener("click", () => {
+            const selected = document.getElementById("sharedDefaultInstrument").value;
+            const dailyGoal = Math.max(5, Math.min(240, Number(document.getElementById("sharedDailyGoal").value) || 20));
+            localStorage.setItem("ma_instrument", selected);
+            localStorage.setItem("ma_daily_goal", String(dailyGoal));
+            localStorage.setItem("ma_sound_effects", String(document.getElementById("sharedSoundEffects").checked));
+            localStorage.setItem("ma_reduce_motion", String(document.getElementById("sharedReduceMotion").checked));
+            const headerInstrument = document.getElementById("sharedInstrument");
+            if (headerInstrument) headerInstrument.value = selected;
+            document.documentElement.classList.toggle("ma-reduce-motion", document.getElementById("sharedReduceMotion").checked);
+            overlay.querySelector("#sharedSettingsStatus").textContent = "Saved on this device";
+            overlay.querySelector(".ma-settings-save").textContent = "Saved";
+            window.setTimeout(close, 650);
+        });
+    };
+    document.getElementById("sharedSettings")?.addEventListener("click", openSettings);
+
 
     document.getElementById("sharedProfile")?.addEventListener("click", () => {
         const points = Number(localStorage.getItem("ma_xp") || 0);
