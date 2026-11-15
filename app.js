@@ -382,6 +382,44 @@
             body[data-page="library"] .filter-button:hover { background:var(--blue2)!important; }
             body[data-page="notes"] .note-area { background:var(--bg)!important; border-color:var(--line)!important; }
 
+            /* Catch remaining legacy blue accents and gradient panels. */
+            body[data-page="learning"] .recommended,
+            body[data-page="practice"] .selected-piece {
+                background:linear-gradient(135deg,var(--ma-accent-soft),var(--panel))!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page="learning"] .recommended-label,
+            body[data-page="learning"] .logo,
+            body[data-page="notes"] .logo,
+            body[data-page="library"] .logo,
+            body[data-page="practice"] .logo,
+            body[data-page="practice"] .piece-label {
+                color:var(--blue)!important;
+            }
+            body[data-page="learning"] .nav a.active,
+            body[data-page="notes"] .nav a.active,
+            body[data-page="practice"] .nav a.active {
+                background:var(--blue2)!important;
+            }
+            body[data-page="notes"] .mode.active,
+            body[data-page="notes"] .choice:hover {
+                background:var(--ma-accent-soft)!important;
+                border-color:var(--blue)!important;
+            }
+            body[data-page="library"] .tab.active { border-bottom-color:var(--blue)!important; }
+            body[data-page="library"] .search-box input:focus,
+            body[data-page="library"] .form-group input:focus,
+            body[data-page="library"] .form-group select:focus { border-color:var(--blue)!important; }
+            /* Practice Room also sets some button colors directly from JavaScript. */
+            body[data-page="practice"] [style*="#6d8cff"],
+            body[data-page="practice"] [style*="#16233b"] {
+                background:var(--ma-accent-soft)!important;
+                border-color:var(--blue)!important;
+            }
+            body[data-page="practice"] .playhead,
+            body[data-page="practice"] .progress-fill,
+            body[data-page="practice"] .fill { background:var(--blue)!important; }
+
         `;
     };
     applyAccent(localStorage.getItem("ma_accent") || "blue");
