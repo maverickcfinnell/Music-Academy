@@ -249,6 +249,8 @@
             .progress { background:var(--blue2)!important; }
             .cell { background:var(--panel2)!important; border-color:var(--line)!important; }
             .topbar select,.top-btn,.secondary,.field { background:var(--panel2)!important; border-color:var(--line)!important; }
+            .topbar #sharedProfile,.topbar #profile { background:var(--panel2)!important; border-color:var(--line)!important; }
+            .topbar #sharedProfile:hover,.topbar #profile:hover { background:var(--ma-accent-soft)!important; border-color:var(--blue)!important; }
             .btn,.progress span,.cell.on { background:var(--blue)!important; }
             .eyebrow,.field:focus { color:var(--blue)!important; }
             .tabs .tab.active { border-color:var(--blue)!important; }
