@@ -32,7 +32,7 @@
             <div class="nav-label">Workspace</div>
             <nav class="nav" aria-label="Main navigation">
                 ${pages.slice(0, 5).map(([key, icon, label, href]) => `
-                    <a href="${href}" class="${currentPage === key ? "active" : ""}"
+                    <a href="${href}" class="nav-link ${currentPage === key ? "active" : ""}"
                        ${currentPage === key ? 'aria-current="page"' : ""}>
                         <span class="nav-icon" aria-hidden="true">${icon}</span>
                         <span>${label}</span>
