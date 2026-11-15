@@ -499,40 +499,61 @@ h3 {
     min-height: 70px;
     display: flex;
     align-items: center;
-    gap: 12px;
     justify-content: flex-start;
+    gap: 12px;
     padding: 0 30px;
     background: #080f1c;
     border-bottom: 1px solid #1d2b42;
+    box-sizing: border-box;
 }
 .instrument-label {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    margin: 0;
     color: #8996aa;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
+    font: 12px/1 Arial, Helvetica, sans-serif;
+    white-space: nowrap;
 }
 .instrument-select {
-    min-width: 185px;
-    font: 14px Arial, Helvetica, sans-serif;
-    padding: 10px 13px;
+    display: inline-flex;
+    flex: 0 0 210px;
+    width: 210px;
+    min-width: 210px;
+    height: 40px;
+    margin: 0;
+    padding: 0 13px;
     color: #f4f7fb;
     background: #111c2e;
     border: 1px solid #293b58;
     border-radius: 9px;
+    font: 14px Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 .topbar .top-actions {
-    margin-left: auto;
     display: flex;
+    flex: 0 0 auto;
+    align-items: center;
     gap: 9px;
+    margin: 0 0 0 auto;
 }
 .topbar .top-btn {
-    width: auto;
+    display: inline-flex;
+    flex: 0 0 40px;
+    width: 40px;
     min-width: 40px;
     height: 40px;
-    padding: 8px 12px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
     color: #dbe3f0;
     background: #111c2e;
     border: 1px solid #293b58;
     border-radius: 9px;
+    font: 16px/1 Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 .topbar .top-btn:hover {
     background: #1b2943;
@@ -558,7 +579,11 @@ h3 {
     }
     .sidebar .nav a { flex: 0 0 auto; white-space: nowrap; }
     .main { margin-left: 0; }
-    .topbar { flex-wrap: nowrap; padding: 0 15px; }
+    .topbar { flex-wrap: nowrap; gap: 8px; padding: 0 15px; }
+    .instrument-label { font-size: 11px; }
+    .instrument-select { flex-basis: 165px; width: 165px; min-width: 165px; }
+    .topbar .top-actions { gap: 6px; }
+    .topbar .top-btn { flex-basis: 36px; width: 36px; min-width: 36px; height: 36px; }
     .topbar .top-actions { margin-left: auto; }
 }
 
