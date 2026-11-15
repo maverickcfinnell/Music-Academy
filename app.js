@@ -61,7 +61,7 @@
             <div class="nav-label">Workspace</div>
             <nav class="nav">
                 ${pages.slice(0, 5).map((item) => `
-                    <a class="${page === item[0] ? "active" : ""}" href="${item[3]}">
+                    <a class="nav-link ${page === item[0] ? "active" : ""}" href="${item[3]}">
                         <span class="nav-icon">${item[1]}</span>
                         ${item[2]}
                     </a>
