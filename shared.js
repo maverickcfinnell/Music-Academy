@@ -478,6 +478,24 @@
             body[data-page] .nav a:hover,
             body[data-page] .nav-link:hover { background:var(--blue2)!important; }
 
+            /* Keep all shared topbar controls on the neutral palette, including legacy pages. */
+            body[data-page="library"] .topbar .top-btn,
+            body[data-page="learning"] .topbar .top-btn,
+            body[data-page="library"] .topbar #sharedSearch,
+            body[data-page="library"] .topbar #sharedSettings,
+            body[data-page="library"] .topbar #sharedProfile,
+            body[data-page="learning"] .topbar #sharedSearch,
+            body[data-page="learning"] .topbar #sharedSettings,
+            body[data-page="learning"] .topbar #sharedProfile {
+                background:var(--panel2)!important;
+                border-color:var(--line)!important;
+            }
+            body[data-page="library"] .topbar .top-btn:hover,
+            body[data-page="learning"] .topbar .top-btn:hover {
+                background:var(--ma-accent-soft)!important;
+                border-color:var(--blue)!important;
+            }
+
         `;
     };
     applyAccent(localStorage.getItem("ma_accent") || "blue");
