@@ -908,6 +908,8 @@
         let scores=get("compositions",[]),score=fresh(),tool="note",dur=4,acc="",dyn="mf",audio=null,playTimer=null;
         const esc=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
         const slots=()=>{const a=score.time.split("/").map(Number);return a[0]*16/a[1]};
+        const meterDescription=()=>{const [beats,unit]=score.time.split("/").map(Number);const unitName=({2:"half-note",4:"quarter-note",8:"eighth-note",16:"sixteenth-note"})[unit]||"note";return beats+" "+unitName+(beats===1?"":"s")+" per measure";};
+        const updateMeterInfo=()=>{const el=$("#scoreMeterInfo");if(el)el.textContent=meterDescription()};
         const say=s=>$("#scoreStatus").textContent=s;
         const css=document.createElement("style");
         css.textContent=".score-app{display:grid;gap:14px}.score-panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.score-panel input,.score-panel select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px}.score-tools,.score-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:10px 0}.score-tools button,.score-actions button,.score-saved button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:8px 10px;cursor:pointer}.score-tools button.active{background:var(--ma-accent-soft,var(--blue2));border-color:var(--ma-accent,var(--blue))}.score-head{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.score-scroll{overflow-x:auto;overflow-y:auto;max-height:68vh;min-height:360px;overscroll-behavior:contain;background:white;color:#172235;border:1px solid #cbd3df;border-radius:10px;scrollbar-gutter:stable}.score-paper{width:max-content;min-width:100%;padding:26px 24px}.score-part{display:grid;grid-template-columns:170px max-content;min-height:190px;border-bottom:1px solid #d9dfeb}.score-name{position:sticky;left:0;background:white;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:12px;color:#172235;font:600 13px Arial}.score-name small{font-weight:400;color:#647188}.score-name button{font-size:11px;padding:4px;border:1px solid #cbd3df;border-radius:5px;background:#f5f7fa;color:#25334b}.score-bars{display:grid;grid-template-columns:repeat(var(--bars),minmax(310px,360px))}.score-bar{border-left:1px solid #26364c;min-height:170px;cursor:crosshair}.score-svg{width:100%;height:170px;display:block}.score-svg .staff{stroke:#3d4a5e;stroke-width:.8}.score-svg .head{fill:#172235;stroke:#172235}.score-svg .stem{stroke:#172235;stroke-width:1.5}.score-muted,.score-status{font-size:12px;color:var(--muted)}.score-saved{display:grid;gap:8px}.score-saved-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px;background:var(--panel2);border:1px solid var(--line);border-radius:9px}@media(max-width:700px){.score-head{grid-template-columns:1fr}.score-part{grid-template-columns:110px minmax(700px,1fr)}}@media print{.sidebar,.topbar,.page-head,.score-tools,.score-actions,.score-saved-panel,.footer{display:none!important}.main{margin:0!important}.content{padding:0!important}.score-panel{border:0!important;background:white!important}}";
@@ -1039,7 +1041,7 @@
               <label>Title<input id="scoreTitle" value="${esc(score.title)}" maxlength="90"></label>
               <label>Composer<input id="scoreComposer" value="${esc(score.composer)}"></label>
               <label>Tempo <span class="unit-field"><input id="scoreTempo" type="number" min="30" max="240" value="100"><small>BPM</small></span></label>
-              <label>Time signature<select id="scoreTime"><option>4/4</option><option>3/4</option><option>2/4</option><option>6/8</option><option>5/4</option><option>7/8</option></select></label>
+              <label>Time signature<select id="scoreTime"><option>2/2</option><option>3/2</option><option>2/4</option><option>3/4</option><option>4/4</option><option>5/4</option><option>6/4</option><option>2/8</option><option>3/8</option><option>5/8</option><option>6/8</option><option>7/8</option><option>9/8</option><option>12/8</option><option>4/16</option><option>8/16</option></select><small id="scoreMeterInfo" class="score-meter-info">4 quarter-notes per measure</small></label>
               <label>Key signature<select id="scoreKey">${["C","G","D","A","E","B","F#","F","Bb","Eb","Ab","Db"].map(x=>'<option>'+x+'</option>').join("")}</select></label>
             </section>
             <div class="studio-ribbon">
@@ -1057,7 +1059,7 @@
             <section class="score-panel score-saved-panel"><div class="saved-head"><strong>Saved compositions</strong><p class="score-muted">Stored on this device</p></div><div id="scoreSaved" class="score-saved"></div></section>
             <div class="studio-playbar"><div><strong>Playback</strong><span>Hear all instrument parts together</span></div><div><button id="scorePlay" class="btn">▶ Play score</button><button id="scoreStop" class="secondary">■ Stop</button></div></div>
           </div>`;
-        $("#scoreTime").value=score.time;$("#scoreKey").value=score.key;
+        $("#scoreTime").value=score.time;$("#scoreKey").value=score.key;updateMeterInfo();
         const paper=$("#scorePaper");
         let scoreZoom=1;
         const applyScoreZoom=()=>{
@@ -1072,10 +1074,11 @@
         $("#scoreZoomReset").addEventListener("click",()=>changeScoreZoom(100));
         applyScoreZoom();
         const ensure=()=>score.parts.forEach(p=>{while(p.bars.length<score.count)p.bars.push([]);p.bars=p.bars.slice(0,score.count)});
-        const pitchSteps=["E4","F4","G4","A4","B4","C5","D5","E5","F5","G5","A5","B5","C6"];
-        const yPitch=p=>{const i=pitchSteps.indexOf(p||"E4");return 170-(Math.max(0,i)*10)};
-        const fromY=y=>pitchSteps[Math.max(0,Math.min(12,Math.round((170-y)/10)))];
-        const barStart=mi=>mi===0?240:65;
+        const pitchSteps=["C","D","E","F","G","A","B"].flatMap(letter=>Array.from({length:5},(_,oct)=>letter+(oct+3)));
+        const e4Index=pitchSteps.indexOf("E4");
+        const yPitch=p=>{const i=pitchSteps.indexOf(p||"E4");return 170+(e4Index-(i<0?e4Index:i))*10};
+        const fromY=y=>pitchSteps[Math.max(0,Math.min(pitchSteps.length-1,Math.round(e4Index+(170-y)/10)))];
+        const barStart=mi=>mi===0?285:65;
         const noteSvg=(n,mi)=>{
             const x=barStart(mi)+n.slot*300/slots(),y=n.pitch==="REST"?130:yPitch(n.pitch);
             const a=n.acc==="sharp"?"♯":n.acc==="flat"?"♭":n.acc==="natural"?"♮":"";
@@ -1106,13 +1109,13 @@
                     (pi<score.parts.length-1?'<button data-down="'+pi+'" aria-label="Move instrument down">↓</button>':"")+
                     '<button data-remove="'+pi+'">Remove</button></div></div>'+
                   '<div class="score-bars">'+p.bars.map((m,mi)=>{
-                    const width=mi===0?560:440, start=barStart(mi);
+                    const width=mi===0?620:440, start=barStart(mi);
                     const key=mi===0?(keyMarks[score.key]||""):"";
                     const signature=mi===0?
                       '<text x="38" y="157" font-size="88" font-family="serif" fill="#172235">'+(p.clef==="bass"?"𝄢":p.clef==="alto"?"𝄡":"𝄞")+'</text>'+
-                      (key?'<text x="112" y="139" font-size="30" font-family="serif" fill="#172235">'+key+'</text>':"")+
-                      '<text x="155" y="130" font-size="48" font-family="serif" font-weight="600" text-anchor="middle" fill="#172235">'+esc(score.time.split("/")[0])+'</text>'+
-                      '<text x="155" y="177" font-size="48" font-family="serif" font-weight="600" text-anchor="middle" fill="#172235">'+esc(score.time.split("/")[1])+'</text>':"";
+                      (key?'<text x="100" y="139" font-size="30" font-family="serif" fill="#172235">'+key+'</text>':"")+
+                      '<text x="130" y="130" font-size="48" font-family="serif" font-weight="600" text-anchor="middle" fill="#172235">'+esc(score.time.split("/")[0])+'</text>'+
+                      '<text x="130" y="177" font-size="48" font-family="serif" font-weight="600" text-anchor="middle" fill="#172235">'+esc(score.time.split("/")[1])+'</text>':"";
                     const staff=[90,110,130,150,170].map(y=>'<line class="staff" x1="0" y1="'+y+'" x2="'+width+'" y2="'+y+'"/>').join("");
                     const symbols=m.map(n=>{
                       const x=start+n.slot*300/slots();
@@ -1140,8 +1143,8 @@
         document.addEventListener("fullscreenchange",syncFullscreen);
         $("#scoreTitle").addEventListener("input",()=>$("#studioDocLabel").textContent=$("#scoreTitle").value.trim()||"Untitled Composition");
         $("#scoreSave").addEventListener("click",save);
-        $("#scoreNew").addEventListener("click",()=>{if(!confirm("Start a new score? Save this one first if needed."))return;score=fresh();$("#scoreTitle").value=score.title;$("#studioDocLabel").textContent=score.title;$("#scoreComposer").value=score.composer;$("#scoreTempo").value=100;$("#scoreTime").value="4/4";$("#scoreKey").value="C";render()});
-        $("#scoreSaved").addEventListener("click",e=>{const o=e.target.closest("[data-open]"),d=e.target.closest("[data-del]");if(o){score=JSON.parse(JSON.stringify(scores.find(s=>s.id===o.dataset.open)));$("#scoreTitle").value=score.title;$("#scoreComposer").value=score.composer||"";$("#scoreTempo").value=score.tempo||100;$("#scoreTime").value=score.time||"4/4";$("#scoreKey").value=score.key||"C";render();say("Opened "+score.title)}if(d){scores=scores.filter(s=>s.id!==d.dataset.del);put("compositions",scores);showSaved()}});
+        $("#scoreNew").addEventListener("click",()=>{if(!confirm("Start a new score? Save this one first if needed."))return;score=fresh();$("#scoreTitle").value=score.title;$("#studioDocLabel").textContent=score.title;$("#scoreComposer").value=score.composer;$("#scoreTempo").value=100;$("#scoreTime").value="4/4";$("#scoreKey").value="C";updateMeterInfo();render()});
+        $("#scoreSaved").addEventListener("click",e=>{const o=e.target.closest("[data-open]"),d=e.target.closest("[data-del]");if(o){score=JSON.parse(JSON.stringify(scores.find(s=>s.id===o.dataset.open)));$("#scoreTitle").value=score.title;$("#scoreComposer").value=score.composer||"";$("#scoreTempo").value=score.tempo||100;$("#scoreTime").value=score.time||"4/4";$("#scoreKey").value=score.key||"C";updateMeterInfo();render();say("Opened "+score.title)}if(d){scores=scores.filter(s=>s.id!==d.dataset.del);put("compositions",scores);showSaved()}});
         $("#scorePlay").addEventListener("click",async()=>{if(audio)audio.close().catch(()=>{});const AC=window.AudioContext||window.webkitAudioContext;if(!AC){say("Audio playback unavailable.");return}audio=new AC();await audio.resume();const beat=60/(+$("#scoreTempo").value||100),events=[];score.parts.forEach(p=>p.bars.forEach((m,mi)=>m.forEach(n=>{if(n.kind!=="note"||n.pitch==="REST")return;const a=n.pitch.match(/^([A-G])(\d)$/);if(!a)return;const semi={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[a[1]];events.push({f:440*Math.pow(2,((+a[2]*12+semi)-69)/12),t:(mi*(+score.time.split("/")[0]*4/+score.time.split("/")[1])+n.slot/4)*beat,l:(n.dur||4)/4*beat})})));events.forEach(n=>{const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+.06+n.t;o.type="sine";o.frequency.value=n.f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.07,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+Math.max(.07,n.l*.9));o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+Math.max(.1,n.l))});say("Playing all parts together.");playTimer=setTimeout(()=>{if(audio){audio.close().catch(()=>{});audio=null}say("Playback finished.")},score.count*(+score.time.split("/")[0]*4/+score.time.split("/")[1])*beat*1000+250)});
         $("#scoreStop").addEventListener("click",()=>{if(playTimer)clearTimeout(playTimer);if(audio){audio.close().catch(()=>{});audio=null}say("Playback stopped.")});
         $("#scoreXml").addEventListener("click",()=>{ 
@@ -1153,7 +1156,7 @@
             const blob=new Blob([xml],{type:"application/vnd.recordare.musicxml+xml"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=(score.title||"composition").replace(/[^a-z0-9_-]/gi,"-")+".musicxml";a.click();URL.revokeObjectURL(url);say("MusicXML exported.");
         });
         $("#scorePrint").addEventListener("click",()=>window.print());
-        $("#scoreTime").addEventListener("change",e=>{const previous=score.time;score.time=e.target.value;const invalid=score.parts.some(p=>p.bars.some(m=>m.some(n=>n.kind==="note"&&n.slot+(n.dur||4)>slots())));if(invalid){score.time=previous;e.target.value=previous;say("Some notes do not fit that time signature. Move or shorten them first.");return}render()});$("#scoreKey").addEventListener("change",e=>score.key=e.target.value);
+        $("#scoreTime").addEventListener("change",e=>{const previous=score.time;score.time=e.target.value;const invalid=score.parts.some(p=>p.bars.some(m=>m.some(n=>n.kind==="note"&&n.slot+(n.dur||4)>slots())));if(invalid){score.time=previous;e.target.value=previous;say("That time signature has fewer available beats. Shorten or move notes beyond the new measure.");updateMeterInfo();return}updateMeterInfo();render();say("Time signature changed: "+meterDescription()+".")});$("#scoreKey").addEventListener("change",e=>score.key=e.target.value);
         render();showSaved();
     }
 })();
