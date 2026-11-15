@@ -126,6 +126,17 @@
                 <a class="top-btn" id="sharedProfile" href="profile.html" title="Profile" aria-label="Profile" style="text-decoration:none"><svg class="profile-avatar-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true" style="color:#dbe3f0!important"><circle cx="12" cy="12" r="10" stroke="#dbe3f0" stroke-width="1.6"/><circle cx="12" cy="9" r="3.1" fill="#dbe3f0"/><path d="M5.8 18.1c.9-2.7 3.1-4.2 6.2-4.2s5.3 1.5 6.2 4.2" fill="#dbe3f0"/></svg></a>
             </div>
         `;
+        const savedPrimary = localStorage.getItem("ma_instrument") || "Tenor Saxophone";
+        let savedInstruments = [];
+        try { savedInstruments = JSON.parse(localStorage.getItem("ma_profile_instruments") || "[]") || []; } catch (error) {}
+        const selectedInstruments = Array.from(new Set([savedPrimary, ...savedInstruments].filter(Boolean)));
+        const instrumentSelect = topbar.querySelector("#sharedInstrument");
+        const instrumentCatalog = Array.from(instrumentSelect.options).map(option => ({ value: option.value, label: option.textContent }));
+        instrumentSelect.innerHTML = instrumentCatalog.filter(option => selectedInstruments.includes(option.value))
+            .map(option => `<option value="${option.value}">${option.label}</option>`).join("");
+        instrumentSelect.value = selectedInstruments.includes(savedPrimary) ? savedPrimary : selectedInstruments[0];
+        instrumentSelect.style.display = "inline-flex";
+        topbar.querySelector(".instrument-label").style.display = "inline-flex";
     }
 
 
