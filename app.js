@@ -247,6 +247,16 @@
     });
 
     const instrument = $("#instrument");
+    const savedPrimaryInstrument = localStorage.getItem("ma_instrument") || "Tenor Saxophone";
+    let savedProfileInstruments = [];
+    try { savedProfileInstruments = JSON.parse(localStorage.getItem("ma_profile_instruments") || "[]") || []; } catch (error) {}
+    const selectedProfileInstruments = Array.from(new Set([savedPrimaryInstrument, ...savedProfileInstruments].filter(Boolean)));
+    const instrumentCatalog = Array.from(instrument.options).map(option => ({ value: option.value, label: option.textContent }));
+    instrument.innerHTML = instrumentCatalog.filter(option => selectedProfileInstruments.includes(option.value))
+        .map(option => `<option value="${option.value}">${option.label}</option>`).join("");
+    instrument.value = selectedProfileInstruments.includes(savedPrimaryInstrument) ? savedPrimaryInstrument : selectedProfileInstruments[0];
+    instrument.style.display = "inline-flex";
+    document.querySelector(".instrument-label").style.display = "inline-flex";
     instrument.value = get("instrument", "Tenor Saxophone");
     instrument.addEventListener("change", (event) => {
         put("instrument", event.target.value);
