@@ -237,10 +237,32 @@
         }
         themeStyle.textContent = `
             body { background:var(--bg)!important; }
-            .sidebar { background:var(--side)!important; border-color:var(--line)!important; }
+            /* Accent colors must never override the shared navigation layout. */
+            .sidebar {
+                display:block!important; position:fixed!important; inset:0 auto 0 0!important;
+                width:245px!important; min-height:100vh!important; overflow-y:auto!important;
+                z-index:20!important; padding:22px 14px!important;
+                background:var(--side)!important; border-right:1px solid var(--line)!important;
+            }
             .sidebar .logo { color:var(--blue)!important; }
+            .sidebar .nav { display:grid!important; grid-template-columns:1fr!important; gap:5px!important; }
+            .sidebar .nav a,.sidebar .nav-link { display:flex!important; }
             .sidebar .nav a.active,.sidebar .nav a:hover { background:var(--blue2)!important; }
-            .topbar { background:var(--ma-topbar)!important; border-color:var(--line)!important; }
+            .main { display:block!important; margin-left:245px!important; min-width:0!important; }
+            .topbar {
+                display:flex!important; position:relative!important; visibility:visible!important;
+                height:70px!important; min-height:70px!important; align-items:center!important;
+                background:var(--ma-topbar)!important; border-bottom:1px solid var(--line)!important;
+            }
+            @media (max-width:900px) {
+                .sidebar { width:205px!important; }
+                .main { margin-left:205px!important; }
+            }
+            @media (max-width:650px) {
+                .sidebar { position:static!important; width:100%!important; min-height:0!important; }
+                .main { margin-left:0!important; }
+                .topbar { display:flex!important; }
+            }
             .card { background:var(--panel)!important; border-color:var(--line)!important; }
             .item { background:var(--bg)!important; border-color:var(--line)!important; }
             .tile,.pill { background:var(--blue2)!important; }
