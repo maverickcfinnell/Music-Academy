@@ -432,13 +432,14 @@ h3 {
     border-right: 1px solid #1d2b42;
 }
 .sidebar .logo {
-    height: auto;
-    min-height: 48px;
+    height: 60px;
+    min-height: 60px;
     display: flex;
     align-items: center;
-    padding: 8px 12px 24px;
+    padding: 0 12px;
     color: #6d8cff;
-    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 23px;
     font-weight: 700;
     letter-spacing: 0;
     white-space: nowrap;
@@ -465,7 +466,9 @@ h3 {
     border: 0;
     border-radius: 9px;
     color: #aeb8cc;
-    font-size: 14px;
+    font: 15px Arial, sans-serif;
+    line-height: 18px;
+    height: 42px;
     text-align: left;
     text-decoration: none;
     transition: background 0.2s, color 0.2s;
@@ -475,8 +478,9 @@ h3 {
     background: #16233b;
     color: #fff;
 }
-.sidebar .nav-icon {
+ .sidebar .nav-icon {
     display: inline-grid;
+    flex: 0 0 22px;
     width: 22px;
     place-items: center;
     font-size: 17px;
@@ -486,21 +490,24 @@ h3 {
     min-width: 0;
 }
 .topbar {
+    height: 70px;
     min-height: 70px;
     display: flex;
     align-items: center;
     gap: 12px;
     justify-content: flex-start;
-    padding: 12px 30px;
+    padding: 0 30px;
     background: #080f1c;
     border-bottom: 1px solid #1d2b42;
 }
 .instrument-label {
     color: #8996aa;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
 .instrument-select {
     min-width: 185px;
+    font: 14px Arial, Helvetica, sans-serif;
     padding: 10px 13px;
     color: #f4f7fb;
     background: #111c2e;
@@ -545,6 +552,6 @@ h3 {
     }
     .sidebar .nav a { flex: 0 0 auto; white-space: nowrap; }
     .main { margin-left: 0; }
-    .topbar { flex-wrap: wrap; padding: 12px 15px; }
+    .topbar { flex-wrap: nowrap; padding: 0 15px; }
     .topbar .top-actions { margin-left: auto; }
 }
