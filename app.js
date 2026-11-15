@@ -897,105 +897,53 @@
         `;
     }
 
-    // Simple local composition sketchpad.
+    // Multi-instrument conductor score editor.
     if (page === "studio") {
-        const savedCompositions = get("compositions", []);
-        let selectedCells = [];
-
-        $("#view").innerHTML = `
-            <div class="card">
-                <div class="row">
-                    <div>
-                        <h3>Melody sketchpad</h3>
-                        <p class="muted">
-                            Tap grid cells to place notes. Save drafts in this browser.
-                        </p>
-                    </div>
-                    <button class="btn" id="save" type="button">Save piece</button>
-                </div>
-
-                <label class="label" for="pieceTitle">Piece title</label>
-                <input class="field" id="pieceTitle" value="My New Piece">
-
-                <label class="label" for="tempo">Tempo (BPM)</label>
-                <input class="field" id="tempo" type="number" min="40" max="240" value="100">
-
-                <div class="composer" id="grid" style="margin-top: 18px">
-                    ${Array.from({ length: 8 }, (_, row) =>
-                        Array.from({ length: 16 }, (_, column) => `
-                            <button class="cell" data-row="${row}" data-column="${column}"
-                                type="button" aria-label="Row ${row + 1}, step ${column + 1}">
-                            </button>
-                        `).join("")
-                    ).join("")}
-                </div>
-
-                <div class="rowwrap" style="margin-top: 16px">
-                    <button class="secondary" id="clear" type="button">Clear grid</button>
-                    <span class="small">8 pitch rows · 16 time steps</span>
-                </div>
-
-                <h3 style="margin-top: 24px">Saved drafts</h3>
-                <div id="saved" class="list"></div>
-            </div>
-
-            <p class="footer">
-                This is an initial composition grid, not yet engraved sheet music.
-                Full notation, transposing parts, playback, MusicXML/PDF export,
-                and collaboration are future milestones.
-            </p>
-        `;
-
-        const renderSavedCompositions = () => {
-            $("#saved").innerHTML = savedCompositions.length
-                ? savedCompositions.map((piece) => `
-                    <div class="item">
-                        <div class="grow">
-                            <strong>${piece.title}</strong>
-                            <div class="small">
-                                ${piece.tempo} BPM · ${piece.notes} note positions
-                            </div>
-                        </div>
-                    </div>
-                `).join("")
-                : '<p class="muted">No saved drafts yet.</p>';
-        };
-
-        document.querySelectorAll(".cell").forEach((cell) => {
-            cell.addEventListener("click", () => {
-                cell.classList.toggle("on");
-
-                const cellId = cell.dataset.row + "," + cell.dataset.column;
-                selectedCells = selectedCells.includes(cellId)
-                    ? selectedCells.filter((item) => item !== cellId)
-                    : [...selectedCells, cellId];
-            });
-        });
-
-        $("#clear").addEventListener("click", () => {
-            selectedCells = [];
-            document.querySelectorAll(".cell").forEach((cell) => {
-                cell.classList.remove("on");
-            });
-        });
-
-        $("#save").addEventListener("click", () => {
-            const title = $("#pieceTitle").value.trim() || "Untitled Piece";
-            const tempo = Math.max(40, Math.min(240, Number($("#tempo").value) || 100));
-
-            savedCompositions.unshift({
-                title,
-                tempo,
-                notes: selectedCells.length,
-                grid: [...selectedCells]
-            });
-
-            put("compositions", savedCompositions);
-            award(5);
-            renderSavedCompositions();
-            toast("Composition saved locally.");
-        });
-
-        renderSavedCompositions();
+        const catalog=["Tenor Saxophone","Alto Saxophone","Soprano Saxophone","Baritone Saxophone","Clarinet","Flute","Trumpet","Trombone","French Horn","Tuba","Violin","Viola","Cello","Double Bass","Piano","Guitar","Bass Guitar","Voice"];
+        const icons={"Tenor Saxophone":"🎷","Alto Saxophone":"🎷","Soprano Saxophone":"🎷","Baritone Saxophone":"🎷","Clarinet":"🎵","Flute":"🪈","Trumpet":"🎺","Trombone":"🎺","French Horn":"📯","Tuba":"🎺","Violin":"🎻","Viola":"🎻","Cello":"🎻","Double Bass":"🎻","Piano":"🎹","Guitar":"🎸","Bass Guitar":"🎸","Voice":"🎤"};
+        let prof=[];try{prof=JSON.parse(localStorage.getItem("ma_profile_instruments")||"[]")||[]}catch{}
+        const picked=[...new Set([localStorage.getItem("ma_instrument")||"Tenor Saxophone",...prof])].filter(n=>catalog.includes(n));
+        const makePart=n=>({name:n,clef:["Trombone","Tuba","Cello","Double Bass"].includes(n)?"bass":n==="Viola"?"alto":"treble",bars:Array.from({length:4},()=>[])});
+        const fresh=()=>({id:"score-"+Date.now(),title:"Untitled Composition",composer:localStorage.getItem("ma_profile_name")||"",tempo:100,time:"4/4",key:"C",count:4,parts:picked.map(makePart)});
+        let scores=get("compositions",[]),score=fresh(),tool="note",dur=4,acc="",dyn="mf",audio=null,playTimer=null;
+        const esc=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+        const slots=()=>{const a=score.time.split("/").map(Number);return a[0]*16/a[1]};
+        const say=s=>$("#scoreStatus").textContent=s;
+        const css=document.createElement("style");
+        css.textContent=".score-app{display:grid;gap:14px}.score-panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.score-panel input,.score-panel select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px}.score-tools,.score-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:10px 0}.score-tools button,.score-actions button,.score-saved button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:8px 10px;cursor:pointer}.score-tools button.active{background:var(--ma-accent-soft,var(--blue2));border-color:var(--ma-accent,var(--blue))}.score-head{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.score-scroll{overflow:auto;background:white;color:#172235;border:1px solid #cbd3df;border-radius:10px}.score-paper{min-width:850px;padding:12px}.score-part{display:grid;grid-template-columns:145px minmax(700px,1fr);min-height:132px;border-bottom:1px solid #d9dfeb}.score-name{position:sticky;left:0;background:white;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;color:#172235;font:600 13px Arial}.score-name small{font-weight:400;color:#647188}.score-name button{font-size:11px;padding:4px;border:1px solid #cbd3df;border-radius:5px;background:#f5f7fa;color:#25334b}.score-bars{display:grid;grid-template-columns:repeat(var(--bars),minmax(140px,1fr))}.score-bar{border-left:1px solid #26364c;min-height:122px;cursor:crosshair}.score-svg{width:100%;height:122px;display:block}.score-svg .staff{stroke:#3d4a5e;stroke-width:.8}.score-svg .head{fill:#172235;stroke:#172235}.score-svg .stem{stroke:#172235;stroke-width:1.5}.score-muted,.score-status{font-size:12px;color:var(--muted)}.score-saved{display:grid;gap:8px}.score-saved-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px;background:var(--panel2);border:1px solid var(--line);border-radius:9px}@media(max-width:700px){.score-head{grid-template-columns:1fr}.score-part{grid-template-columns:110px minmax(700px,1fr)}}@media print{.sidebar,.topbar,.page-head,.score-tools,.score-actions,.score-saved-panel,.footer{display:none!important}.main{margin:0!important}.content{padding:0!important}.score-panel{border:0!important;background:white!important}}";
+        document.head.appendChild(css);
+        $("#view").innerHTML='<div class="score-app">'+
+          '<section class="score-panel"><div class="score-head"><div><label class="label">Composition title</label><input id="scoreTitle" value="'+esc(score.title)+'" maxlength="90" style="width:100%"></div><div class="score-actions"><button class="btn" id="scoreSave">Save score</button><button id="scoreNew">New score</button></div></div>'+
+          '<div class="score-tools"><label class="small">Composer <input id="scoreComposer" value="'+esc(score.composer)+'"></label><label class="small">Tempo <input id="scoreTempo" type="number" min="30" max="240" value="100" style="width:75px"></label><label class="small">Time <select id="scoreTime"><option>4/4</option><option>3/4</option><option>2/4</option><option>6/8</option><option>5/4</option><option>7/8</option></select></label><label class="small">Key <select id="scoreKey">'+["C","G","D","A","E","B","F#","F","Bb","Eb","Ab","Db"].map(x=>'<option>'+x+'</option>').join("")+'</select></label></div></section>'+
+          '<section class="score-panel"><div class="score-actions"><strong>Conductor score</strong><span class="score-muted">All parts stay aligned.</span><button class="btn" id="scoreAddBar">＋ Add measure</button><button id="scoreAddPart">＋ Add instrument</button></div>'+
+          '<div class="score-tools"><span class="score-muted">Tool</span>'+["note","rest","dynamic","accent","staccato","tenuto","tie","slur","crescendo","diminuendo"].map(t=>'<button data-tool="'+t+'" class="'+(t==="note"?"active":"")+'">'+({note:"♪ Note",rest:"𝄽 Rest",dynamic:"Dynamics",accent:"Accent",staccato:"Staccato",tenuto:"Tenuto",tie:"Tie",slur:"Slur",crescendo:"Crescendo",diminuendo:"Diminuendo"})[t]+'</button>').join("")+'</div>'+
+          '<div class="score-tools"><span class="score-muted">Duration</span>'+[[16,"𝅝"],[8,"𝅗𝅥"],[4,"♩"],[2,"♪"],[1,"𝅘𝅥𝅯"]].map(a=>'<button data-dur="'+a[0]+'" class="'+(a[0]===4?"active":"")+'">'+a[1]+'</button>').join("")+'<span class="score-muted">Accidental</span><button data-acc="">♮</button><button data-acc="sharp">♯</button><button data-acc="flat">♭</button><label class="small">Dynamic <select id="scoreDyn">'+["pp","p","mp","mf","f","ff","sfz"].map(x=>'<option>'+x+'</option>').join("")+'</select></label></div>'+
+          '<p class="score-muted">Click a staff to enter notation. Scroll sideways for later measures. Add articulations, ties, slurs and dynamics with the toolbar.</p><div class="score-scroll"><div id="scorePaper" class="score-paper"></div></div><p id="scoreStatus" class="score-status">Ready.</p><div class="score-actions"><button id="scorePlay">▶ Play all parts</button><button id="scoreStop">■ Stop</button><button id="scorePrint">Print score</button></div></section>'+
+          '<section class="score-panel score-saved-panel"><strong>Saved compositions</strong><p class="score-muted">Saved in this browser.</p><div id="scoreSaved" class="score-saved"></div></section></div>';
+        $("#scoreTime").value=score.time;$("#scoreKey").value=score.key;
+        const paper=$("#scorePaper");
+        const ensure=()=>score.parts.forEach(p=>{while(p.bars.length<score.count)p.bars.push([]);p.bars=p.bars.slice(0,score.count)});
+        const yPitch=p=>{const m=(p||"C4").match(/^([A-G])(\d)$/);return m?78-((+m[2]-4)*7+({C:0,D:1,E:2,F:3,G:4,A:5,B:6}[m[1]])-2)*5:78};
+        const fromY=y=>["C4","D4","E4","F4","G4","A4","B4","C5","D5","E5","F5","G5","A5"][Math.max(0,Math.min(12,Math.round((78-y)/5)+4))];
+        const noteSvg=n=>{const x=24+n.slot*650/slots(),y=yPitch(n.pitch),a=n.acc==="sharp"?"♯":n.acc==="flat"?"♭":n.acc==="natural"?"♮":"",art=n.art==="accent"?">":n.art==="staccato"?"·":n.art==="tenuto"?"—":"";if(n.pitch==="REST")return '<text x="'+x+'" y="'+(y+5)+'" font-size="22" fill="#172235">𝄽</text>';return (a?'<text x="'+(x-15)+'" y="'+(y+4)+'" fill="#172235">'+a+'</text>':'')+'<ellipse class="head" cx="'+x+'" cy="'+y+'" rx="6" ry="4" transform="rotate(-18 '+x+' '+y+')" '+(n.dur<=4?'':"fill='white'")+' />'+(n.dur===16?'':'<line class="stem" x1="'+(x+5)+'" y1="'+y+'" x2="'+(x+5)+'" y2="'+(y-29)+'"/>')+(art?'<text x="'+(x-4)+'" y="'+(y-12)+'" fill="#172235">'+art+'</text>':'')+(n.tie?'<path d="M'+(x+7)+' '+(y+8)+'q20 15 40 0" fill="none" stroke="#172235"/>':'')+(n.slur?'<path d="M'+(x+7)+' '+(y-14)+'q20 -18 40 0" fill="none" stroke="#172235"/>':'')};
+        const render=()=>{ensure();paper.style.setProperty("--bars",score.count);paper.innerHTML=score.parts.map((p,pi)=>'<div class="score-part"><div class="score-name">'+(icons[p.name]||"🎼")+' '+esc(p.name)+'<small>'+p.clef+' clef · '+p.bars.reduce((n,m)=>n+m.length,0)+' entries</small><div>'+(pi?'<button data-up="'+pi+'">↑</button>':'')+(pi<score.parts.length-1?'<button data-down="'+pi+'">↓</button>':'')+'<button data-remove="'+pi+'">Remove</button></div></div><div class="score-bars" style="--bars:'+score.count+'">'+p.bars.map((m,mi)=>'<div class="score-bar" data-p="'+pi+'" data-m="'+mi+'"><svg class="score-svg" viewBox="0 0 700 122" preserveAspectRatio="none">'+[38,48,58,68,78].map(y=>'<line class="staff" x1="0" y1="'+y+'" x2="700" y2="'+y+'"/>').join("")+'<line x1="699" y1="38" x2="699" y2="78" stroke="#26364c"/>'+(mi===0?'<text x="5" y="75" font-size="46" fill="#26364c">'+(p.clef==="bass"?"𝄢":p.clef==="alto"?"𝄡":"𝄞")+'</text><text x="58" y="52" font-size="16" fill="#26364c">'+esc(score.time)+'</text>':'')+m.map(n=>n.kind==="dynamic"?'<text x="'+(24+n.slot*650/slots())+'" y="112" font-size="15" font-style="italic" font-weight="bold" fill="#172235">'+esc(n.text)+'</text>':n.kind==="expression"?'<text x="'+(24+n.slot*650/slots())+'" y="18" font-size="13" font-style="italic" fill="#172235">'+esc(n.text)+'</text>':noteSvg(n)).join("")+'</svg></div>').join("")+'</div></div>').join("")};
+        const save=()=>{score.title=$("#scoreTitle").value.trim()||"Untitled Composition";score.composer=$("#scoreComposer").value;score.tempo=+$("#scoreTempo").value||100;score.time=$("#scoreTime").value;score.key=$("#scoreKey").value;const i=scores.findIndex(s=>s.id===score.id),copy=JSON.parse(JSON.stringify(score));if(i>=0)scores[i]=copy;else scores.unshift(copy);put("compositions",scores);showSaved();toast("Composition saved locally.")};
+        const showSaved=()=>{$("#scoreSaved").innerHTML=scores.length?scores.map(s=>'<div class="score-saved-row"><div><strong>'+esc(s.title)+'</strong><div class="score-muted">'+s.parts.length+' parts · '+s.count+' measures · '+s.tempo+' BPM</div></div><div><button data-open="'+esc(s.id)+'">Open</button> <button data-del="'+esc(s.id)+'">Delete</button></div></div>').join(""):'<p class="score-muted">No saved scores yet.</p>'};
+        const enter=(pi,mi,slot,pitch)=>{const m=score.parts[pi].bars[mi],prior=m.filter(n=>n.kind==="note"&&n.slot<=slot).sort((a,b)=>b.slot-a.slot)[0];if(["accent","staccato","tenuto","tie","slur"].includes(tool)){if(!prior){say("Add a note first.");return}if(tool==="tie"||tool==="slur")prior[tool]=!prior[tool];else prior.art=tool;render();return}if(["dynamic","crescendo","diminuendo"].includes(tool)){m.push({kind:tool==="dynamic"?"dynamic":"expression",slot,text:tool==="dynamic"?dyn:tool==="crescendo"?"cresc.":"dim."});render();return}const n={kind:"note",slot,pitch:tool==="rest"?"REST":pitch,dur,acc};const i=m.findIndex(x=>x.kind==="note"&&x.slot===slot);if(i>=0)m.splice(i,1,n);else m.push(n);m.sort((a,b)=>a.slot-b.slot);render()};
+        paper.addEventListener("click",e=>{const up=e.target.closest("[data-up]"),down=e.target.closest("[data-down]"),rm=e.target.closest("[data-remove]");if(up){const i=+up.dataset.up;[score.parts[i-1],score.parts[i]]=[score.parts[i],score.parts[i-1]];render();return}if(down){const i=+down.dataset.down;[score.parts[i+1],score.parts[i]]=[score.parts[i],score.parts[i+1]];render();return}if(rm){if(score.parts.length===1){say("Keep at least one instrument.");return}score.parts.splice(+rm.dataset.remove,1);render();return}const cell=e.target.closest(".score-bar");if(!cell)return;const r=cell.querySelector("svg").getBoundingClientRect(),x=(e.clientX-r.left)/r.width*700,y=(e.clientY-r.top)/r.height*122,slot=Math.max(0,Math.min(slots()-1,Math.floor((x-24)/(650/slots()))));enter(+cell.dataset.p,+cell.dataset.m,slot,fromY(y))});
+        document.querySelectorAll("[data-tool]").forEach(b=>b.addEventListener("click",()=>{tool=b.dataset.tool;document.querySelectorAll("[data-tool]").forEach(x=>x.classList.toggle("active",x===b));say("Selected "+tool)}));
+        document.querySelectorAll("[data-dur]").forEach(b=>b.addEventListener("click",()=>{dur=+b.dataset.dur;document.querySelectorAll("[data-dur]").forEach(x=>x.classList.toggle("active",x===b))}));
+        document.querySelectorAll("[data-acc]").forEach(b=>b.addEventListener("click",()=>acc=b.dataset.acc));
+        $("#scoreDyn").addEventListener("change",e=>dyn=e.target.value);
+        $("#scoreAddBar").addEventListener("click",()=>{score.count++;score.parts.forEach(p=>p.bars.push([]));render();say("Added a measure across all instruments.")});
+        $("#scoreAddPart").addEventListener("click",()=>{const avail=catalog.filter(n=>!score.parts.some(p=>p.name===n)),ans=prompt("Type an instrument to add:\n"+avail.join(", "));if(!ans)return;const name=avail.find(n=>n.toLowerCase()===ans.trim().toLowerCase());if(!name){say("Instrument not found.");return}const p=makePart(name);p.bars=Array.from({length:score.count},()=>[]);score.parts.push(p);render()});
+        $("#scoreSave").addEventListener("click",save);
+        $("#scoreNew").addEventListener("click",()=>{if(!confirm("Start a new score? Save this one first if needed."))return;score=fresh();$("#scoreComposer").value=score.composer;$("#scoreTempo").value=100;$("#scoreTime").value="4/4";$("#scoreKey").value="C";render()});
+        $("#scoreSaved").addEventListener("click",e=>{const o=e.target.closest("[data-open]"),d=e.target.closest("[data-del]");if(o){score=JSON.parse(JSON.stringify(scores.find(s=>s.id===o.dataset.open)));$("#scoreTitle").value=score.title;$("#scoreComposer").value=score.composer||"";$("#scoreTempo").value=score.tempo||100;$("#scoreTime").value=score.time||"4/4";$("#scoreKey").value=score.key||"C";render();say("Opened "+score.title)}if(d){scores=scores.filter(s=>s.id!==d.dataset.del);put("compositions",scores);showSaved()}});
+        $("#scorePlay").addEventListener("click",async()=>{if(audio)audio.close().catch(()=>{});const AC=window.AudioContext||window.webkitAudioContext;if(!AC){say("Audio playback unavailable.");return}audio=new AC();await audio.resume();const beat=60/(+$("#scoreTempo").value||100),events=[];score.parts.forEach(p=>p.bars.forEach((m,mi)=>m.forEach(n=>{if(n.kind!=="note"||n.pitch==="REST")return;const a=n.pitch.match(/^([A-G])(\d)$/);if(!a)return;const semi={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[a[1]];events.push({f:440*Math.pow(2,((+a[2]*12+semi)-69)/12),t:(mi*4+n.slot/4)*beat,l:(n.dur||4)/4*beat})})));events.forEach(n=>{const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+.06+n.t;o.type="sine";o.frequency.value=n.f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.07,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+Math.max(.07,n.l*.9));o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+Math.max(.1,n.l))});say("Playing all parts together.");playTimer=setTimeout(()=>{if(audio){audio.close().catch(()=>{});audio=null}say("Playback finished.")},score.count*4*beat*1000+250)});
+        $("#scoreStop").addEventListener("click",()=>{if(playTimer)clearTimeout(playTimer);if(audio){audio.close().catch(()=>{});audio=null}say("Playback stopped.")});
+        $("#scorePrint").addEventListener("click",()=>window.print());
+        $("#scoreTime").addEventListener("change",e=>{score.time=e.target.value;render()});$("#scoreKey").addEventListener("change",e=>score.key=e.target.value);
+        render();showSaved();
     }
 })();
