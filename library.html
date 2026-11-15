@@ -2340,6 +2340,10 @@ document.addEventListener(
 
 loadSavedPieces();
 
+// Accept a music query passed from the global search, while keeping this page search local.
+const libraryQuery = new URLSearchParams(window.location.search).get("search");
+if (libraryQuery) searchInput.value = libraryQuery;
+
 filterPieces();
 
 </script>
