@@ -1814,11 +1814,12 @@ function setupPlayButton(button) {
                 piece?.dataset.name || "this piece";
 
 
-            alert(
-                "Sheet-music playback for \"" +
-                name +
-                "\" will be connected here."
-            );
+            const draft = maGetDrafts()[piece?.dataset.id || ""];
+            if (draft && draft.grid && draft.grid.length) {
+                maPlaySavedGrid(draft.grid, draft.tempo || 100);
+            } else if (piece) {
+                maOpenEditor(piece.dataset.id, name);
+            }
 
         }
     );
@@ -2168,6 +2169,7 @@ libraryEditor.addEventListener("click",e=>{if(e.target===libraryEditor)maCloseEd
 document.getElementById("maEditorClear").addEventListener("click",()=>{maEditingGrid=[];maRenderGrid()});
 document.getElementById("maEditorSave").addEventListener("click",()=>{if(!maEditingId)return;const all=maGetDrafts();all[maEditingId]={grid:maEditingGrid.slice(),tempo:Math.max(40,Math.min(240,Number(document.getElementById("maEditorTempo").value)||100))};try{localStorage.setItem("maPieceDrafts",JSON.stringify(all));let pieces=[];try{pieces=JSON.parse(localStorage.getItem("maPieces")||"[]")}catch(e){}const item=pieces.find(p=>p.id===maEditingId);if(item){item.grid=maEditingGrid.slice();item.tempo=all[maEditingId].tempo;localStorage.setItem("maPieces",JSON.stringify(pieces))}document.getElementById("maEditorStatus").textContent="Saved on this device."}catch(e){document.getElementById("maEditorStatus").textContent="Could not save; browser storage may be full."}});
 document.getElementById("maEditorPlay").addEventListener("click",async()=>{if(!maEditingGrid.length){document.getElementById("maEditorStatus").textContent="Add notes to the grid first.";return}const AC=window.AudioContext||window.webkitAudioContext;if(!AC){document.getElementById("maEditorStatus").textContent="Audio is not supported in this browser.";return}maAudio=maAudio||new AC();if(maAudio.state==="suspended")await maAudio.resume();const tempo=Math.max(40,Math.min(240,Number(document.getElementById("maEditorTempo").value)||100));const step=60/tempo/2;maEditingGrid.map(k=>k.split(",").map(Number)).sort((a,b)=>a[1]-b[1]).forEach(([row,col])=>{const t=maAudio.currentTime+.05+col*step;const osc=maAudio.createOscillator();const gain=maAudio.createGain();osc.type="sine";osc.frequency.value=maPitchHz[row];gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.12,t+.015);gain.gain.exponentialRampToValueAtTime(.0001,t+step*.8);osc.connect(gain);gain.connect(maAudio.destination);osc.start(t);osc.stop(t+step)});document.getElementById("maEditorStatus").textContent="Playing melody…"});
+async function maPlaySavedGrid(grid,tempo){const AC=window.AudioContext||window.webkitAudioContext;if(!AC){alert("Audio playback is not supported in this browser.");return}maAudio=maAudio||new AC();if(maAudio.state==="suspended")await maAudio.resume();const step=60/tempo/2;grid.map(k=>k.split(",").map(Number)).sort((a,b)=>a[1]-b[1]).forEach(([row,col])=>{const t=maAudio.currentTime+.05+col*step;const osc=maAudio.createOscillator();const gain=maAudio.createGain();osc.type="sine";osc.frequency.value=maPitchHz[row];gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.12,t+.015);gain.gain.exponentialRampToValueAtTime(.0001,t+step*.8);osc.connect(gain);gain.connect(maAudio.destination);osc.start(t);osc.stop(t+step)})}
 function maSetupEditButton(button){if(!button||button.dataset.maReady)return;button.dataset.maReady="1";button.addEventListener("click",e=>{e.stopPropagation();const card=button.closest(".piece");if(card)maOpenEditor(card.dataset.id,card.dataset.name)})}
 function maAddEditButtons(){document.querySelectorAll(".piece").forEach(card=>{const actions=card.querySelector(".piece-actions");if(actions&&!actions.querySelector(".ma-edit-piece")){const b=document.createElement("button");b.type="button";b.className="cancel-create ma-edit-piece";b.textContent="Edit";actions.prepend(b);maSetupEditButton(b)}})}
 maAddEditButtons();
@@ -2246,12 +2248,15 @@ function addPieceCard(piece) {
             </div>
 
             <p class="piece-description">
-                Your custom piece.
+                ${escapeHTML(piece.description || "Your custom piece.")}
             </p>
+            ${piece.composer ? `<p class="piece-description">By ${escapeHTML(piece.composer)}</p>` : ""}
 
         </div>
 
         <div class="piece-actions">
+
+            ${piece.fileData ? '<button class="cancel-create view-file-button" type="button">View File</button>' : ""}
 
             <button
                 class="play-button"
@@ -2274,6 +2279,13 @@ function addPieceCard(piece) {
 
     pieces.appendChild(card);
 
+
+    const viewFileButton = card.querySelector(".view-file-button");
+    if (viewFileButton) viewFileButton.addEventListener("click", event => {
+        event.stopPropagation();
+        const fileWindow = window.open(piece.fileData, "_blank");
+        if (!fileWindow) alert("Allow pop-ups to view this file.");
+    });
 
     setupFavoriteButton(
         card.querySelector(".favorite")
