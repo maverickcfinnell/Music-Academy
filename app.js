@@ -252,7 +252,7 @@
             window.setTimeout(close, 650);
         });
     };
-    document.getElementById("appSettings")?.addEventListener("click", openSettings);
+    document.getElementById("settings")?.addEventListener("click", openSettings);
 
 
     // Home dashboard.
