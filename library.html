@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MA — My Library</title>
+<title>Music Academy — My Library</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -42,15 +44,15 @@ body {
 }
 
 .logo {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: 2px;
-
-    padding: 0 15px 30px;
-}
-
-.logo span {
-    color: #7da7ff;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #6d8cff;
+    white-space: nowrap;
 }
 
 .nav-section {
@@ -803,7 +805,7 @@ body {
 <aside class="sidebar">
 
     <div class="logo">
-        <span>MA</span>
+        Music Academy
     </div>
 
 
@@ -1046,43 +1048,23 @@ body {
 
     <div class="tabs">
 
-        <button
-            class="tab active"
-            data-tab="all"
-            type="button"
-        >
+        <button class="tab active" data-tab="all" type="button">
             My Pieces
         </button>
 
-        <button
-            class="tab"
-            data-tab="browse"
-            type="button"
-        >
+        <button class="tab" data-tab="browse" type="button">
             Browse Music
         </button>
 
-        <button
-            class="tab"
-            data-tab="favorites"
-            type="button"
-        >
+        <button class="tab" data-tab="favorites" type="button">
             Favorites
         </button>
 
-        <button
-            class="tab"
-            data-tab="recent"
-            type="button"
-        >
+        <button class="tab" data-tab="recent" type="button">
             Recently Practiced
         </button>
 
-        <button
-            class="tab"
-            data-tab="imported"
-            type="button"
-        >
+        <button class="tab" data-tab="imported" type="button">
             Imported / Scanned
         </button>
 
@@ -1090,57 +1072,32 @@ body {
 
 
 
-    <!-- =========================
-         PIECES
-         ========================= -->
+    <!-- PIECES -->
 
-    <div
-        class="pieces"
-        id="pieces"
-    >
+    <div class="pieces" id="pieces">
 
 
         <!-- PIECE 1 -->
 
-        <div
-            class="piece"
+        <div class="piece"
             data-id="concert-piece"
             data-name="Concert Piece"
             data-category="Classical"
             data-difficulty="Intermediate"
             data-browse="true"
             data-recent="false"
-            data-imported="false"
-        >
+            data-imported="false">
 
-            <button
-                class="favorite"
-                type="button"
-            >
-                ☆
-            </button>
-
+            <button class="favorite" type="button">☆</button>
 
             <div class="piece-info">
 
-                <h3>
-                    Concert Piece
-                </h3>
+                <h3>Concert Piece</h3>
 
                 <div class="piece-meta">
-
-                    <span>
-                        Tenor Saxophone
-                    </span>
-
-                    <span>
-                        Classical
-                    </span>
-
-                    <span>
-                        Intermediate
-                    </span>
-
+                    <span>Tenor Saxophone</span>
+                    <span>Classical</span>
+                    <span>Intermediate</span>
                 </div>
 
                 <p class="piece-description">
@@ -1149,23 +1106,9 @@ body {
 
             </div>
 
-
             <div class="piece-actions">
-
-                <button
-                    class="play-button"
-                    type="button"
-                >
-                    Play
-                </button>
-
-                <button
-                    class="practice-button"
-                    type="button"
-                >
-                    Practice
-                </button>
-
+                <button class="play-button" type="button">Play</button>
+                <button class="practice-button" type="button">Practice</button>
             </div>
 
         </div>
@@ -1174,45 +1117,25 @@ body {
 
         <!-- PIECE 2 -->
 
-        <div
-            class="piece"
+        <div class="piece"
             data-id="take-five"
             data-name="Take Five"
             data-category="Jazz"
             data-difficulty="Advanced"
             data-browse="true"
             data-recent="false"
-            data-imported="false"
-        >
+            data-imported="false">
 
-            <button
-                class="favorite"
-                type="button"
-            >
-                ☆
-            </button>
-
+            <button class="favorite" type="button">☆</button>
 
             <div class="piece-info">
 
-                <h3>
-                    Take Five
-                </h3>
+                <h3>Take Five</h3>
 
                 <div class="piece-meta">
-
-                    <span>
-                        Tenor Saxophone
-                    </span>
-
-                    <span>
-                        Jazz
-                    </span>
-
-                    <span>
-                        Advanced
-                    </span>
-
+                    <span>Tenor Saxophone</span>
+                    <span>Jazz</span>
+                    <span>Advanced</span>
                 </div>
 
                 <p class="piece-description">
@@ -1221,23 +1144,9 @@ body {
 
             </div>
 
-
             <div class="piece-actions">
-
-                <button
-                    class="play-button"
-                    type="button"
-                >
-                    Play
-                </button>
-
-                <button
-                    class="practice-button"
-                    type="button"
-                >
-                    Practice
-                </button>
-
+                <button class="play-button" type="button">Play</button>
+                <button class="practice-button" type="button">Practice</button>
             </div>
 
         </div>
@@ -1246,45 +1155,25 @@ body {
 
         <!-- PIECE 3 -->
 
-        <div
-            class="piece"
+        <div class="piece"
             data-id="warm-up-exercise"
             data-name="Warm Up Exercise"
             data-category="Warm Up"
             data-difficulty="Beginner"
             data-browse="true"
             data-recent="true"
-            data-imported="false"
-        >
+            data-imported="false">
 
-            <button
-                class="favorite"
-                type="button"
-            >
-                ☆
-            </button>
-
+            <button class="favorite" type="button">☆</button>
 
             <div class="piece-info">
 
-                <h3>
-                    Warm Up Exercise
-                </h3>
+                <h3>Warm Up Exercise</h3>
 
                 <div class="piece-meta">
-
-                    <span>
-                        Tenor Saxophone
-                    </span>
-
-                    <span>
-                        Warm Up
-                    </span>
-
-                    <span>
-                        Beginner
-                    </span>
-
+                    <span>Tenor Saxophone</span>
+                    <span>Warm Up</span>
+                    <span>Beginner</span>
                 </div>
 
                 <p class="piece-description">
@@ -1293,23 +1182,9 @@ body {
 
             </div>
 
-
             <div class="piece-actions">
-
-                <button
-                    class="play-button"
-                    type="button"
-                >
-                    Play
-                </button>
-
-                <button
-                    class="practice-button"
-                    type="button"
-                >
-                    Practice
-                </button>
-
+                <button class="play-button" type="button">Play</button>
+                <button class="practice-button" type="button">Practice</button>
             </div>
 
         </div>
@@ -1318,45 +1193,25 @@ body {
 
         <!-- PIECE 4 -->
 
-        <div
-            class="piece"
+        <div class="piece"
             data-id="jazz-etude-1"
             data-name="Jazz Etude No. 1"
             data-category="Jazz"
             data-difficulty="Intermediate"
             data-browse="true"
             data-recent="false"
-            data-imported="false"
-        >
+            data-imported="false">
 
-            <button
-                class="favorite"
-                type="button"
-            >
-                ☆
-            </button>
-
+            <button class="favorite" type="button">☆</button>
 
             <div class="piece-info">
 
-                <h3>
-                    Jazz Etude No. 1
-                </h3>
+                <h3>Jazz Etude No. 1</h3>
 
                 <div class="piece-meta">
-
-                    <span>
-                        Tenor Saxophone
-                    </span>
-
-                    <span>
-                        Jazz
-                    </span>
-
-                    <span>
-                        Intermediate
-                    </span>
-
+                    <span>Tenor Saxophone</span>
+                    <span>Jazz</span>
+                    <span>Intermediate</span>
                 </div>
 
                 <p class="piece-description">
@@ -1365,23 +1220,9 @@ body {
 
             </div>
 
-
             <div class="piece-actions">
-
-                <button
-                    class="play-button"
-                    type="button"
-                >
-                    Play
-                </button>
-
-                <button
-                    class="practice-button"
-                    type="button"
-                >
-                    Practice
-                </button>
-
+                <button class="play-button" type="button">Play</button>
+                <button class="practice-button" type="button">Practice</button>
             </div>
 
         </div>
@@ -1390,45 +1231,25 @@ body {
 
         <!-- PIECE 5 -->
 
-        <div
-            class="piece"
+        <div class="piece"
             data-id="scale-study"
             data-name="Scale Study"
             data-category="Technique"
             data-difficulty="Easy"
             data-browse="true"
             data-recent="true"
-            data-imported="false"
-        >
+            data-imported="false">
 
-            <button
-                class="favorite"
-                type="button"
-            >
-                ☆
-            </button>
-
+            <button class="favorite" type="button">☆</button>
 
             <div class="piece-info">
 
-                <h3>
-                    Scale Study
-                </h3>
+                <h3>Scale Study</h3>
 
                 <div class="piece-meta">
-
-                    <span>
-                        Tenor Saxophone
-                    </span>
-
-                    <span>
-                        Technique
-                    </span>
-
-                    <span>
-                        Easy
-                    </span>
-
+                    <span>Tenor Saxophone</span>
+                    <span>Technique</span>
+                    <span>Easy</span>
                 </div>
 
                 <p class="piece-description">
@@ -1437,23 +1258,9 @@ body {
 
             </div>
 
-
             <div class="piece-actions">
-
-                <button
-                    class="play-button"
-                    type="button"
-                >
-                    Play
-                </button>
-
-                <button
-                    class="practice-button"
-                    type="button"
-                >
-                    Practice
-                </button>
-
+                <button class="play-button" type="button">Play</button>
+                <button class="practice-button" type="button">Practice</button>
             </div>
 
         </div>
@@ -1462,45 +1269,25 @@ body {
 
         <!-- PIECE 6 -->
 
-        <div
-            class="piece"
+        <div class="piece"
             data-id="my-favorite-piece"
             data-name="My Favorite Piece"
             data-category="Classical"
             data-difficulty="Intermediate"
             data-browse="false"
             data-recent="false"
-            data-imported="true"
-        >
+            data-imported="true">
 
-            <button
-                class="favorite"
-                type="button"
-            >
-                ☆
-            </button>
-
+            <button class="favorite" type="button">☆</button>
 
             <div class="piece-info">
 
-                <h3>
-                    My Favorite Piece
-                </h3>
+                <h3>My Favorite Piece</h3>
 
                 <div class="piece-meta">
-
-                    <span>
-                        Tenor Saxophone
-                    </span>
-
-                    <span>
-                        Classical
-                    </span>
-
-                    <span>
-                        Intermediate
-                    </span>
-
+                    <span>Tenor Saxophone</span>
+                    <span>Classical</span>
+                    <span>Intermediate</span>
                 </div>
 
                 <p class="piece-description">
@@ -1509,23 +1296,9 @@ body {
 
             </div>
 
-
             <div class="piece-actions">
-
-                <button
-                    class="play-button"
-                    type="button"
-                >
-                    Play
-                </button>
-
-                <button
-                    class="practice-button"
-                    type="button"
-                >
-                    Practice
-                </button>
-
+                <button class="play-button" type="button">Play</button>
+                <button class="practice-button" type="button">Practice</button>
             </div>
 
         </div>
@@ -1537,14 +1310,9 @@ body {
 
     <!-- EMPTY STATE -->
 
-    <div
-        class="empty-state"
-        id="emptyState"
-    >
+    <div class="empty-state" id="emptyState">
 
-        <h2>
-            No music found
-        </h2>
+        <h2>No music found</h2>
 
         <p>
             Try changing your search or filters.
@@ -1557,23 +1325,13 @@ body {
 
 
 
-<!-- =========================
-     ADD MUSIC MODAL
-     ========================= -->
+<!-- ADD MUSIC MODAL -->
 
-<div
-    class="modal-overlay"
-    id="modalOverlay"
->
+<div class="modal-overlay" id="modalOverlay">
 
-    <div
-        class="modal"
-        id="addMusicModal"
-    >
+    <div class="modal" id="addMusicModal">
 
-        <h2 id="modalTitle">
-            Add Music
-        </h2>
+        <h2 id="modalTitle">Add Music</h2>
 
         <p id="modalDescription">
             Choose how you want to add music to your library.
@@ -1582,20 +1340,11 @@ body {
 
         <!-- OPTIONS -->
 
-        <div
-            class="modal-options"
-            id="modalOptions"
-        >
+        <div class="modal-options" id="modalOptions">
 
-            <button
-                type="button"
-                class="modal-option"
-                id="createPieceButton"
-            >
+            <button type="button" class="modal-option" id="createPieceButton">
 
-                <strong>
-                    ✚ Create a Piece
-                </strong>
+                <strong>✚ Create a Piece</strong>
 
                 <small>
                     Create your own piece and save it to your library.
@@ -1604,15 +1353,9 @@ body {
             </button>
 
 
-            <button
-                type="button"
-                class="modal-option"
-                id="importScanButton"
-            >
+            <button type="button" class="modal-option" id="importScanButton">
 
-                <strong>
-                    📷 Import / Scan
-                </strong>
+                <strong>📷 Import / Scan</strong>
 
                 <small>
                     Add music from a photo or scanned sheet music.
@@ -1621,15 +1364,9 @@ body {
             </button>
 
 
-            <button
-                type="button"
-                class="modal-option"
-                id="uploadMusicButton"
-            >
+            <button type="button" class="modal-option" id="uploadMusicButton">
 
-                <strong>
-                    📄 Upload Music File
-                </strong>
+                <strong>📄 Upload Music File</strong>
 
                 <small>
                     Upload a music file to your library.
@@ -1643,16 +1380,11 @@ body {
 
         <!-- CREATE FORM -->
 
-        <form
-            class="create-form"
-            id="createForm"
-        >
+        <form class="create-form" id="createForm">
 
             <div class="form-group">
 
-                <label for="pieceName">
-                    Piece Name
-                </label>
+                <label for="pieceName">Piece Name</label>
 
                 <input
                     id="pieceName"
@@ -1666,9 +1398,7 @@ body {
 
             <div class="form-group">
 
-                <label for="pieceInstrument">
-                    Instrument
-                </label>
+                <label for="pieceInstrument">Instrument</label>
 
                 <input
                     id="pieceInstrument"
@@ -1683,42 +1413,17 @@ body {
 
             <div class="form-group">
 
-                <label for="pieceCategory">
-                    Category
-                </label>
+                <label for="pieceCategory">Category</label>
 
-                <select
-                    id="pieceCategory"
-                    required
-                >
+                <select id="pieceCategory" required>
 
-                    <option value="">
-                        Choose a category
-                    </option>
-
-                    <option value="Classical">
-                        Classical
-                    </option>
-
-                    <option value="Jazz">
-                        Jazz
-                    </option>
-
-                    <option value="Warm Up">
-                        Warm Up
-                    </option>
-
-                    <option value="Technique">
-                        Technique
-                    </option>
-
-                    <option value="Exercise">
-                        Exercise
-                    </option>
-
-                    <option value="Custom">
-                        Custom
-                    </option>
+                    <option value="">Choose a category</option>
+                    <option value="Classical">Classical</option>
+                    <option value="Jazz">Jazz</option>
+                    <option value="Warm Up">Warm Up</option>
+                    <option value="Technique">Technique</option>
+                    <option value="Exercise">Exercise</option>
+                    <option value="Custom">Custom</option>
 
                 </select>
 
@@ -1727,38 +1432,16 @@ body {
 
             <div class="form-group">
 
-                <label for="pieceDifficulty">
-                    Difficulty
-                </label>
+                <label for="pieceDifficulty">Difficulty</label>
 
-                <select
-                    id="pieceDifficulty"
-                    required
-                >
+                <select id="pieceDifficulty" required>
 
-                    <option value="">
-                        Choose difficulty
-                    </option>
-
-                    <option value="Beginner">
-                        Beginner
-                    </option>
-
-                    <option value="Easy">
-                        Easy
-                    </option>
-
-                    <option value="Intermediate">
-                        Intermediate
-                    </option>
-
-                    <option value="Advanced">
-                        Advanced
-                    </option>
-
-                    <option value="Expert">
-                        Expert
-                    </option>
+                    <option value="">Choose difficulty</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Expert">Expert</option>
 
                 </select>
 
@@ -1767,18 +1450,11 @@ body {
 
             <div class="form-actions">
 
-                <button
-                    type="button"
-                    class="cancel-create"
-                    id="cancelCreate"
-                >
+                <button type="button" class="cancel-create" id="cancelCreate">
                     Back
                 </button>
 
-                <button
-                    type="submit"
-                    class="submit-create"
-                >
+                <button type="submit" class="submit-create">
                     Add to Library
                 </button>
 
@@ -1787,11 +1463,7 @@ body {
         </form>
 
 
-        <button
-            type="button"
-            class="close-modal"
-            id="closeModal"
-        >
+        <button type="button" class="close-modal" id="closeModal">
             Cancel
         </button>
 
@@ -1801,9 +1473,7 @@ body {
 
 
 
-<!-- =========================
-     JAVASCRIPT
-     ========================= -->
+<!-- JAVASCRIPT -->
 
 <script>
 
@@ -1952,34 +1622,22 @@ function filterPieces() {
 
 
         if (currentTab === "favorites") {
-
-            matchesTab =
-                isFavorite(piece);
-
+            matchesTab = isFavorite(piece);
         }
 
 
         if (currentTab === "recent") {
-
-            matchesTab =
-                piece.dataset.recent === "true";
-
+            matchesTab = piece.dataset.recent === "true";
         }
 
 
         if (currentTab === "imported") {
-
-            matchesTab =
-                piece.dataset.imported === "true";
-
+            matchesTab = piece.dataset.imported === "true";
         }
 
 
         if (currentTab === "browse") {
-
-            matchesTab =
-                piece.dataset.browse === "true";
-
+            matchesTab = piece.dataset.browse === "true";
         }
 
 
@@ -2025,9 +1683,7 @@ filterButton.addEventListener(
     "click",
     () => {
 
-        filterPanel.classList.toggle(
-            "show"
-        );
+        filterPanel.classList.toggle("show");
 
     }
 );
@@ -2056,21 +1712,14 @@ tabs.forEach(tab => {
         () => {
 
             tabs.forEach(t => {
-
-                t.classList.remove(
-                    "active"
-                );
-
+                t.classList.remove("active");
             });
 
 
-            tab.classList.add(
-                "active"
-            );
+            tab.classList.add("active");
 
 
-            currentTab =
-                tab.dataset.tab;
+            currentTab = tab.dataset.tab;
 
 
             filterPieces();
@@ -2090,9 +1739,7 @@ function getFavorites() {
     try {
 
         return JSON.parse(
-            localStorage.getItem(
-                "maFavorites"
-            ) || "[]"
+            localStorage.getItem("maFavorites") || "[]"
         );
 
     } catch {
@@ -2127,10 +1774,7 @@ function getPieceId(piece) {
 
 function isFavorite(piece) {
 
-    return getFavorites()
-        .includes(
-            getPieceId(piece)
-        );
+    return getFavorites().includes(getPieceId(piece));
 
 }
 
@@ -2138,22 +1782,16 @@ function isFavorite(piece) {
 function updateFavoriteButton(piece) {
 
     const button =
-        piece.querySelector(
-            ".favorite"
-        );
+        piece.querySelector(".favorite");
 
 
     if (!button) return;
 
 
-    const favorite =
-        isFavorite(piece);
+    const favorite = isFavorite(piece);
 
 
-    button.classList.toggle(
-        "active",
-        favorite
-    );
+    button.classList.toggle("active", favorite);
 
 
     button.textContent =
@@ -2172,31 +1810,23 @@ function setupFavoriteButton(button) {
 
 
             const piece =
-                button.closest(
-                    ".piece"
-                );
+                button.closest(".piece");
 
 
             if (!piece) return;
 
 
-            const id =
-                getPieceId(piece);
+            const id = getPieceId(piece);
 
 
-            let favorites =
-                getFavorites();
+            let favorites = getFavorites();
 
 
-            if (
-                favorites.includes(id)
-            ) {
+            if (favorites.includes(id)) {
 
-                favorites =
-                    favorites.filter(
-                        item =>
-                            item !== id
-                    );
+                favorites = favorites.filter(
+                    item => item !== id
+                );
 
             } else {
 
@@ -2205,14 +1835,10 @@ function setupFavoriteButton(button) {
             }
 
 
-            saveFavorites(
-                favorites
-            );
+            saveFavorites(favorites);
 
 
-            updateFavoriteButton(
-                piece
-            );
+            updateFavoriteButton(piece);
 
 
             filterPieces();
@@ -2224,28 +1850,16 @@ function setupFavoriteButton(button) {
 
 
 document
-    .querySelectorAll(
-        ".piece .favorite"
-    )
+    .querySelectorAll(".piece .favorite")
     .forEach(button => {
-
-        setupFavoriteButton(
-            button
-        );
-
+        setupFavoriteButton(button);
     });
 
 
 document
-    .querySelectorAll(
-        ".piece"
-    )
+    .querySelectorAll(".piece")
     .forEach(piece => {
-
-        updateFavoriteButton(
-            piece
-        );
-
+        updateFavoriteButton(piece);
     });
 
 
@@ -2263,14 +1877,11 @@ function setupPlayButton(button) {
 
 
             const piece =
-                button.closest(
-                    ".piece"
-                );
+                button.closest(".piece");
 
 
             const name =
-                piece?.dataset.name ||
-                "this piece";
+                piece?.dataset.name || "this piece";
 
 
             alert(
@@ -2286,15 +1897,9 @@ function setupPlayButton(button) {
 
 
 document
-    .querySelectorAll(
-        ".play-button"
-    )
+    .querySelectorAll(".play-button")
     .forEach(button => {
-
-        setupPlayButton(
-            button
-        );
-
+        setupPlayButton(button);
     });
 
 
@@ -2312,24 +1917,20 @@ function setupPracticeButton(button) {
 
 
             const piece =
-                button.closest(
-                    ".piece"
-                );
+                button.closest(".piece");
 
 
             if (piece) {
 
                 localStorage.setItem(
                     "maPracticePiece",
-                    piece.dataset.name ||
-                    ""
+                    piece.dataset.name || ""
                 );
 
             }
 
 
-            window.location.href =
-                "practice.html";
+            window.location.href = "practice.html";
 
         }
     );
@@ -2338,15 +1939,9 @@ function setupPracticeButton(button) {
 
 
 document
-    .querySelectorAll(
-        ".practice-button"
-    )
+    .querySelectorAll(".practice-button")
     .forEach(button => {
-
-        setupPracticeButton(
-            button
-        );
-
+        setupPracticeButton(button);
     });
 
 
@@ -2356,25 +1951,19 @@ document
 
 function openModal() {
 
-    modalOverlay.classList.add(
-        "show"
-    );
+    modalOverlay.classList.add("show");
 
 
-    modalOptions.style.display =
-        "flex";
+    modalOptions.style.display = "flex";
 
 
-    createForm.style.display =
-        "none";
+    createForm.style.display = "none";
 
 
-    closeModal.style.display =
-        "block";
+    closeModal.style.display = "block";
 
 
-    modalTitle.textContent =
-        "Add Music";
+    modalTitle.textContent = "Add Music";
 
 
     modalDescription.textContent =
@@ -2385,25 +1974,19 @@ function openModal() {
 
 function closeTheModal() {
 
-    modalOverlay.classList.remove(
-        "show"
-    );
+    modalOverlay.classList.remove("show");
 
 
-    modalOptions.style.display =
-        "flex";
+    modalOptions.style.display = "flex";
 
 
-    createForm.style.display =
-        "none";
+    createForm.style.display = "none";
 
 
-    closeModal.style.display =
-        "block";
+    closeModal.style.display = "block";
 
 
-    modalTitle.textContent =
-        "Add Music";
+    modalTitle.textContent = "Add Music";
 
 
     modalDescription.textContent =
@@ -2413,24 +1996,16 @@ function closeTheModal() {
     createForm.reset();
 
 
-    document.getElementById(
-        "pieceInstrument"
-    ).value =
+    document.getElementById("pieceInstrument").value =
         "Tenor Saxophone";
 
 }
 
 
-addMusicButton.addEventListener(
-    "click",
-    openModal
-);
+addMusicButton.addEventListener("click", openModal);
 
 
-closeModal.addEventListener(
-    "click",
-    closeTheModal
-);
+closeModal.addEventListener("click", closeTheModal);
 
 
 /* =========================
@@ -2441,20 +2016,16 @@ createPieceButton.addEventListener(
     "click",
     () => {
 
-        modalOptions.style.display =
-            "none";
+        modalOptions.style.display = "none";
 
 
-        createForm.style.display =
-            "block";
+        createForm.style.display = "block";
 
 
-        closeModal.style.display =
-            "none";
+        closeModal.style.display = "none";
 
 
-        modalTitle.textContent =
-            "Create a Piece";
+        modalTitle.textContent = "Create a Piece";
 
 
         modalDescription.textContent =
@@ -2472,20 +2043,16 @@ cancelCreate.addEventListener(
     "click",
     () => {
 
-        createForm.style.display =
-            "none";
+        createForm.style.display = "none";
 
 
-        modalOptions.style.display =
-            "flex";
+        modalOptions.style.display = "flex";
 
 
-        closeModal.style.display =
-            "block";
+        closeModal.style.display = "block";
 
 
-        modalTitle.textContent =
-            "Add Music";
+        modalTitle.textContent = "Add Music";
 
 
         modalDescription.textContent =
@@ -2507,109 +2074,62 @@ createForm.addEventListener(
 
 
         const name =
-            document
-                .getElementById(
-                    "pieceName"
-                )
-                .value
-                .trim();
+            document.getElementById("pieceName").value.trim();
 
 
         const instrument =
-            document
-                .getElementById(
-                    "pieceInstrument"
-                )
-                .value
-                .trim();
+            document.getElementById("pieceInstrument").value.trim();
 
 
         const category =
-            document
-                .getElementById(
-                    "pieceCategory"
-                )
-                .value;
+            document.getElementById("pieceCategory").value;
 
 
         const difficulty =
-            document
-                .getElementById(
-                    "pieceDifficulty"
-                )
-                .value;
+            document.getElementById("pieceDifficulty").value;
 
 
         if (!name) {
-
-            alert(
-                "Please enter a piece name."
-            );
-
+            alert("Please enter a piece name.");
             return;
-
         }
 
 
         if (!instrument) {
-
-            alert(
-                "Please enter an instrument."
-            );
-
+            alert("Please enter an instrument.");
             return;
-
         }
 
 
         if (!category) {
-
-            alert(
-                "Please choose a category."
-            );
-
+            alert("Please choose a category.");
             return;
-
         }
 
 
         if (!difficulty) {
-
-            alert(
-                "Please choose a difficulty."
-            );
-
+            alert("Please choose a difficulty.");
             return;
-
         }
 
 
         const newPiece = {
 
-            id:
-                "custom-" +
-                Date.now(),
+            id: "custom-" + Date.now(),
 
-            name:
-                name,
+            name: name,
 
-            instrument:
-                instrument,
+            instrument: instrument,
 
-            category:
-                category,
+            category: category,
 
-            difficulty:
-                difficulty,
+            difficulty: difficulty,
 
-            recent:
-                true,
+            recent: true,
 
-            imported:
-                false,
+            imported: false,
 
-            browse:
-                false
+            browse: false
 
         };
 
@@ -2621,9 +2141,7 @@ createForm.addEventListener(
 
             savedPieces =
                 JSON.parse(
-                    localStorage.getItem(
-                        "maPieces"
-                    ) || "[]"
+                    localStorage.getItem("maPieces") || "[]"
                 );
 
         } catch {
@@ -2633,59 +2151,41 @@ createForm.addEventListener(
         }
 
 
-        savedPieces.push(
-            newPiece
-        );
+        savedPieces.push(newPiece);
 
 
         localStorage.setItem(
             "maPieces",
-            JSON.stringify(
-                savedPieces
-            )
+            JSON.stringify(savedPieces)
         );
 
 
-        addPieceCard(
-            newPiece
-        );
+        addPieceCard(newPiece);
 
 
         closeTheModal();
 
 
-        currentTab =
-            "all";
+        currentTab = "all";
 
 
         tabs.forEach(tab => {
 
-            tab.classList.remove(
-                "active"
-            );
+            tab.classList.remove("active");
 
 
-            if (
-                tab.dataset.tab === "all"
-            ) {
-
-                tab.classList.add(
-                    "active"
-                );
-
+            if (tab.dataset.tab === "all") {
+                tab.classList.add("active");
             }
 
         });
 
 
-        searchInput.value =
-            "";
+        searchInput.value = "";
 
-        difficultyFilter.value =
-            "";
+        difficultyFilter.value = "";
 
-        categoryFilter.value =
-            "";
+        categoryFilter.value = "";
 
 
         filterPieces();
@@ -2708,47 +2208,31 @@ createForm.addEventListener(
 function addPieceCard(piece) {
 
     const card =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
-    card.className =
-        "piece";
+    card.className = "piece";
 
 
-    card.dataset.id =
-        piece.id;
+    card.dataset.id = piece.id;
 
+    card.dataset.name = piece.name;
 
-    card.dataset.name =
-        piece.name;
+    card.dataset.category = piece.category;
 
-
-    card.dataset.category =
-        piece.category;
-
-
-    card.dataset.difficulty =
-        piece.difficulty;
+    card.dataset.difficulty = piece.difficulty;
 
 
     card.dataset.browse =
-        piece.browse
-            ? "true"
-            : "false";
+        piece.browse ? "true" : "false";
 
 
     card.dataset.recent =
-        piece.recent
-            ? "true"
-            : "false";
+        piece.recent ? "true" : "false";
 
 
     card.dataset.imported =
-        piece.imported
-            ? "true"
-            : "false";
+        piece.imported ? "true" : "false";
 
 
     card.innerHTML = `
@@ -2809,35 +2293,25 @@ function addPieceCard(piece) {
     `;
 
 
-    pieces.appendChild(
-        card
-    );
+    pieces.appendChild(card);
 
 
     setupFavoriteButton(
-        card.querySelector(
-            ".favorite"
-        )
+        card.querySelector(".favorite")
     );
 
 
     setupPlayButton(
-        card.querySelector(
-            ".play-button"
-        )
+        card.querySelector(".play-button")
     );
 
 
     setupPracticeButton(
-        card.querySelector(
-            ".practice-button"
-        )
+        card.querySelector(".practice-button")
     );
 
 
-    updateFavoriteButton(
-        card
-    );
+    updateFavoriteButton(card);
 
 }
 
@@ -2855,9 +2329,7 @@ function loadSavedPieces() {
 
         savedPieces =
             JSON.parse(
-                localStorage.getItem(
-                    "maPieces"
-                ) || "[]"
+                localStorage.getItem("maPieces") || "[]"
             );
 
     } catch {
@@ -2867,25 +2339,19 @@ function loadSavedPieces() {
     }
 
 
-    savedPieces.forEach(
-        piece => {
+    savedPieces.forEach(piece => {
 
-            const existing =
-                document.querySelector(
-                    `.piece[data-id="${piece.id}"]`
-                );
+        const existing =
+            document.querySelector(
+                `.piece[data-id="${piece.id}"]`
+            );
 
 
-            if (!existing) {
-
-                addPieceCard(
-                    piece
-                );
-
-            }
-
+        if (!existing) {
+            addPieceCard(piece);
         }
-    );
+
+    });
 
 }
 
@@ -2898,30 +2364,15 @@ function escapeHTML(value) {
 
     return String(value)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -2934,13 +2385,8 @@ modalOverlay.addEventListener(
     "click",
     event => {
 
-        if (
-            event.target ===
-            modalOverlay
-        ) {
-
+        if (event.target === modalOverlay) {
             closeTheModal();
-
         }
 
     }
@@ -2957,9 +2403,7 @@ document.addEventListener(
 
         if (
             event.key === "Escape" &&
-            modalOverlay.classList.contains(
-                "show"
-            )
+            modalOverlay.classList.contains("show")
         ) {
 
             closeTheModal();
