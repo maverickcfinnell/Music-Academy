@@ -28,9 +28,9 @@
         const style = document.createElement("style");
         style.id = "ma-shared-sidebar-styles";
         style.textContent = `
-            .sidebar { position:fixed !important; inset:0 auto 0 0 !important; width:245px !important; min-width:245px !important; height:100vh !important; padding:22px 14px !important; background:#050b16 !important; border-right:1px solid #1d2b42 !important; box-sizing:border-box !important; overflow-y:auto !important; z-index:20 !important; flex:none !important; } 
-            .main { margin-left:245px !important; padding-top:0 !important; min-width:0 !important; }
-            .topbar { position:relative !important; left:auto !important; right:auto !important; top:auto !important; width:100% !important; height:70px !important; min-height:70px !important; box-sizing:border-box !important; border-bottom:1px solid #1d2b42 !important; }
+            .sidebar { width:245px !important; min-width:245px !important; padding:22px 14px !important; background:#050b16 !important; border-right:1px solid #1d2b42 !important; box-sizing:border-box !important; flex-shrink:0 !important; }
+            body[data-page="library"] .main { margin-left:245px !important; }
+            body[data-page="library"] .topbar { left:245px !important; }
             .sidebar .logo { height:60px !important; min-height:60px !important; display:flex !important; align-items:center !important; margin:0 !important; padding:0 12px 0 !important; font-family:Arial,Helvetica,sans-serif !important; font-size:23px !important; line-height:1 !important; font-weight:700 !important; letter-spacing:0 !important; color:#6d8cff !important; white-space:nowrap !important; box-sizing:border-box !important; }
             .sidebar .nav-label { display:block !important; padding:14px 12px 8px !important; margin:0 !important; color:#65718a !important; font-size:10px !important; line-height:normal !important; letter-spacing:1.5px !important; text-transform:uppercase !important; }
             .sidebar .nav { display:grid !important; grid-template-columns:1fr !important; gap:5px !important; margin:0 !important; padding:0 !important; }
