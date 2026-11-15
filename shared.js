@@ -25,6 +25,9 @@
         "edit-profile.html": "edit-profile"
     }[filename] || "home";
 
+    // Expose the current legacy page so accent-theme selectors target the right sections.
+    document.body.dataset.page = currentPage;
+
     // Keep the legacy pages' sidebar identical to the newer app.css layout.
     if (!document.getElementById("ma-shared-sidebar-styles")) {
         const style = document.createElement("style");
