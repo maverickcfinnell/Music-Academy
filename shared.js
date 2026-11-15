@@ -114,7 +114,7 @@
             <div class="top-actions">
                 <button class="top-btn" id="sharedSearch" type="button" title="Open My Library" aria-label="Open My Library">⌕</button>
                 <button class="top-btn" id="sharedSettings" type="button" title="Settings" aria-label="Settings">⚙</button>
-                <button class="top-btn" id="sharedProfile" type="button" title="Profile" aria-label="Profile">◉</button>
+                <button class="top-btn" id="sharedProfile" type="button" title="Profile" aria-label="Profile"></button>
             </div>
         `;
     }
@@ -155,22 +155,28 @@
             .ma-settings-footer span{font-size:12px;color:#91c6a4}
             .ma-settings-save{border:0;border-radius:8px;padding:11px 18px;background:#3978d4;color:white;font-weight:700;cursor:pointer}
             .ma-reduce-motion *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-        `;
+        
+            .ma-settings-group{padding:17px 0;border-bottom:1px solid #1d2b41}
+            .ma-settings-group h3{margin:0 0 8px;font-size:15px;color:#eaf1fb}
+            .ma-settings-group .ma-setting-field:first-of-type{padding-top:8px}
+            .ma-settings-note{margin:6px 0 2px;color:#91a2ba;font-size:12px;line-height:1.55}
+            .ma-setting-field input[type=range]{display:block;width:100%;margin-top:13px;accent-color:#6598e8}
+            .ma-settings-content{padding:8px 26px}
+            @media(max-width:520px){.ma-settings-overlay{padding:8px}.ma-settings-panel{max-height:96vh}.ma-settings-header{padding:19px}.ma-settings-content{padding:8px 19px}.ma-settings-footer{padding:16px 19px}}
+`;
         document.head.appendChild(settingsStyle);
     }
 
-    // Functional settings shared across Music Academy pages.
+
+    // Music Academy settings. Preferences are saved locally in this browser for now.
     const openSettings = () => {
-        if (document.getElementById("sharedSettingsOverlay")) {
-            document.getElementById("sharedSettingsOverlay").classList.add("open");
-            return;
-        }
+        const existing = document.getElementById("sharedSettingsOverlay");
+        if (existing) { existing.classList.add("open"); return; }
         const currentInstrument = localStorage.getItem("ma_instrument") || "Tenor Saxophone";
         const instruments = Array.from(document.querySelectorAll("#sharedInstrument option"))
             .map(option => option.value || option.textContent.trim());
-        const goal = Number(localStorage.getItem("ma_daily_goal") || 20);
-        const sound = localStorage.getItem("ma_sound_effects") !== "false";
-        const reduced = localStorage.getItem("ma_reduce_motion") === "true";
+        const read = (key, fallback) => localStorage.getItem("ma_" + key) ?? fallback;
+        const checked = key => read(key, "false") === "true";
         const overlay = document.createElement("div");
         overlay.id = "sharedSettingsOverlay";
         overlay.className = "ma-settings-overlay open";
@@ -181,16 +187,65 @@
                     <button type="button" class="ma-settings-close" aria-label="Close settings">×</button>
                 </header>
                 <div class="ma-settings-content">
-                    <label class="ma-setting-field">Default instrument
-                        <select id="sharedDefaultInstrument">${instruments.map(name => `<option ${name === currentInstrument ? "selected" : ""}>${name}</option>`).join("")}</select>
-                        <span>Used as your selected instrument throughout Music Academy.</span>
-                    </label>
-                    <label class="ma-setting-field">Daily practice goal
-                        <div class="ma-goal-input"><input id="sharedDailyGoal" type="number" min="5" max="240" step="5" value="${goal}"><span>minutes per day</span></div>
-                        <span>Choose a realistic goal you want to work toward.</span>
-                    </label>
-                    <div class="ma-setting-toggle"><div><strong>Sound effects</strong><span>Allow interface sounds when supported.</span></div><input id="sharedSoundEffects" type="checkbox" ${sound ? "checked" : ""}></div>
-                    <div class="ma-setting-toggle"><div><strong>Reduce motion</strong><span>Limit animations and visual movement.</span></div><input id="sharedReduceMotion" type="checkbox" ${reduced ? "checked" : ""}></div>
+                    <section class="ma-settings-group">
+                        <h3>Account</h3>
+                        <p class="ma-settings-note">Account email, password, and account deletion will be available when Music Academy accounts are connected.</p>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Appearance</h3>
+                        <label class="ma-setting-field">Theme
+                            <select id="sharedTheme"><option value="dark">Dark</option><option value="light">Light (coming soon)</option><option value="system">Use device setting (coming soon)</option></select>
+                        </label>
+                        <label class="ma-setting-field">Accent color
+                            <select id="sharedAccent"><option value="blue">Academy blue</option><option value="purple">Purple</option><option value="green">Green</option></select>
+                        </label>
+                        <div class="ma-setting-toggle"><div><strong>Reduce motion</strong><span>Limit animations and visual movement.</span></div><input id="sharedReduceMotion" type="checkbox" ${checked("reduce_motion") ? "checked" : ""}></div>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Practice Preferences</h3>
+                        <label class="ma-setting-field">Default instrument
+                            <select id="sharedDefaultInstrument">${instruments.map(name => `<option ${name === currentInstrument ? "selected" : ""}>${name}</option>`).join("")}</select>
+                            <span>Sets the instrument selected when you open Music Academy.</span>
+                        </label>
+                        <label class="ma-setting-field">Daily practice goal
+                            <div class="ma-goal-input"><input id="sharedDailyGoal" type="number" min="5" max="240" step="5" value="${Number(read("daily_goal", "20"))}"><span>minutes per day</span></div>
+                        </label>
+                        <div class="ma-setting-toggle"><div><strong>Auto-pause practice timer</strong><span>Pause after 3 minutes without activity (where supported).</span></div><input id="sharedAutoPause" type="checkbox" ${checked("auto_pause") ? "checked" : ""}></div>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Sound &amp; Audio</h3>
+                        <div class="ma-setting-toggle"><div><strong>Sound effects</strong><span>Allow interface sounds when supported.</span></div><input id="sharedSoundEffects" type="checkbox" ${read("sound_effects", "true") !== "false" ? "checked" : ""}></div>
+                        <label class="ma-setting-field">Playback volume
+                            <input id="sharedVolume" type="range" min="0" max="100" value="${read("playback_volume", "80")}">
+                        </label>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Notifications</h3>
+                        <div class="ma-setting-toggle"><div><strong>Practice reminders</strong><span>Remind me to work toward my daily goal.</span></div><input id="sharedPracticeReminders" type="checkbox" ${checked("notify_practice") ? "checked" : ""}></div>
+                        <div class="ma-setting-toggle"><div><strong>Achievement updates</strong><span>Tell me when I earn an achievement.</span></div><input id="sharedAchievementAlerts" type="checkbox" ${checked("notify_achievements") ? "checked" : ""}></div>
+                        <div class="ma-setting-toggle"><div><strong>Challenge updates</strong><span>Updates about challenges and competitions.</span></div><input id="sharedChallengeAlerts" type="checkbox" ${checked("notify_challenges") ? "checked" : ""}></div>
+                        <p class="ma-settings-note">Notification delivery will be connected when account and notification services are added.</p>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Learning Preferences</h3>
+                        <label class="ma-setting-field">Preferred difficulty
+                            <select id="sharedDifficulty"><option>Beginner</option><option>Easy</option><option>Intermediate</option><option>Advanced</option><option>Expert</option></select>
+                        </label>
+                        <div class="ma-setting-toggle"><div><strong>Show note names</strong><span>Display note labels in learning activities when available.</span></div><input id="sharedNoteNames" type="checkbox" ${read("show_note_names", "true") !== "false" ? "checked" : ""}></div>
+                        <div class="ma-setting-toggle"><div><strong>Show learning hints</strong><span>Display hints during lessons where supported.</span></div><input id="sharedHints" type="checkbox" ${read("learning_hints", "true") !== "false" ? "checked" : ""}></div>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Privacy &amp; Security</h3>
+                        <div class="ma-setting-toggle"><div><strong>Private profile preference</strong><span>Save your preference for a private profile. Public profile controls require accounts.</span></div><input id="sharedPrivateProfile" type="checkbox" ${read("private_profile", "true") !== "false" ? "checked" : ""}></div>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Subscription</h3>
+                        <p class="ma-settings-note">Premium membership, billing, and redeeming school codes will be added after secure accounts and payments are set up.</p>
+                    </section>
+                    <section class="ma-settings-group">
+                        <h3>Help &amp; About</h3>
+                        <p class="ma-settings-note">Music Academy prototype. For now, send feedback through the project owner. Help center and legal pages are coming later.</p>
+                    </section>
                 </div>
                 <footer class="ma-settings-footer"><span id="sharedSettingsStatus" role="status"></span><button type="button" class="ma-settings-save">Save settings</button></footer>
             </section>`;
@@ -204,28 +259,41 @@
                 document.removeEventListener("keydown", onEscape);
             }
         });
+        document.getElementById("sharedTheme").value = read("theme", "dark");
+        document.getElementById("sharedAccent").value = read("accent", "blue");
+        document.getElementById("sharedDifficulty").value = read("difficulty", "Intermediate");
         overlay.querySelector(".ma-settings-save").addEventListener("click", () => {
-            const selected = document.getElementById("sharedDefaultInstrument").value;
-            const dailyGoal = Math.max(5, Math.min(240, Number(document.getElementById("sharedDailyGoal").value) || 20));
-            localStorage.setItem("ma_instrument", selected);
-            localStorage.setItem("ma_daily_goal", String(dailyGoal));
-            localStorage.setItem("ma_sound_effects", String(document.getElementById("sharedSoundEffects").checked));
-            localStorage.setItem("ma_reduce_motion", String(document.getElementById("sharedReduceMotion").checked));
+            const value = id => document.getElementById("shared" + id);
+            const selected = value("DefaultInstrument").value;
+            const dailyGoal = Math.max(5, Math.min(240, Number(value("DailyGoal").value) || 20));
+            const settings = {
+                instrument:selected, daily_goal:String(dailyGoal),
+                sound_effects:String(value("SoundEffects").checked),
+                reduce_motion:String(value("ReduceMotion").checked),
+                auto_pause:String(value("AutoPause").checked),
+                playback_volume:value("Volume").value,
+                notify_practice:String(value("PracticeReminders").checked),
+                notify_achievements:String(value("AchievementAlerts").checked),
+                notify_challenges:String(value("ChallengeAlerts").checked),
+                show_note_names:String(value("NoteNames").checked),
+                learning_hints:String(value("Hints").checked),
+                private_profile:String(value("PrivateProfile").checked),
+                theme:value("Theme").value, accent:value("Accent").value,
+                difficulty:value("Difficulty").value
+            };
+            Object.entries(settings).forEach(([key, setting]) => localStorage.setItem("ma_" + key, setting));
             const headerInstrument = document.getElementById("sharedInstrument");
             if (headerInstrument) headerInstrument.value = selected;
-            document.documentElement.classList.toggle("ma-reduce-motion", document.getElementById("sharedReduceMotion").checked);
+            document.documentElement.classList.toggle("ma-reduce-motion", value("ReduceMotion").checked);
+            document.documentElement.dataset.maAccent = settings.accent;
             overlay.querySelector("#sharedSettingsStatus").textContent = "Saved on this device";
             overlay.querySelector(".ma-settings-save").textContent = "Saved";
-            window.setTimeout(close, 650);
+            window.setTimeout(close, 700);
         });
     };
     document.getElementById("sharedSettings")?.addEventListener("click", openSettings);
 
 
-    document.getElementById("sharedProfile")?.addEventListener("click", () => {
-        const points = Number(localStorage.getItem("ma_xp") || 0);
-        window.alert("Music Academy profile\n" + points + " XP earned on this device.");
-    });
 
     // Preserve the selected instrument when opening Practice Room from My Library.
     if (currentPage === "practice") {
