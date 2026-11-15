@@ -168,6 +168,25 @@
     }
 
 
+
+    // Apply the saved accent throughout the interface.
+    const applyAccent = (accent) => {
+        const palettes = {
+            blue: ["#6d8cff", "#16233b"],
+            purple: ["#b18cff", "#302044"],
+            green: ["#54c995", "#153b32"],
+            orange: ["#ff9b52", "#472b1b"]
+        };
+        const colors = palettes[accent] || palettes.blue;
+        const root = document.documentElement;
+        root.dataset.maAccent = accent || "blue";
+        root.style.setProperty("--blue", colors[0]);
+        root.style.setProperty("--blue2", colors[1]);
+        root.style.setProperty("--ma-accent", colors[0]);
+        root.style.setProperty("--ma-accent-soft", colors[1]);
+    };
+    applyAccent(localStorage.getItem("ma_accent") || "blue");
+
     // Music Academy settings. Preferences are saved locally in this browser for now.
     const openSettings = () => {
         const existing = document.getElementById("sharedSettingsOverlay");
@@ -197,7 +216,7 @@
                             <select id="sharedTheme"><option value="dark">Dark</option><option value="light">Light (coming soon)</option><option value="system">Use device setting (coming soon)</option></select>
                         </label>
                         <label class="ma-setting-field">Accent color
-                            <select id="sharedAccent"><option value="blue">Academy blue</option><option value="purple">Purple</option><option value="green">Green</option></select>
+                            <select id="sharedAccent"><option value="blue">🔵 Academy blue</option><option value="purple">🟣 Purple</option><option value="green">🟢 Green</option><option value="orange">🟠 Orange</option></select>
                         </label>
                         <div class="ma-setting-toggle"><div><strong>Reduce motion</strong><span>Limit animations and visual movement.</span></div><input id="sharedReduceMotion" type="checkbox" ${checked("reduce_motion") ? "checked" : ""}></div>
                     </section>
@@ -285,7 +304,7 @@
             const headerInstrument = document.getElementById("sharedInstrument");
             if (headerInstrument) headerInstrument.value = selected;
             document.documentElement.classList.toggle("ma-reduce-motion", value("ReduceMotion").checked);
-            document.documentElement.dataset.maAccent = settings.accent;
+            applyAccent(settings.accent);
             overlay.querySelector("#sharedSettingsStatus").textContent = "Saved on this device";
             overlay.querySelector(".ma-settings-save").textContent = "Saved";
             window.setTimeout(close, 700);
