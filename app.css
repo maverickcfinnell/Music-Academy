@@ -547,11 +547,37 @@ h3 {
     .sidebar .nav-label { display: none; }
     .sidebar .nav {
         display: flex;
+        gap: 5px;
         overflow-x: auto;
-        margin-bottom: 6px;
+        margin: 0 0 6px;
     }
     .sidebar .nav a { flex: 0 0 auto; white-space: nowrap; }
     .main { margin-left: 0; }
     .topbar { flex-wrap: nowrap; padding: 0 15px; }
     .topbar .top-actions { margin-left: auto; }
+}
+
+
+/* Exact sidebar item rhythm shared by every page */
+.sidebar .nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 5px;
+    column-gap: 0;
+    margin: 0 0 14px;
+    padding: 0;
+}
+.sidebar .nav a,
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    height: 42px;
+    min-height: 42px;
+    max-height: 42px;
+    margin: 0;
+    padding: 12px;
+    box-sizing: border-box;
+    font: 15px/18px Arial, Helvetica, sans-serif;
 }
