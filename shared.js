@@ -38,10 +38,18 @@
             .sidebar .nav a:hover, .sidebar .nav a.active, .sidebar .nav-link:hover, .sidebar .nav-link.active { background:#16233b !important; color:#fff !important; }
             .sidebar .nav-icon { display:inline-block !important; flex:0 0 22px !important; width:22px !important; margin:0 !important; padding:0 !important; text-align:center !important; font-size:17px !important; line-height:18px !important; }
             .topbar { height:70px !important; min-height:70px !important; display:flex !important; flex-wrap:nowrap !important; align-items:center !important; justify-content:flex-start !important; gap:12px !important; padding:0 30px !important; background:#080f1c !important; border-bottom:1px solid #1d2b42 !important; box-sizing:border-box !important; }
-            .instrument-label { display:inline-block !important; margin:0 !important; color:#8996aa !important; font:12px Arial,Helvetica,sans-serif !important; white-space:nowrap !important; }
-            .instrument-select { min-width:185px !important; height:40px !important; margin:0 !important; padding:10px 13px !important; color:#f4f7fb !important; background:#111c2e !important; border:1px solid #293b58 !important; border-radius:9px !important; font:14px Arial,Helvetica,sans-serif !important; }
-            .topbar .top-actions { display:flex !important; align-items:center !important; gap:9px !important; margin:0 0 0 auto !important; }
-            .topbar .top-btn { display:inline-flex !important; width:40px !important; min-width:40px !important; height:40px !important; align-items:center !important; justify-content:center !important; margin:0 !important; padding:8px 12px !important; color:#dbe3f0 !important; background:#111c2e !important; border:1px solid #293b58 !important; border-radius:9px !important; font:16px Arial,Helvetica,sans-serif !important; line-height:1 !important; cursor:pointer !important; }
+            .instrument-label { display:inline-flex !important; flex:0 0 auto !important; align-items:center !important; margin:0 !important; color:#8996aa !important; font:12px/1 Arial,Helvetica,sans-serif !important; white-space:nowrap !important; }
+            .instrument-select { display:inline-flex !important; flex:0 0 210px !important; width:210px !important; min-width:210px !important; height:40px !important; margin:0 !important; padding:0 13px !important; color:#f4f7fb !important; background:#111c2e !important; border:1px solid #293b58 !important; border-radius:9px !important; font:14px Arial,Helvetica,sans-serif !important; box-sizing:border-box !important; }
+            .topbar .top-actions { display:flex !important; flex:0 0 auto !important; align-items:center !important; gap:9px !important; margin:0 0 0 auto !important; }
+            .topbar .top-btn { display:inline-flex !important; flex:0 0 40px !important; width:40px !important; min-width:40px !important; height:40px !important; align-items:center !important; justify-content:center !important; margin:0 !important; padding:0 !important; color:#dbe3f0 !important; background:#111c2e !important; border:1px solid #293b58 !important; border-radius:9px !important; font:16px/1 Arial,Helvetica,sans-serif !important; box-sizing:border-box !important; cursor:pointer !important; }
+            @media (max-width:650px) {
+                .topbar { gap:8px !important; padding:0 15px !important; }
+                .instrument-label { font-size:11px !important; }
+                .instrument-select { flex-basis:165px !important; width:165px !important; min-width:165px !important; }
+                .topbar .top-actions { gap:6px !important; }
+                .topbar .top-btn { flex-basis:36px !important; width:36px !important; min-width:36px !important; height:36px !important; }
+                body[data-page="library"] .topbar { left:0 !important; right:0 !important; position:static !important; }
+            }
         `;
         document.head.appendChild(style);
     }
@@ -104,9 +112,9 @@
             </select>
 
             <div class="top-actions">
-                <button class="top-btn" id="sharedSearch" type="button" title="Open My Library">⌕</button>
-                <button class="top-btn" id="sharedSettings" type="button" title="Settings">⚙</button>
-                <button class="top-btn" id="sharedProfile" type="button" title="Profile">◉</button>
+                <button class="top-btn" id="sharedSearch" type="button" title="Open My Library" aria-label="Open My Library">⌕</button>
+                <button class="top-btn" id="sharedSettings" type="button" title="Settings" aria-label="Settings">⚙</button>
+                <button class="top-btn" id="sharedProfile" type="button" title="Profile" aria-label="Profile">◉</button>
             </div>
         `;
     }
