@@ -21,9 +21,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:var(--bg,#080f20);color:#
 <p style="color:#8495ad;font-size:12px">Profile picture upload and account number will be available when account services are added.</p></section>
 <section class="card"><h2>My Instruments</h2><p style="color:#91a2ba;font-size:12px;margin-bottom:15px">Choose the instruments you play. Select one as your primary instrument.</p>
 <div class="instrument-list" id="instrumentList"></div>
-<label class="field" style="margin-top:16px">Add an instrument<select id="addInstrument">
-<option value="">Choose an instrument…</option><option value="Tenor Saxophone">🎷 Tenor Saxophone</option><option value="Alto Saxophone">🎷 Alto Saxophone</option><option value="Soprano Saxophone">🎷 Soprano Saxophone</option><option value="Baritone Saxophone">🎷 Baritone Saxophone</option><option value="Clarinet">🎵 Clarinet</option><option value="Flute">🪈 Flute</option><option value="Trumpet">🎺 Trumpet</option><option value="Trombone">🎺 Trombone</option><option value="French Horn">📯 French Horn</option><option value="Tuba">🎺 Tuba</option><option value="Violin">🎻 Violin</option><option value="Viola">🎻 Viola</option><option value="Cello">🎻 Cello</option><option value="Double Bass">🎻 Double Bass</option><option value="Piano">🎹 Piano</option><option value="Guitar">🎸 Guitar</option><option value="Bass Guitar">🎸 Bass Guitar</option><option value="Voice">🎤 Voice</option>
-</select></label></section>
+<label class="field" style="margin-top:16px">Add an instrument<select id="addInstrument"><option value="">Choose an instrument…</option></select></label></section>
 <div class="actions"><span class="status" id="status" role="status"></span><button class="cancel" id="cancel" type="button">Cancel</button><button class="save" id="save" type="button">Save Changes</button></div>
 </main>
 <script src="shared.js?v=31"></script>
@@ -36,10 +34,14 @@ document.getElementById("editName").value=read("profile_name","");
 document.getElementById("editBio").value=read("profile_bio","");
 function render(){
 var list=document.getElementById("instrumentList");
+var icons={"Tenor Saxophone":"🎷","Alto Saxophone":"🎷","Soprano Saxophone":"🎷","Baritone Saxophone":"🎷","Clarinet":"🎵","Flute":"🪈","Trumpet":"🎺","Trombone":"🎺","French Horn":"📯","Tuba":"🎺","Violin":"🎻","Viola":"🎻","Cello":"🎻","Double Bass":"🎻","Piano":"🎹","Guitar":"🎸","Bass Guitar":"🎸","Voice":"🎤"};
 list.innerHTML=instruments.map(function(item,index){
 var safeValue=String(item).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-return '<div class="instrument-row"><input type="radio" name="primaryInstrument" value="'+safeValue+'" '+(item===primary?"checked":"")+' aria-label="Set as primary instrument"><span style="flex:1">'+safeValue+'</span><small style="color:#8fa0b8">'+(item===primary?"Primary":"")+'</small><button type="button" data-remove="'+index+'" style="background:transparent;border:0;color:#ff9292;cursor:pointer">Remove</button></div>';
+return '<div class="instrument-row"><input type="radio" name="primaryInstrument" value="'+safeValue+'" '+(item===primary?"checked":"")+' aria-label="Set as primary instrument"><span style="flex:1">'+(icons[item]||"🎵")+' '+safeValue+'</span><small style="color:#8fa0b8">'+(item===primary?"Primary":"")+'</small><button type="button" data-remove="'+index+'" style="background:transparent;border:0;color:#ff9292;cursor:pointer">Remove</button></div>';
 }).join("");
+var add=document.getElementById("addInstrument");
+var catalog=[["Tenor Saxophone","🎷"],["Alto Saxophone","🎷"],["Soprano Saxophone","🎷"],["Baritone Saxophone","🎷"],["Clarinet","🎵"],["Flute","🪈"],["Trumpet","🎺"],["Trombone","🎺"],["French Horn","📯"],["Tuba","🎺"],["Violin","🎻"],["Viola","🎻"],["Cello","🎻"],["Double Bass","🎻"],["Piano","🎹"],["Guitar","🎸"],["Bass Guitar","🎸"],["Voice","🎤"]];
+add.innerHTML='<option value="">Choose an instrument…</option>'+catalog.filter(function(option){return !instruments.includes(option[0])}).map(function(option){return '<option value="'+option[0]+'">'+option[1]+' '+option[0]+'</option>'}).join("");
 list.querySelectorAll("[data-remove]").forEach(function(button){button.addEventListener("click",function(){var removed=instruments.splice(Number(button.dataset.remove),1)[0];if(removed===primary)primary=instruments[0]||"";render()})});
 }
 document.getElementById("addInstrument").addEventListener("change",function(event){var value=event.target.value;if(value&&!instruments.includes(value))instruments.push(value);event.target.value="";render()});
