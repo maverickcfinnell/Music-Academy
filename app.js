@@ -206,7 +206,7 @@
         const reduced = localStorage.getItem("ma_reduce_motion") === "true";
         const overlay = document.createElement("div");
         overlay.id = "appSettingsOverlay";
-        overlay.className = "ma-settings-overlay";
+        overlay.className = "ma-settings-overlay open";
         overlay.innerHTML = `
             <section class="ma-settings-panel" role="dialog" aria-modal="true" aria-labelledby="appSettingsTitle">
                 <header class="ma-settings-header">
