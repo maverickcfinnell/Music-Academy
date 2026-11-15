@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Music Academy — Edit Profile</title><link rel="stylesheet" href="app.css?v=3">
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg,#080f20);color:#edf2fb;min-height:100vh}
+.topbar{position:fixed!important;left:245px!important;right:0!important;top:0!important;z-index:30}
+.editor-main{margin-left:245px;padding:105px 34px 50px;max-width:1050px}
+.heading{display:flex;justify-content:space-between;gap:16px;margin-bottom:22px}.heading h1{font-size:28px;margin-bottom:7px}.heading p{color:#91a2ba;font-size:13px}.back{color:#cbd7e8;text-decoration:none;font-size:13px}
+.card{background:var(--panel,#101c30);border:1px solid var(--line,#263957);border-radius:14px;padding:22px;margin-bottom:16px}.card h2{font-size:17px;margin-bottom:17px}
+.field{display:grid;gap:7px;margin-bottom:15px;color:#aab8cc;font-size:12px}.field input,.field textarea,.field select{width:100%;background:var(--panel2,#14233a);color:#edf2fb;border:1px solid var(--line,#263957);border-radius:8px;padding:12px;font:14px Arial}.field textarea{min-height:90px;resize:vertical}
+.instrument-list{display:grid;gap:9px}.instrument-row{display:flex;align-items:center;gap:10px;padding:12px;background:var(--panel2,#14233a);border:1px solid var(--line,#263957);border-radius:9px}.instrument-row input{accent-color:var(--blue,#6d8cff)}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.actions button{border:0;border-radius:8px;padding:11px 17px;font-weight:700;cursor:pointer}.cancel{background:var(--panel2,#14233a);color:#dce6f5}.save{background:var(--blue,#6d8cff);color:white}.status{font-size:12px;color:#8ed6a8;margin-right:auto;align-self:center}
+@media(max-width:650px){.topbar{position:static!important}.editor-main{margin-left:0;padding:28px 16px}.heading{flex-direction:column}}
+</style></head>
+<body data-page="edit-profile"><aside class="sidebar"></aside><header class="topbar"></header>
+<main class="editor-main">
+<div class="heading"><div><h1>Edit Profile</h1><p>Manage the details and instruments shown on your musician profile.</p></div><a class="back" href="profile.html">← Back to Profile</a></div>
+<section class="card"><h2>Basic Information</h2>
+<label class="field">Display name<input id="editName" maxlength="40" placeholder="Your display name"></label>
+<label class="field">About me<textarea id="editBio" maxlength="240" placeholder="Tell people a little about your musical journey."></textarea></label>
+<p style="color:#8495ad;font-size:12px">Profile picture upload and account number will be available when account services are added.</p></section>
+<section class="card"><h2>My Instruments</h2><p style="color:#91a2ba;font-size:12px;margin-bottom:15px">Choose the instruments you play. Select one as your primary instrument.</p>
+<div class="instrument-list" id="instrumentList"></div>
+<label class="field" style="margin-top:16px">Add an instrument<select id="addInstrument">
+<option value="">Choose an instrument…</option><option>Tenor Saxophone</option><option>Alto Saxophone</option><option>Soprano Saxophone</option><option>Baritone Saxophone</option><option>Clarinet</option><option>Flute</option><option>Trumpet</option><option>Trombone</option><option>French Horn</option><option>Tuba</option><option>Violin</option><option>Viola</option><option>Cello</option><option>Double Bass</option><option>Piano</option><option>Guitar</option><option>Bass Guitar</option><option>Voice</option><option>Other</option>
+</select></label></section>
+<div class="actions"><span class="status" id="status" role="status"></span><button class="cancel" id="cancel" type="button">Cancel</button><button class="save" id="save" type="button">Save Changes</button></div>
+</main>
+<script src="shared.js?v=20"></script>
+<script>
+(function(){
+function read(key,fallback){try{return JSON.parse(localStorage.getItem("ma_"+key))||fallback}catch(e){return fallback}}
+var primary=localStorage.getItem("ma_instrument")||"Tenor Saxophone";
+var instruments=Array.from(new Set([primary].concat(read("profile_instruments",[]))));
+document.getElementById("editName").value=read("profile_name","");
+document.getElementById("editBio").value=read("profile_bio","");
+function render(){
+var list=document.getElementById("instrumentList");
+list.innerHTML=instruments.map(function(item,index){
+var safeValue=String(item).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+return '<div class="instrument-row"><input type="radio" name="primaryInstrument" value="'+safeValue+'" '+(item===primary?"checked":"")+' aria-label="Set as primary instrument"><span style="flex:1">'+safeValue+'</span><small style="color:#8fa0b8">'+(item===primary?"Primary":"")+'</small><button type="button" data-remove="'+index+'" style="background:transparent;border:0;color:#ff9292;cursor:pointer">Remove</button></div>';
+}).join("");
+list.querySelectorAll("[data-remove]").forEach(function(button){button.addEventListener("click",function(){var removed=instruments.splice(Number(button.dataset.remove),1)[0];if(removed===primary)primary=instruments[0]||"";render()})});
+}
+document.getElementById("addInstrument").addEventListener("change",function(event){var value=event.target.value;if(value&&!instruments.includes(value))instruments.push(value);event.target.value="";render()});
+document.getElementById("save").addEventListener("click",function(){
+var selected=document.querySelector('input[name="primaryInstrument"]:checked');
+primary=selected?selected.value:(instruments[0]||"");
+localStorage.setItem("ma_profile_name",JSON.stringify(document.getElementById("editName").value.trim()||"Musician"));
+localStorage.setItem("ma_profile_bio",JSON.stringify(document.getElementById("editBio").value.trim()||"Your musical journey, all in one place."));
+localStorage.setItem("ma_profile_instruments",JSON.stringify(instruments.filter(function(item){return item!==primary})));
+if(primary)localStorage.setItem("ma_instrument",primary);
+document.getElementById("status").textContent="Saved on this device";
+setTimeout(function(){window.location.href="profile.html"},500);
+});
+document.getElementById("cancel").addEventListener("click",function(){window.location.href="profile.html"});
+render();
+})();
+</script></body></html>
