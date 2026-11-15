@@ -160,6 +160,7 @@
     $("#search").addEventListener("click", () => {
         window.location.href = "library.html";
     });
+    $("#profile")?.addEventListener("click", () => { window.location.href = "profile.html"; });
 
 
 
