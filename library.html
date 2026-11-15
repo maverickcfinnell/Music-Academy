@@ -1317,6 +1317,16 @@ body {
 
 
             <div class="form-group">
+                <label for="pieceComposer">Composer / Creator</label>
+                <input id="pieceComposer" type="text" maxlength="80" placeholder="Your name or composer">
+            </div>
+
+            <div class="form-group">
+                <label for="pieceDescription">Description (optional)</label>
+                <input id="pieceDescription" type="text" maxlength="180" placeholder="What is this piece about?">
+            </div>
+
+            <div class="form-group">
 
                 <label for="pieceInstrument">Instrument</label>
 
@@ -1917,7 +1927,9 @@ function closeTheModal() {
 
 
     document.getElementById("pieceInstrument").value =
-        "Tenor Saxophone";
+        localStorage.getItem("ma_instrument") || "Tenor Saxophone";
+    document.getElementById("pieceComposer").value = "";
+    document.getElementById("pieceDescription").value = "";
 
 }
 
@@ -1999,6 +2011,8 @@ createForm.addEventListener(
 
         const instrument =
             document.getElementById("pieceInstrument").value.trim();
+        const composer = document.getElementById("pieceComposer").value.trim();
+        const description = document.getElementById("pieceDescription").value.trim();
 
 
         const category =
@@ -2038,7 +2052,8 @@ createForm.addEventListener(
             id: "custom-" + Date.now(),
 
             name: name,
-
+            composer: composer,
+            description: description,
             instrument: instrument,
 
             category: category,
@@ -2124,6 +2139,50 @@ createForm.addEventListener(
 /* =========================
    ADD PIECE CARD
    ========================= */
+
+/* MUSIC EDITOR + FILE IMPORTS */
+const libraryEditorStyle = document.createElement("style");
+libraryEditorStyle.textContent = ".ma-editor-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}.ma-editor-overlay.show{display:flex}.ma-editor{width:min(900px,100%);max-height:90vh;overflow:auto;background:#101827;border:1px solid #293853;border-radius:14px;padding:22px}.ma-editor-head,.ma-editor-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.ma-editor p{color:#8fa1c1;font-size:12px;margin:8px 0}.ma-editor-tools{margin:16px 0}.ma-editor-tools input{width:75px;background:#0b1220;color:#fff;border:1px solid #293853;border-radius:7px;padding:9px}.ma-note-grid{display:grid;grid-template-columns:38px repeat(16,minmax(16px,1fr));gap:4px;min-width:540px}.ma-note-label{color:#aeb8cc;font-size:11px;display:grid;place-items:center}.ma-note{height:30px;border:1px solid #293853;border-radius:4px;background:#0b1220;cursor:pointer}.ma-note.active{background:var(--ma-accent,#6d8cff);border-color:var(--ma-accent,#6d8cff)}.ma-editor-status{min-height:18px}";
+document.head.appendChild(libraryEditorStyle);
+const libraryEditor = document.createElement("div");
+libraryEditor.className = "ma-editor-overlay";
+libraryEditor.innerHTML = '<section class="ma-editor" role="dialog" aria-modal="true"><div class="ma-editor-head"><div><h2 id="maEditorTitle">Piece Editor</h2><p>Tap grid cells to place notes. Rows run from C5 down to C4.</p></div><button type="button" class="close-modal" id="maEditorClose">×</button></div><div class="ma-editor-tools"><label>Tempo <input id="maEditorTempo" type="number" min="40" max="240" value="100"></label><button type="button" class="play-button" id="maEditorPlay">▶ Play</button><button type="button" class="cancel-create" id="maEditorClear">Clear</button><button type="button" class="submit-create" id="maEditorSave">Save</button></div><div class="ma-note-grid" id="maNoteGrid"></div><p class="ma-editor-status" id="maEditorStatus" role="status"></p></section>';
+document.body.appendChild(libraryEditor);
+const maPitchNames = ["C5","B4","A4","G4","F4","E4","D4","C4"];
+const maPitchHz = [523.25,493.88,440,392,349.23,329.63,293.66,261.63];
+let maEditingId = null;
+let maEditingGrid = [];
+let maAudio = null;
+function maGetDrafts(){try{return JSON.parse(localStorage.getItem("maPieceDrafts")||"{}")}catch(e){return {}}}
+function maRenderGrid(){
+ const grid=document.getElementById("maNoteGrid");grid.innerHTML="";
+ maPitchNames.forEach((pitch,row)=>{const label=document.createElement("span");label.className="ma-note-label";label.textContent=pitch;grid.appendChild(label);
+  for(let col=0;col<16;col++){const key=row+","+col;const cell=document.createElement("button");cell.type="button";cell.className="ma-note"+(maEditingGrid.includes(key)?" active":"");cell.title=pitch+" · step "+(col+1);cell.setAttribute("aria-label",cell.title);
+   cell.addEventListener("click",()=>{maEditingGrid=maEditingGrid.includes(key)?maEditingGrid.filter(x=>x!==key):maEditingGrid.concat(key);cell.classList.toggle("active",maEditingGrid.includes(key))});grid.appendChild(cell)}
+ });
+}
+function maOpenEditor(id,title){maEditingId=id;const draft=maGetDrafts()[id]||{};maEditingGrid=Array.isArray(draft.grid)?draft.grid.slice():[];document.getElementById("maEditorTitle").textContent=title||"Piece Editor";document.getElementById("maEditorTempo").value=draft.tempo||100;document.getElementById("maEditorStatus").textContent="";maRenderGrid();libraryEditor.classList.add("show")}
+function maCloseEditor(){libraryEditor.classList.remove("show");maEditingId=null}
+document.getElementById("maEditorClose").addEventListener("click",maCloseEditor);
+libraryEditor.addEventListener("click",e=>{if(e.target===libraryEditor)maCloseEditor()});
+document.getElementById("maEditorClear").addEventListener("click",()=>{maEditingGrid=[];maRenderGrid()});
+document.getElementById("maEditorSave").addEventListener("click",()=>{if(!maEditingId)return;const all=maGetDrafts();all[maEditingId]={grid:maEditingGrid.slice(),tempo:Math.max(40,Math.min(240,Number(document.getElementById("maEditorTempo").value)||100))};try{localStorage.setItem("maPieceDrafts",JSON.stringify(all));let pieces=[];try{pieces=JSON.parse(localStorage.getItem("maPieces")||"[]")}catch(e){}const item=pieces.find(p=>p.id===maEditingId);if(item){item.grid=maEditingGrid.slice();item.tempo=all[maEditingId].tempo;localStorage.setItem("maPieces",JSON.stringify(pieces))}document.getElementById("maEditorStatus").textContent="Saved on this device."}catch(e){document.getElementById("maEditorStatus").textContent="Could not save; browser storage may be full."}});
+document.getElementById("maEditorPlay").addEventListener("click",async()=>{if(!maEditingGrid.length){document.getElementById("maEditorStatus").textContent="Add notes to the grid first.";return}const AC=window.AudioContext||window.webkitAudioContext;if(!AC){document.getElementById("maEditorStatus").textContent="Audio is not supported in this browser.";return}maAudio=maAudio||new AC();if(maAudio.state==="suspended")await maAudio.resume();const tempo=Math.max(40,Math.min(240,Number(document.getElementById("maEditorTempo").value)||100));const step=60/tempo/2;maEditingGrid.map(k=>k.split(",").map(Number)).sort((a,b)=>a[1]-b[1]).forEach(([row,col])=>{const t=maAudio.currentTime+.05+col*step;const osc=maAudio.createOscillator();const gain=maAudio.createGain();osc.type="sine";osc.frequency.value=maPitchHz[row];gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.12,t+.015);gain.gain.exponentialRampToValueAtTime(.0001,t+step*.8);osc.connect(gain);gain.connect(maAudio.destination);osc.start(t);osc.stop(t+step)});document.getElementById("maEditorStatus").textContent="Playing melody…"});
+function maSetupEditButton(button){if(!button||button.dataset.maReady)return;button.dataset.maReady="1";button.addEventListener("click",e=>{e.stopPropagation();const card=button.closest(".piece");if(card)maOpenEditor(card.dataset.id,card.dataset.name)})}
+function maAddEditButtons(){document.querySelectorAll(".piece").forEach(card=>{const actions=card.querySelector(".piece-actions");if(actions&&!actions.querySelector(".ma-edit-piece")){const b=document.createElement("button");b.type="button";b.className="cancel-create ma-edit-piece";b.textContent="Edit";actions.prepend(b);maSetupEditButton(b)}})}
+maAddEditButtons();
+const maOriginalAddPieceCard=addPieceCard;
+addPieceCard=function(piece){maOriginalAddPieceCard(piece);maAddEditButtons()};
+
+/* Save uploaded sheet music or a scanned photo in this browser. */
+const maFileInput=document.createElement("input");maFileInput.type="file";maFileInput.accept="image/*,.pdf,.musicxml,.xml,.mid,.midi,.mxl";maFileInput.hidden=true;document.body.appendChild(maFileInput);
+let maPendingFileMode="upload";
+function maStartFileFlow(mode){maPendingFileMode=mode;maFileInput.accept=mode==="scan"?"image/*":"image/*,.pdf,.musicxml,.xml,.mid,.midi,.mxl";maFileInput.click()}
+document.getElementById("importScanButton").addEventListener("click",()=>maStartFileFlow("scan"));
+document.getElementById("uploadMusicButton").addEventListener("click",()=>maStartFileFlow("upload"));
+maFileInput.addEventListener("change",()=>{const file=maFileInput.files&&maFileInput.files[0];if(!file)return;if(file.size>1500000){alert("Please choose a file smaller than 1.5 MB for this browser-based prototype.");maFileInput.value="";return}if(maPendingFileMode==="scan"&&!file.type.startsWith("image/")){alert("For Import / Scan, choose a photo or image of the sheet music.");return}const reader=new FileReader();reader.onload=()=>{const piece={id:"import-"+Date.now(),name:file.name.replace(/\\.[^.]+$/,""),composer:"",description:maPendingFileMode==="scan"?"Scanned sheet music image.":"Uploaded music file.",instrument:localStorage.getItem("ma_instrument")||"Tenor Saxophone",category:"Custom",difficulty:"Intermediate",recent:true,imported:true,browse:false,fileName:file.name,fileType:file.type,fileData:reader.result};let saved=[];try{saved=JSON.parse(localStorage.getItem("maPieces")||"[]")}catch(e){}saved.push(piece);try{localStorage.setItem("maPieces",JSON.stringify(saved))}catch(e){alert("There is not enough browser storage for this file. Try a smaller one.");return}addPieceCard(piece);closeTheModal();currentTab="all";tabs.forEach(tab=>tab.classList.toggle("active",tab.dataset.tab==="all"));filterPieces()};reader.readAsDataURL(file);maFileInput.value=""});
+
+// End Music Library additions.
 
 function addPieceCard(piece) {
 
